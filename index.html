@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clenzzo - Professional Waterless Car Cleaning Service</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'brand': '#00A89C',
+                        'accent': '#FF6B35',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-inter bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    
+    <!-- Notification Toast -->
+    <div id="notification" class="fixed top-4 right-4 z-50 hidden transform transition-all duration-300">
+        <div class="bg-white border-l-4 border-green-500 rounded-lg shadow-lg p-4 max-w-sm">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <span id="notificationIcon" class="text-green-500 text-xl">✓</span>
+                </div>
+                <div class="ml-3">
+                    <p id="notificationText" class="text-sm font-medium text-gray-900">Success!</p>
+                </div>
+                <button onclick="hideNotification()" class="ml-auto text-gray-400 hover:text-gray-600">
+                    <span class="sr-only">Close</span>
+                    <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+        <div class="bg-white rounded-xl p-8 text-center shadow-2xl">
+            <div class="animate-spin rounded-full h-16 w-16 border-b-4 border-brand mx-auto mb-4"></div>
+            <p class="text-gray-700 font-semibold text-lg">Processing your booking...</p>
+            <p class="text-gray-500 text-sm mt-2">Please wait while we confirm your details</p>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="min-h-screen">
+        
+        <!-- Home Screen -->
+        <div id="homeScreen" class="container mx-auto px-4 py-8 max-w-4xl">
+            
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <div class="mb-4">
+                    <img src="https://lh3.googleusercontent.com/d/1mAxNMp4-N-4FpIi_BPZZfCCaK5RCxVUH" alt="Clenzzo Logo" class="h-12 mx-auto" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <h1 class="text-4xl font-bold text-brand hidden">Clenzzo</h1>
+                </div>
+                <h2 class="text-3xl font-bold text-gray-800 mb-3">Professional Car Cleaning</h2>
+                <p class="text-gray-600 text-lg max-w-2xl mx-auto">Premium waterless car cleaning service delivered to your doorstep. Eco-friendly, convenient, and professional.</p>
+            </div>
+
+            <!-- Service Cards -->
+            <div class="grid md:grid-cols-3 gap-6 mb-12">
+                
+                <!-- Trial Service -->
+                <div class="service-card bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer border-2 border-transparent hover:border-brand p-6 text-center" data-service="trial">
+                    <div class="w-16 h-16 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-white text-2xl">🔥</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Trial Service</h3>
+                    <p class="text-gray-600 mb-4">5-day trial period</p>
+                    <div class="mb-4">
+                        <span class="text-3xl font-bold text-brand">₹100</span>
+                        <span class="text-gray-500 line-through ml-2">₹300</span>
+                    </div>
+                    <div class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-semibold inline-block">
+                        67% OFF - Limited Time
+                    </div>
+                </div>
+
+                <!-- One-time Service -->
+                <div class="service-card bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer border-2 border-transparent hover:border-brand p-6 text-center" data-service="booking">
+                    <div class="w-16 h-16 bg-gradient-to-br from-brand to-teal-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-white text-2xl">✨</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">One-time Service</h3>
+                    <p class="text-gray-600 mb-4">Single premium cleaning</p>
+                    <div class="mb-4">
+                        <span class="text-3xl font-bold text-brand">₹450</span>
+                        <span class="text-gray-500 line-through ml-2">₹600</span>
+                    </div>
+                    <div class="bg-brand text-white px-3 py-1 rounded-full text-sm font-semibold inline-block">
+                        Most Popular
+                    </div>
+                </div>
+
+                <!-- Subscription -->
+                <div class="service-card bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer border-2 border-transparent hover:border-brand p-6 text-center" data-service="subscription">
+                    <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-white text-2xl">🔄</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Subscription Plan</h3>
+                    <p class="text-gray-600 mb-4">Regular cleaning service</p>
+                    <div class="mb-4">
+                        <span class="text-3xl font-bold text-brand">₹900</span>
+                        <span class="text-sm text-gray-600">/month</span>
+                        <br>
+                        <span class="text-gray-500 line-through">₹1200</span>
+                    </div>
+                    <div class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-semibold inline-block">
+                        Best Value
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+                <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">Why Choose Clenzzo?</h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-brand rounded-full flex items-center justify-center mx-auto mb-3">
+                            <span class="text-white text-xl">👨‍💼</span>
+                        </div>
+                        <h4 class="font-semibold text-gray-800 mb-2">Professional Staff</h4>
+                        <p class="text-gray-600 text-sm">Trained and certified cleaning experts</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-brand rounded-full flex items-center justify-center mx-auto mb-3">
+                            <span class="text-white text-xl">🌱</span>
+                        </div>
+                        <h4 class="font-semibold text-gray-800 mb-2">Eco-Friendly</h4>
+                        <p class="text-gray-600 text-sm">Waterless cleaning with safe products</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-brand rounded-full flex items-center justify-center mx-auto mb-3">
+                            <span class="text-white text-xl">🚪</span>
+                        </div>
+                        <h4 class="font-semibold text-gray-800 mb-2">Doorstep Service</h4>
+                        <p class="text-gray-600 text-sm">We come to your location</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-brand rounded-full flex items-center justify-center mx-auto mb-3">
+                            <span class="text-white text-xl">✅</span>
+                        </div>
+                        <h4 class="font-semibold text-gray-800 mb-2">100% Satisfaction</h4>
+                        <p class="text-gray-600 text-sm">Guaranteed quality service</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact -->
+            <div class="text-center">
+                <p class="text-gray-600 mb-2">Need help? Call us at</p>
+                <a href="tel:+918122213141" class="text-2xl font-bold text-brand hover:text-teal-600 transition-colors">
+                    +91 81222 13141
+                </a>
+            </div>
+        </div>
+
+        <!-- Booking Flow -->
+        <div id="bookingFlow" class="hidden">
+            
+            <!-- Progress Header -->
+            <div class="bg-white shadow-sm border-b">
+                <div class="container mx-auto px-4 py-4 max-w-2xl">
+                    <div class="flex items-center justify-between mb-3">
+                        <button id="backButton" class="flex items-center text-brand hover:text-teal-600 font-semibold transition-colors">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                            </svg>
+                            Back
+                        </button>
+                        <span id="stepIndicator" class="text-sm text-gray-600 font-medium">Step 1 of 10</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div id="progressBar" class="bg-gradient-to-r from-brand to-teal-500 h-2 rounded-full transition-all duration-500" style="width: 10%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step Content -->
+            <div class="container mx-auto px-4 py-8 max-w-lg">
+                <div id="stepContent" class="bg-white rounded-2xl shadow-lg p-8">
+                    <!-- Dynamic content will be inserted here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary Screen -->
+        <div id="summaryScreen" class="hidden container mx-auto px-4 py-8 max-w-lg">
+            <div class="bg-white rounded-2xl shadow-lg p-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Booking Summary</h2>
+                <div id="summaryContent" class="space-y-4 mb-8">
+                    <!-- Summary details will be inserted here -->
+                </div>
+                <div class="flex space-x-4">
+                    <button id="editBookingBtn" class="flex-1 bg-gray-200 text-gray-800 py-3 px-4 rounded-xl font-semibold hover:bg-gray-300 transition-colors">
+                        Edit Details
+                    </button>
+                    <button id="confirmBookingBtn" class="flex-1 bg-green-500 text-white py-3 px-4 rounded-xl font-semibold hover:bg-green-600 transition-colors flex items-center justify-center">
+                        <span class="mr-2">📱</span>
+                        Confirm via WhatsApp
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Screen -->
+        <div id="successScreen" class="hidden container mx-auto px-4 py-8 max-w-lg">
+            <div class="bg-white rounded-2xl shadow-lg p-8 text-center">
+                <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span class="text-green-500 text-4xl">🎉</span>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Booking Confirmed!</h2>
+                <p class="text-gray-600 mb-6">Thank you <span id="customerNameDisplay" class="font-semibold text-brand"></span>! Your booking has been submitted successfully.</p>
+                
+                <div class="bg-brand bg-opacity-10 border border-brand border-opacity-20 rounded-xl p-4 mb-6">
+                    <p class="text-sm text-brand font-medium mb-1">Booking Reference</p>
+                    <p id="bookingReference" class="text-xl font-bold text-brand"></p>
+                </div>
+
+                <div class="bg-orange-50 border border-orange-200 rounded-xl p-4 mb-6">
+                    <p class="text-sm text-orange-600 font-medium mb-1">Customer Support</p>
+                    <p class="text-orange-700 font-semibold">+91 81222 13141</p>
+                </div>
+
+                <div class="space-y-3">
+                    <button id="copyDetailsBtn" class="w-full bg-gray-200 text-gray-800 py-3 rounded-xl font-semibold hover:bg-gray-300 transition-colors flex items-center justify-center">
+                        <span class="mr-2">📋</span>
+                        Copy Booking Details
+                    </button>
+                    <button id="newBookingBtn" class="w-full bg-brand text-white py-3 rounded-xl font-semibold hover:bg-teal-600 transition-colors">
+                        Book Another Service
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Application State
+        let currentStep = 1;
+        let selectedService = '';
+        let bookingData = {};
+        let bookingReference = '';
+        let whatsappMessage = '';
+
+        // Google Forms Configuration
+        const googleForms = {
+            trial: {
+                url: 'https://docs.google.com/forms/d/e/1FAIpQLSeCJJUVxPr0_k1yqSp-26buK3c-iKJeX8ShBJR9oy0b3hhYZA/formResponse',
+                entries: {
+                    bookingId: 'entry.612482354',
+                    name: 'entry.276267864',
+                    phone: 'entry.1095791774',
+                    address: 'entry.1192270348',
+                    carDetails: 'entry.601209241',
+                    serviceType: 'entry.1827189316',
+                    date: 'entry.1533069335',
+                    time: 'entry.1690949788',
+                    carType: 'entry.2121440745',
+                    promoCode: 'entry.2083364105',
+                    amount: 'entry.705004841',
+                    serviceDate: 'entry.519313888',
+                    timestamp: 'entry.2087895684',
+                    confirmed: 'entry.1648812075',
+                    paymentMethod: 'entry.634080382',
+                    utmSource: 'entry.2008690016',
+                    utmCampaign: 'entry.914857687'
+                }
+            },
+            booking: {
+                url: 'https://docs.google.com/forms/d/e/1FAIpQLSc5XF4-jTwlm_UiOTlhcL9h5VohViARN1XCYdgHGMcxpEtCYA/formResponse',
+                entries: {
+                    bookingId: 'entry.612482354',
+                    name: 'entry.276267864',
+                    phone: 'entry.1095791774',
+                    address: 'entry.1192270348',
+                    carDetails: 'entry.601209241',
+                    serviceType: 'entry.1827189316',
+                    date: 'entry.1533069335',
+                    time: 'entry.1690949788',
+                    carType: 'entry.2121440745',
+                    promoCode: 'entry.2083364105',
+                    amount: 'entry.705004841',
+                    serviceDate: 'entry.519313888',
+                    timestamp: 'entry.2087895684',
+                    confirmed: 'entry.1648812075',
+                    paymentMethod: 'entry.634080382',
+                    utmSource: 'entry.2008690016',
+                    utmCampaign: 'entry.914857687'
+                }
+            },
+            subscription: {
+                url: 'https://docs.google.com/forms/d/e/1FAIpQLSdTjPkov4BqDrW0FlFU5efd5nQo8OF5U6aBtWnawRG3yLlQUA/formResponse',
+                entries: {
+                    bookingId: 'entry.612482354',
+                    name: 'entry.276267864',
+                    phone: 'entry.1095791774',
+                    address: 'entry.1192270348',
+                    carDetails: 'entry.601209241',
+                    serviceType: 'entry.1827189316',
+                    date: 'entry.1533069335',
+                    time: 'entry.1690949788',
+                    carType: 'entry.2121440745',
+                    promoCode: 'entry.2083364105',
+                    amount: 'entry.705004841',
+                    serviceDate: 'entry.519313888',
+                    timestamp: 'entry.2087895684',
+                    confirmed: 'entry.1648812075',
+                    paymentMethod: 'entry.634080382',
+                    utmSource: 'entry.2008690016',
+                    utmCampaign: 'entry.914857687'
+                }
+            }
+        };
+
+        // Service Areas (Trichy pincodes)
+        const serviceablePincodes = [
+            '620001', '620002', '620003', '620004', '620005', '620006', '620007', '620008', '620009', '620010',
+            '620011', '620012', '620013', '620014', '620015', '620016', '620017', '620018', '620019', '620020',
+            '620021', '620022', '620023', '620024', '620025'
+        ];
+
+        // Car Database
+        const carBrands = {
+            'Maruti Suzuki': ['Alto 800', 'Alto K10', 'Swift', 'Swift Dzire', 'Baleno', 'Vitara Brezza', 'Ertiga', 'Ciaz', 'XL6', 'S-Cross', 'Wagon R', 'Celerio', 'Ignis'],
+            'Hyundai': ['i10 NIOS', 'i20', 'Verna', 'Creta', 'Venue', 'Tucson', 'Elantra', 'Santro', 'Grand i10'],
+            'Tata': ['Tiago', 'Tigor', 'Nexon', 'Harrier', 'Safari', 'Altroz', 'Punch', 'Hexa'],
+            'Mahindra': ['Bolero', 'Scorpio', 'XUV300', 'XUV500', 'XUV700', 'Thar', 'KUV100', 'Marazzo'],
+            'Honda': ['City', 'Amaze', 'Jazz', 'WR-V', 'CR-V', 'Civic'],
+            'Toyota': ['Innova Crysta', 'Fortuner', 'Glanza', 'Urban Cruiser', 'Camry', 'Yaris'],
+            'Kia': ['Seltos', 'Sonet', 'Carnival'],
+            'Renault': ['Kwid', 'Duster', 'Triber', 'Kiger'],
+            'Nissan': ['Magnite', 'Kicks', 'GT-R'],
+            'Ford': ['EcoSport', 'Endeavour', 'Figo', 'Aspire'],
+            'Skoda': ['Rapid', 'Octavia', 'Superb', 'Kushaq'],
+            'Volkswagen': ['Polo', 'Vento', 'Tiguan', 'Taigun']
+        };
+
+        // Service Pricing
+        const servicePricing = {
+            trial: { original: 300, discounted: 100, discount: 67 },
+            booking: { original: 600, discounted: 450, discount: 25 },
+            subscription: { 
+                monthly: { original: 1200, discounted: 900, discount: 25 },
+                quarterly: { original: 3600, discounted: 2400, discount: 33 },
+                yearly: { original: 14400, discounted: 9000, discount: 38 }
+            }
+        };
+
+        // Initialize Application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+        });
+
+        function initializeApp() {
+            loadSavedData();
+            setupEventListeners();
+            captureUTMParameters();
+        }
+
+        function loadSavedData() {
+            const saved = localStorage.getItem('clenzzo_booking_data');
+            if (saved) {
+                try {
+                    const savedData = JSON.parse(saved);
+                    bookingData = { ...bookingData, ...savedData };
+                } catch (e) {
+                    console.log('Error loading saved data:', e);
+                }
+            }
+        }
+
+        function saveDataToStorage() {
+            const dataToSave = {
+                name: bookingData.name,
+                phone: bookingData.phone,
+                address: bookingData.address
+            };
+            localStorage.setItem('clenzzo_booking_data', JSON.stringify(dataToSave));
+        }
+
+        function captureUTMParameters() {
+            const urlParams = new URLSearchParams(window.location.search);
+            bookingData.utm = {
+                source: urlParams.get('utm_source') || '',
+                medium: urlParams.get('utm_medium') || '',
+                campaign: urlParams.get('utm_campaign') || '',
+                term: urlParams.get('utm_term') || '',
+                content: urlParams.get('utm_content') || ''
+            };
+        }
+
+        function setupEventListeners() {
+            // Service card selection
+            document.querySelectorAll('.service-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    selectedService = this.dataset.service;
+                    startBookingFlow();
+                });
+            });
+
+            // Navigation buttons
+            document.getElementById('backButton').addEventListener('click', handleBackNavigation);
+            document.getElementById('editBookingBtn').addEventListener('click', editBooking);
+            document.getElementById('confirmBookingBtn').addEventListener('click', confirmBooking);
+            document.getElementById('copyDetailsBtn').addEventListener('click', copyBookingDetails);
+            document.getElementById('newBookingBtn').addEventListener('click', startNewBooking);
+        }
+
+        function startBookingFlow() {
+            currentStep = 1;
+            bookingData.service = selectedService;
+            showScreen('bookingFlow');
+            renderCurrentStep();
+        }
+
+        function showScreen(screenId) {
+            const screens = ['homeScreen', 'bookingFlow', 'summaryScreen', 'successScreen'];
+            screens.forEach(screen => {
+                document.getElementById(screen).classList.add('hidden');
+            });
+            document.getElementById(screenId).classList.remove('hidden');
+        }
+
+        function updateProgress() {
+            const progress = (currentStep / 10) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('stepIndicator').textContent = `Step ${currentStep} of 10`;
+        }
+
+        function renderCurrentStep() {
+            updateProgress();
+            const content = document.getElementById('stepContent');
+            
+            // Add fade effect
+            content.style.opacity = '0';
+            setTimeout(() => {
+                content.innerHTML = getStepContent(currentStep);
+                content.style.opacity = '1';
+                setupStepEventListeners(currentStep);
+            }, 150);
+        }
+
+        function getStepContent(step) {
+            switch(step) {
+                case 1:
+                    return `
+                        <div class="text-center mb-6">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-2">What's your name?</h3>
+                            <p class="text-gray-600">Let's start with your full name</p>
+                        </div>
+                        <div class="space-y-4">
+                            <input type="text" id="nameInput" class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-brand focus:outline-none transition-colors" placeholder="Enter your full name" value="${bookingData.name || ''}">
+                            <button onclick="validateAndProceed('name')" class="w-full bg-brand text-white py-4 rounded-xl font-semibold hover:bg-teal-600 transition-colors">Continue</button>
+                        </div>
+                    `;
+                case 2:
+                    const phoneValue = bookingData.phone ? bookingData.phone.replace('+91', '') : '';
+                    return `
+                        <div class="text-center mb-6">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-2">Your phone number</h3>
+                            <p class="text-gray-600">We'll use this to confirm your booking</p>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex">
+                                <span class="bg-gray-100 px-4 py-4 border-2 border-r-0 border-gray-200 rounded-l-xl text-gray-700 font-semibold">+91</span>
+                                <input type="tel" id="phoneInput" class="flex-1 p-4 border-2 border-gray-200 rounded-r-xl focus:border-brand focus:outline-none transition-colors" placeholder="Enter 10-digit mobile number" maxlength="10" value="${phoneValue}">
+                            </div>
+                            <button onclick="validateAndProceed('phone')" class="w-full bg-brand text-white py-4 rounded-xl font-semibold hover:bg-teal-600 transition-colors">Continue</button>
+                        </div>
+                    `;
+                case 3:
+                    const addr = bookingData.address || {};
+                    return `
+                        <div class="text-center mb-6">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-2">Service address</h3>
+                            <p class="text-gray-600">Where should we come for the service?</p>
+                        </div>
+                        <div class="space-y-4">
+                            <input type="text" id="plotInput" class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-brand focus:outline-none transition-colors" placeholder="House/Plot Number" value="${addr.plot || ''}">
+                            <input type="text" id="streetInput" class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-brand focus:outline-none transition-colors" placeholder="Street Name" value="${addr.street || ''}">
+                            <input type="text" id="areaInput" class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-brand focus:outline-none transition-colors" placeholder="Area" value="${addr.area || ''}">
+                            <input type="text" id="localityInput" class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-brand focus:outline-none transition-colors" placeholder="Locality" value="${addr.locality || ''}">
+                            <input type="text" id="landmarkInput" class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-brand focus:outline-none transition-colors" placeholder="Landmark (optional)" value="${addr.landmark || ''}">
+                            <input type="text" id="pincodeInput" class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-brand focus:outline-none transition-colors" placeholder="Pincode (62xxxx)" maxlength="6" value="${addr.pincode || ''}">
+                            <input type="text" class="w-full p-4 border-2 border-gray-200 rounded-xl bg-gray-100" value="Trichy, Tamil Nadu" readonly>
+                            <button onclick="validateAndProceed('address')" class="w-full bg-brand text-white py-4 rounded-xl font-semibold hover:bg-teal-600 transition-colors">Continue</button>
+                        </div>
+                    `;
+                case 4:
+                    return `
+                        <div class="text-center mb-6">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-2">Select car type</h3>
+                            <p class="text-gray-600">Choose your vehicle category</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            <div class="car-type-option border-2 border-gray-200 rounded-xl p-6 text-center cursor-pointer hover:border-brand transition-colors" data-type="Hatchback">
+                                <div class="text-4xl mb-3">🚗</div>
+                                <span class="font-semibold text-gray-800">Hatchback</span>
+                            </div>
+                            <div class="car-type-option border-2 border-gray-200 rounded-xl p-6 text-center cursor-pointer hover:border-brand transition-colors" data-type="Sedan">
+                                <div class="text-4xl mb-3">🚙</div>
+                                <span class="font-semibold text-gray-800">Sedan</span>
+                            </div>
+                            <div class="car-type-option border-2 border-gray-200 rounded-xl p-6 text-center cursor-pointer hover:border-brand transition-colors" data-type="SUV">
+                                <div class="text-4xl mb-3">🚐</div>
+                                <span class="font-semibold text-gray-800">SUV</span>
+                            </div>
+                            <div class="car-type-option border-2 border-gray-200 rounded-xl p-6 text-center cursor-pointer hover:border-brand transition-colors" data-type="MPV">
+                                <div class="text-4xl mb-3">🚌</div>
+                                <span class="font-semibold text-gray-800">MPV</span>
+                            </div>
+                        </div>
+                        <button id="carTypeBtn" onclick="validateAndProceed('carType')" class="w-full bg-gray-300 text-gray-500 py-4 rounded-xl font-semibold cursor-not-allowed" disabled>Continue</button>
+                    `;
+                case 5:
+                    const brandOptions = Object.keys(carBrands).map(brand => `<option value="${brand}">${brand}</option>`).join('');
+                    return `
+                        <div class="text-center mb-6">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-2">Car brand & model</h3>
+                            <p class="text-gray-600">Help us prepare the right equipment</p>
+                        </div>
+                        <div class="space-y-4">
+                            <select id="brandSelect" class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-brand focus:outline-none transition-colors">
+                                <option value="">Select Brand</option>
+                                ${brandOptions}
+                            </select>
+                            <select id="modelSelect" class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-brand focus:outline-none transition-colors" disabled>
+                                <option value="">Select Model</option>
+                            </select>
+                            <button onclick="validateAndProceed('carBrandModel')" class="w-full bg-brand text-white py-4 rounded-xl font-semibold hover:bg-teal-600 transition-colors">Continue</button>
+                        </div>
+                    `;
+                case 6:
+                    return getServiceConfirmationContent();
+                case 7:
+                    return getDateTimeContent();
+                case 8:
+                    return getPromoCodeContent();
+                case 9:
+                    return getPricingContent();
+                case 10:
+                    return getPaymentMethodContent();
+                default:
+                    return '<div>Invalid step</div>';
+            }
+        }
+
+        function getServiceConfirmationContent() {
+            if (selectedService === 'trial') {
+                return `
+                    <div class="text-center mb-6">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Confirm your service</h3>
+                        <p class="text-gray-600">Review your selected service</p>
+                    </div>
+                    <div class="bg-orange-50 border-2 border-orange-200 rounded-xl p-6 mb-6">
+                        <div class="text-center">
+                            <div class="text-3xl mb-3">🔥</div>
+                            <h4 class="text-xl font-bold text-gray-800 mb-2">Trial Service</h4>
+                            <p class="text-gray-600 mb-4">5-day trial period</p>
+                            <div class="text-2xl font-bold text-orange-600">₹100</div>
+                            <div class="text-gray-500 line-through">₹300</div>
+                            <div class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-semibold inline-block mt-2">
+                                67% OFF
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="validateAndProceed('serviceConfirm')" class="w-full bg-brand text-white py-4 rounded-xl font-semibold hover:bg-teal-600 transition-colors">Continue</button>
+                `;
+            } else if (selectedService === 'booking') {
+                return `
+                    <div class="text-center mb-6">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Confirm your service</h3>
+                        <p class="text-gray-600">Review your selected service</p>
+                    </div>
+                    <div class="bg-brand bg-opacity-10 border-2 border-brand border-opacity-20 rounded-xl p-6 mb-6">
+                        <div class="text-center">
+                            <div class="text-3xl mb-3">✨</div>
+                            <h4 class="text-xl font-bold text-gray-800 mb-2">One-time Service</h4>
+                            <p class="text-gray-600 mb-4">Premium car cleaning</p>
+                            <div class="text-2xl font-bold text-brand">₹450</div>
+                            <div class="text-gray-500 line-through">₹600</div>
+                            <div class="bg-brand text-white px-3 py-1 rounded-full text-sm font-semibold inline-block mt-2">
+                                25% OFF
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="validateAndProceed('serviceConfirm')" class="w-full bg-brand text-white py-4 rounded-xl font-semibold hover:bg-teal-600 transition-colors">Continue</button>
+                `;
+            } else {
+                return `
+                    <div class="text-center mb-6">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Choose subscription plan</h3>
+                        <p class="text-gray-600">Select your preferred plan</p>
+                    </div>
+                    <div class="space-y-4 mb-6">
+                        <div class="subscription-option border-2 border-gray-200 rounded-xl p-4 cursor-pointer hover:border-brand transition-colors" data-plan="monthly">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h4 class="font-bold text-gray-800">Monthly Plan</h4>
+                                    <p class="text-gray-600 text-sm">4 cleanings per month</p>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-xl font-bold text-brand">₹900</div>
+                                    <div class="text-gray-500 line-through text-sm">₹1200</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="subscription-option border-2 border-gray-200 rounded-xl p-4 cursor-pointer hover:border-brand transition-colors" data-plan="quarterly">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h4 class="font-bold text-gray-800">Quarterly Plan</h4>
+                                    <p class="text-gray-600 text-sm">12 cleanings (3 months)</p>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-xl font-bold text-brand">₹2400</div>
+                                    <div class="text-gray-500 line-through text-sm">₹3600</div>
+                                    <div class="text-green-600 text-sm font-semibold">Save ₹1200</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="subscription-option border-2 border-gray-200 rounded-xl p-4 cursor-pointer hover:border-brand transition-colors" data-plan="yearly">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h4 class="font-bold text-gray-800">Yearly Plan</h4>
+                                    <p class="text-gray-600 text-sm">48 cleanings (12 months)</p>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-xl font-bold text-brand">₹9000</div>
+                                    <div class="text-gray-500 line-through text-sm">₹14400</div>
+                                    <div class="text-green-600 text-sm font-semibold">Save ₹5400</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="subscriptionBtn" onclick="validateAndProceed('serviceConfirm')" class="w-full bg-gray-300 text-gray-500 py-4 rounded-xl font-semibold cursor-not-allowed" disabled>Continue</button>
+                `;
+            }
+        }
+
+        function getDateTimeContent() {
+            const today = new Date();
+            const minDate = new Date(2025, 9, 1); // October 1, 2025
+            const minDateStr = minDate.toISOString().split('T')[0];
+            
+            let timeSlots = '';
+            if (selectedService === 'booking') {
+                // 7 AM - 7 PM for one-time service
+                for (let i = 7; i <= 19; i++) {
+                    let time = '';
+                    if (i < 12) {
+                        time = `${i}:00 AM`;
+                    } else if (i === 12) {
+                        time = '12:00 PM';
+                    } else {
+                        time = `${i-12}:00 PM`;
+                    }
+                    timeSlots += `<option value="${time}">${time}</option>`;
+                }
+            } else {
+                // 5 AM - 11 AM for trial and subscription
+                for (let i = 5; i <= 11; i++) {
+                    const time = `${i}:00 AM`;
+                    timeSlots += `<option value="${time}">${time}</option>`;
+                }
+            }
+            
+            return `
+                <div class="text-center mb-6">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Select date & time</h3>
+                    <p class="text-gray-600">When would you like the service?</p>
+                </div>
+                <div class="space-y-4">
+                    <input type="date" id="dateInput" class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-brand focus:outline-none transition-colors" min="${minDateStr}">
+                    <select id="timeSelect" class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-brand focus:outline-none transition-colors">
+                        <option value="">Select Time</option>
+                        ${timeSlots}
+                    </select>
+                    <button onclick="validateAndProceed('dateTime')" class="w-full bg-brand text-white py-4 rounded-xl font-semibold hover:bg-teal-600 transition-colors">Continue</button>
+                </div>
+            `;
+        }
+
+        function getPromoCodeContent() {
+            if (selectedService === 'trial') {
+                // Skip promo code for trial
+                currentStep++;
+                return getPricingContent();
+            }
+            
+            return `
+                <div class="text-center mb-6">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Promo code</h3>
+                    <p class="text-gray-600">Have a discount code? Enter it here</p>
+                </div>
+                <div class="space-y-4">
+                    <input type="text" id="promoInput" class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-brand focus:outline-none transition-colors" placeholder="Enter promo code (optional)">
+                    <div id="promoMessage" class="text-sm"></div>
+                    <button onclick="validateAndProceed('promo')" class="w-full bg-brand text-white py-4 rounded-xl font-semibold hover:bg-teal-600 transition-colors">Continue</button>
+                </div>
+            `;
+        }
+
+        function getPricingContent() {
+            let baseAmount = 0;
+            let originalAmount = 0;
+            let discount = 0;
+            let promoDiscount = 0;
+            
+            if (selectedService === 'trial') {
+                baseAmount = servicePricing.trial.discounted;
+                originalAmount = servicePricing.trial.original;
+            } else if (selectedService === 'booking') {
+                baseAmount = servicePricing.booking.discounted;
+                originalAmount = servicePricing.booking.original;
+            } else if (selectedService === 'subscription') {
+                const plan = bookingData.subscriptionPlan;
+                baseAmount = servicePricing.subscription[plan].discounted;
+                originalAmount = servicePricing.subscription[plan].original;
+            }
+            
+            if (bookingData.promoCode === 'LAUNCH25') {
+                promoDiscount = Math.round(baseAmount * 0.25);
+            }
+            
+            const finalAmount = baseAmount - promoDiscount;
+            bookingData.finalAmount = finalAmount;
+            bookingData.originalAmount = originalAmount;
+            
+            return `
+                <div class="text-center mb-6">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Price breakdown</h3>
+                    <p class="text-gray-600">Review your total amount</p>
+                </div>
+                <div class="bg-gray-50 rounded-xl p-6 space-y-3 mb-6">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Service charge:</span>
+                        <span class="font-semibold">₹${baseAmount}</span>
+                    </div>
+                    ${promoDiscount > 0 ? `
+                    <div class="flex justify-between text-green-600">
+                        <span>Promo discount (25%):</span>
+                        <span>-₹${promoDiscount}</span>
+                    </div>
+                    ` : ''}
+                    <hr class="border-gray-300">
+                    <div class="flex justify-between text-xl font-bold">
+                        <span>Total amount:</span>
+                        <span class="text-brand">₹${finalAmount}</span>
+                    </div>
+                    ${originalAmount > finalAmount ? `
+                    <div class="text-center text-sm text-green-600 font-semibold">
+                        You save ₹${originalAmount - finalAmount}!
+                    </div>
+                    ` : ''}
+                </div>
+                <button onclick="validateAndProceed('amount')" class="w-full bg-brand text-white py-4 rounded-xl font-semibold hover:bg-teal-600 transition-colors">Continue</button>
+            `;
+        }
+
+        function getPaymentMethodContent() {
+            return `
+                <div class="text-center mb-6">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Payment method</h3>
+                    <p class="text-gray-600">How would you like to pay?</p>
+                </div>
+                <div class="space-y-4 mb-6">
+                    <div class="payment-option border-2 border-gray-200 rounded-xl p-4 cursor-pointer hover:border-brand transition-colors flex items-center" data-method="cash">
+                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
+                            <span class="text-2xl">💵</span>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-800">Cash on Service</h4>
+                            <p class="text-gray-600 text-sm">Pay when we arrive</p>
+                        </div>
+                    </div>
+                    <div class="payment-option border-2 border-gray-200 rounded-xl p-4 cursor-pointer hover:border-brand transition-colors flex items-center" data-method="upi">
+                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                            <span class="text-2xl">📱</span>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-800">UPI/QR Code</h4>
+                            <p class="text-gray-600 text-sm">Pay via UPI apps</p>
+                        </div>
+                    </div>
+                    <div class="payment-option border-2 border-gray-200 rounded-xl p-4 cursor-pointer hover:border-brand transition-colors flex items-center" data-method="card">
+                        <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mr-4">
+                            <span class="text-2xl">💳</span>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-800">Credit/Debit Card</h4>
+                            <p class="text-gray-600 text-sm">Secure card payment</p>
+                        </div>
+                    </div>
+                </div>
+                <button id="paymentBtn" onclick="proceedToSummary()" class="w-full bg-gray-300 text-gray-500 py-4 rounded-xl font-semibold cursor-not-allowed" disabled>Review Booking</button>
+            `;
+        }
+
+        function setupStepEventListeners(step) {
+            switch(step) {
+                case 1:
+                    document.getElementById('nameInput').focus();
+                    break;
+                case 2:
+                    document.getElementById('phoneInput').focus();
+                    break;
+                case 3:
+                    document.getElementById('plotInput').focus();
+                    break;
+                case 4:
+                    document.querySelectorAll('.car-type-option').forEach(option => {
+                        option.addEventListener('click', function() {
+                            document.querySelectorAll('.car-type-option').forEach(opt => {
+                                opt.classList.remove('border-brand', 'bg-brand', 'bg-opacity-10');
+                            });
+                            this.classList.add('border-brand', 'bg-brand', 'bg-opacity-10');
+                            bookingData.carType = this.dataset.type;
+                            
+                            const btn = document.getElementById('carTypeBtn');
+                            btn.classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+                            btn.classList.add('bg-brand', 'text-white', 'hover:bg-teal-600');
+                            btn.disabled = false;
+                        });
+                    });
+                    break;
+                case 5:
+                    const brandSelect = document.getElementById('brandSelect');
+                    const modelSelect = document.getElementById('modelSelect');
+                    
+                    brandSelect.addEventListener('change', function() {
+                        const selectedBrand = this.value;
+                        if (selectedBrand && carBrands[selectedBrand]) {
+                            const models = carBrands[selectedBrand].map(model => 
+                                `<option value="${model}">${model}</option>`
+                            ).join('');
+                            modelSelect.innerHTML = `<option value="">Select Model</option>${models}`;
+                            modelSelect.disabled = false;
+                        } else {
+                            modelSelect.innerHTML = '<option value="">Select Model</option>';
+                            modelSelect.disabled = true;
+                        }
+                    });
+                    break;
+                case 6:
+                    if (selectedService === 'subscription') {
+                        document.querySelectorAll('.subscription-option').forEach(option => {
+                            option.addEventListener('click', function() {
+                                document.querySelectorAll('.subscription-option').forEach(opt => {
+                                    opt.classList.remove('border-brand', 'bg-brand', 'bg-opacity-10');
+                                });
+                                this.classList.add('border-brand', 'bg-brand', 'bg-opacity-10');
+                                bookingData.subscriptionPlan = this.dataset.plan;
+                                
+                                const btn = document.getElementById('subscriptionBtn');
+                                btn.classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+                                btn.classList.add('bg-brand', 'text-white', 'hover:bg-teal-600');
+                                btn.disabled = false;
+                            });
+                        });
+                    }
+                    break;
+                case 8:
+                    if (selectedService !== 'trial') {
+                        const promoInput = document.getElementById('promoInput');
+                        const promoMessage = document.getElementById('promoMessage');
+                        
+                        promoInput.addEventListener('input', function() {
+                            const code = this.value.toUpperCase();
+                            if (code === 'LAUNCH25') {
+                                promoMessage.innerHTML = '<span class="text-green-600 font-semibold">✓ Valid code! 25% additional discount applied</span>';
+                                bookingData.promoCode = code;
+                            } else if (code === '') {
+                                promoMessage.innerHTML = '';
+                                delete bookingData.promoCode;
+                            } else {
+                                promoMessage.innerHTML = '<span class="text-red-600 font-semibold">✗ Invalid promo code</span>';
+                                delete bookingData.promoCode;
+                            }
+                        });
+                    }
+                    break;
+                case 10:
+                    document.querySelectorAll('.payment-option').forEach(option => {
+                        option.addEventListener('click', function() {
+                            document.querySelectorAll('.payment-option').forEach(opt => {
+                                opt.classList.remove('border-brand', 'bg-brand', 'bg-opacity-10');
+                            });
+                            this.classList.add('border-brand', 'bg-brand', 'bg-opacity-10');
+                            bookingData.paymentMethod = this.dataset.method;
+                            
+                            const btn = document.getElementById('paymentBtn');
+                            btn.classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+                            btn.classList.add('bg-brand', 'text-white', 'hover:bg-teal-600');
+                            btn.disabled = false;
+                        });
+                    });
+                    break;
+            }
+        }
+
+        function validateAndProceed(field) {
+            let isValid = false;
+            
+            switch(field) {
+                case 'name':
+                    const name = document.getElementById('nameInput').value.trim();
+                    if (name && /^[a-zA-Z\s]+$/.test(name) && name.length >= 2) {
+                        bookingData.name = name;
+                        saveDataToStorage();
+                        isValid = true;
+                    } else {
+                        showNotification('Please enter a valid name (letters only, minimum 2 characters)', 'error');
+                    }
+                    break;
+                case 'phone':
+                    const phone = document.getElementById('phoneInput').value.trim();
+                    if (phone && /^[6-9]\d{9}$/.test(phone)) {
+                        bookingData.phone = '+91' + phone;
+                        saveDataToStorage();
+                        isValid = true;
+                    } else {
+                        showNotification('Please enter a valid 10-digit mobile number starting with 6, 7, 8, or 9', 'error');
+                    }
+                    break;
+                case 'address':
+                    const plot = document.getElementById('plotInput').value.trim();
+                    const street = document.getElementById('streetInput').value.trim();
+                    const area = document.getElementById('areaInput').value.trim();
+                    const locality = document.getElementById('localityInput').value.trim();
+                    const landmark = document.getElementById('landmarkInput').value.trim();
+                    const pincode = document.getElementById('pincodeInput').value.trim();
+                    
+                    if (plot && street && area && locality && pincode) {
+                        if (/^62\d{4}$/.test(pincode) && serviceablePincodes.includes(pincode)) {
+                            bookingData.address = {
+                                plot, street, area, locality, landmark, pincode, city: 'Trichy'
+                            };
+                            saveDataToStorage();
+                            isValid = true;
+                        } else {
+                            showNotification('Please enter a valid Trichy pincode starting with 62. We currently service limited areas in Trichy.', 'error');
+                        }
+                    } else {
+                        showNotification('Please fill all required address fields', 'error');
+                    }
+                    break;
+                case 'carType':
+                    if (bookingData.carType) {
+                        isValid = true;
+                    } else {
+                        showNotification('Please select your car type', 'error');
+                    }
+                    break;
+                case 'carBrandModel':
+                    const brand = document.getElementById('brandSelect').value;
+                    const model = document.getElementById('modelSelect').value;
+                    if (brand && model) {
+                        bookingData.carBrand = brand;
+                        bookingData.carModel = model;
+                        isValid = true;
+                    } else {
+                        showNotification('Please select both car brand and model', 'error');
+                    }
+                    break;
+                case 'serviceConfirm':
+                    if (selectedService === 'subscription' && !bookingData.subscriptionPlan) {
+                        showNotification('Please select a subscription plan', 'error');
+                    } else {
+                        isValid = true;
+                    }
+                    break;
+                case 'dateTime':
+                    const date = document.getElementById('dateInput').value;
+                    const time = document.getElementById('timeSelect').value;
+                    if (date && time) {
+                        bookingData.date = date;
+                        bookingData.time = time;
+                        isValid = true;
+                    } else {
+                        showNotification('Please select both date and time', 'error');
+                    }
+                    break;
+                case 'promo':
+                case 'amount':
+                    isValid = true;
+                    break;
+            }
+            
+            if (isValid) {
+                currentStep++;
+                renderCurrentStep();
+            }
+        }
+
+        function handleBackNavigation() {
+            if (currentStep > 1) {
+                currentStep--;
+                renderCurrentStep();
+            } else {
+                showScreen('homeScreen');
+            }
+        }
+
+        function proceedToSummary() {
+            if (bookingData.paymentMethod) {
+                showScreen('summaryScreen');
+                renderSummary();
+            } else {
+                showNotification('Please select a payment method', 'error');
+            }
+        }
+
+        function renderSummary() {
+            const summaryContent = document.getElementById('summaryContent');
+            
+            let serviceText = '';
+            if (selectedService === 'trial') {
+                serviceText = 'Trial Service (5 days)';
+            } else if (selectedService === 'booking') {
+                serviceText = 'One-time Premium Cleaning';
+            } else {
+                const planNames = {
+                    monthly: 'Monthly Subscription',
+                    quarterly: 'Quarterly Subscription (3 months)',
+                    yearly: 'Yearly Subscription (12 months)'
+                };
+                serviceText = planNames[bookingData.subscriptionPlan];
+            }
+            
+            const paymentMethodNames = {
+                cash: 'Cash on Service 💵',
+                upi: 'UPI/QR Code 📱',
+                card: 'Credit/Debit Card 💳'
+            };
+            
+            const fullAddress = `${bookingData.address.plot}, ${bookingData.address.street}, ${bookingData.address.area}, ${bookingData.address.locality}${bookingData.address.landmark ? ', ' + bookingData.address.landmark : ''}, ${bookingData.address.city} - ${bookingData.address.pincode}`;
+            
+            summaryContent.innerHTML = `
+                <div class="space-y-4">
+                    <div class="bg-gray-50 rounded-xl p-4">
+                        <h4 class="font-semibold text-gray-800 mb-2">Customer Details</h4>
+                        <p class="text-gray-600"><strong>Name:</strong> ${bookingData.name}</p>
+                        <p class="text-gray-600"><strong>Phone:</strong> ${bookingData.phone}</p>
+                        <p class="text-gray-600"><strong>Address:</strong> ${fullAddress}</p>
+                    </div>
+                    
+                    <div class="bg-gray-50 rounded-xl p-4">
+                        <h4 class="font-semibold text-gray-800 mb-2">Vehicle Details</h4>
+                        <p class="text-gray-600"><strong>Type:</strong> ${bookingData.carType}</p>
+                        <p class="text-gray-600"><strong>Car:</strong> ${bookingData.carBrand} ${bookingData.carModel}</p>
+                    </div>
+                    
+                    <div class="bg-gray-50 rounded-xl p-4">
+                        <h4 class="font-semibold text-gray-800 mb-2">Service Details</h4>
+                        <p class="text-gray-600"><strong>Service:</strong> ${serviceText}</p>
+                        <p class="text-gray-600"><strong>Date:</strong> ${new Date(bookingData.date).toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                        <p class="text-gray-600"><strong>Time:</strong> ${bookingData.time}</p>
+                        <p class="text-gray-600"><strong>Payment:</strong> ${paymentMethodNames[bookingData.paymentMethod]}</p>
+                        ${bookingData.promoCode ? `<p class="text-gray-600"><strong>Promo Code:</strong> ${bookingData.promoCode}</p>` : ''}
+                    </div>
+                    
+                    <div class="bg-brand bg-opacity-10 border-2 border-brand border-opacity-20 rounded-xl p-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-semibold text-gray-800">Total Amount:</span>
+                            <span class="text-2xl font-bold text-brand">₹${bookingData.finalAmount}</span>
+                        </div>
+                        ${bookingData.originalAmount > bookingData.finalAmount ? `
+                        <div class="text-center text-sm text-green-600 font-semibold mt-2">
+                            You save ₹${bookingData.originalAmount - bookingData.finalAmount}!
+                        </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        function editBooking() {
+            currentStep = 9; // Go to pricing step for editing
+            showScreen('bookingFlow');
+            renderCurrentStep();
+        }
+
+        async function confirmBooking() {
+            showLoading();
+            
+            try {
+                // Generate booking reference
+                bookingReference = generateBookingReference();
+                
+                // Prepare WhatsApp message
+                prepareWhatsAppMessage();
+                
+                // Submit to Google Forms
+                await submitToGoogleForms();
+                
+                hideLoading();
+                
+                // Open WhatsApp
+                const encodedMessage = encodeURIComponent(whatsappMessage);
+                const whatsappUrl = `https://wa.me/918122213141?text=${encodedMessage}`;
+                window.open(whatsappUrl, '_blank');
+                
+                // Clear saved data
+                localStorage.removeItem('clenzzo_booking_data');
+                
+                // Show success screen
+                showScreen('successScreen');
+                document.getElementById('customerNameDisplay').textContent = bookingData.name;
+                document.getElementById('bookingReference').textContent = bookingReference;
+                
+            } catch (error) {
+                hideLoading();
+                showNotification('Error processing booking. Please try again.', 'error');
+                console.error('Booking error:', error);
+            }
+        }
+
+        function generateBookingReference() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const random = Math.floor(Math.random() * 9999).toString().padStart(4, '0');
+            return `CLZ-${year}${month}${day}-${random}`;
+        }
+
+        function getISTTimestamp() {
+            const now = new Date();
+            const istOffset = 5.5 * 60 * 60 * 1000; // IST is UTC+5:30
+            const istTime = new Date(now.getTime() + istOffset);
+            return istTime.toISOString().replace('T', ' ').substring(0, 19) + ' IST';
+        }
+
+        function prepareWhatsAppMessage() {
+            let serviceDetails = '';
+            if (selectedService === 'trial') {
+                serviceDetails = 'Trial Service (5 days)';
+            } else if (selectedService === 'booking') {
+                serviceDetails = 'One-time Premium Cleaning';
+            } else {
+                const planNames = {
+                    monthly: 'Monthly Subscription Plan',
+                    quarterly: 'Quarterly Subscription Plan (3 months)',
+                    yearly: 'Yearly Subscription Plan (12 months)'
+                };
+                serviceDetails = planNames[bookingData.subscriptionPlan];
+            }
+
+            const paymentMethodText = {
+                cash: 'Cash on Service 💵',
+                upi: 'UPI/QR Code 📱',
+                card: 'Credit/Debit Card 💳'
+            };
+
+            const fullAddress = `${bookingData.address.plot}, ${bookingData.address.street}, ${bookingData.address.area}, ${bookingData.address.locality}${bookingData.address.landmark ? ', ' + bookingData.address.landmark : ''}, ${bookingData.address.city} - ${bookingData.address.pincode}`;
+
+            whatsappMessage = `🚗 *CLENZZO CAR CLEANING BOOKING* 🚗
+
+Hi! I want to book a car cleaning service.
+
+*📋 BOOKING DETAILS:*
+🆔 Booking ID: *${bookingReference}*
+👤 Name: ${bookingData.name}
+📞 Phone: ${bookingData.phone}
+📍 Address: ${fullAddress}
+
+*🚙 VEHICLE DETAILS:*
+Type: ${bookingData.carType}
+Car: ${bookingData.carBrand} ${bookingData.carModel}
+
+*🧽 SERVICE DETAILS:*
+Service: ${serviceDetails}
+📅 Date: ${new Date(bookingData.date).toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+⏰ Time: ${bookingData.time}
+
+*💰 PAYMENT DETAILS:*
+${bookingData.promoCode ? `🎟️ Promo Code: ${bookingData.promoCode}\n` : ''}💳 Payment Method: ${paymentMethodText[bookingData.paymentMethod]}
+💵 Total Amount: *₹${bookingData.finalAmount}*
+
+Please confirm my booking. Thank you! 🙏`;
+        }
+
+        async function submitToGoogleForms() {
+            const form = googleForms[selectedService];
+            const formData = new FormData();
+            
+            // Prepare service text
+            let serviceText = '';
+            if (selectedService === 'trial') {
+                serviceText = 'Trial Service (5 days)';
+            } else if (selectedService === 'booking') {
+                serviceText = 'One-time Premium Cleaning';
+            } else {
+                const planNames = {
+                    monthly: 'Monthly Subscription Plan',
+                    quarterly: 'Quarterly Subscription Plan (3 months)',
+                    yearly: 'Yearly Subscription Plan (12 months)'
+                };
+                serviceText = planNames[bookingData.subscriptionPlan];
+            }
+            
+            const fullAddress = `${bookingData.address.plot}, ${bookingData.address.street}, ${bookingData.address.area}, ${bookingData.address.locality}${bookingData.address.landmark ? ', ' + bookingData.address.landmark : ''}, ${bookingData.address.city} - ${bookingData.address.pincode}`;
+            
+            const paymentMethodText = {
+                cash: 'Cash on Service',
+                upi: 'UPI/QR Code',
+                card: 'Credit/Debit Card'
+            };
+            
+            // Populate form data
+            formData.append(form.entries.bookingId, bookingReference);
+            formData.append(form.entries.name, bookingData.name);
+            formData.append(form.entries.phone, bookingData.phone);
+            formData.append(form.entries.address, fullAddress);
+            formData.append(form.entries.carDetails, `${bookingData.carBrand} ${bookingData.carModel}`);
+            formData.append(form.entries.serviceType, serviceText);
+            formData.append(form.entries.date, bookingData.date);
+            formData.append(form.entries.time, bookingData.time);
+            formData.append(form.entries.carType, bookingData.carType);
+            formData.append(form.entries.promoCode, bookingData.promoCode || 'None');
+            formData.append(form.entries.amount, bookingData.finalAmount.toString());
+            formData.append(form.entries.serviceDate, bookingData.date);
+            formData.append(form.entries.timestamp, getISTTimestamp());
+            formData.append(form.entries.confirmed, 'Yes');
+            formData.append(form.entries.paymentMethod, paymentMethodText[bookingData.paymentMethod]);
+            formData.append(form.entries.utmSource, bookingData.utm.source);
+            formData.append(form.entries.utmCampaign, bookingData.utm.campaign);
+            
+            // Submit form
+            try {
+                await fetch(form.url, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: formData
+                });
+                
+                // Also submit via iframe for better success rate
+                const iframe = document.createElement('iframe');
+                iframe.style.display = 'none';
+                iframe.name = 'hidden_iframe';
+                document.body.appendChild(iframe);
+                
+                const hiddenForm = document.createElement('form');
+                hiddenForm.method = 'POST';
+                hiddenForm.action = form.url;
+                hiddenForm.target = 'hidden_iframe';
+                
+                for (let [key, value] of formData.entries()) {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = key;
+                    input.value = value;
+                    hiddenForm.appendChild(input);
+                }
+                
+                document.body.appendChild(hiddenForm);
+                hiddenForm.submit();
+                
+                // Clean up
+                setTimeout(() => {
+                    document.body.removeChild(hiddenForm);
+                    document.body.removeChild(iframe);
+                }, 2000);
+                
+            } catch (error) {
+                console.error('Form submission error:', error);
+                // Continue with the flow even if form submission fails
+            }
+        }
+
+        function copyBookingDetails() {
+            navigator.clipboard.writeText(whatsappMessage).then(() => {
+                showNotification('Booking details copied to clipboard!');
+            }).catch(() => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = whatsappMessage;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showNotification('Booking details copied to clipboard!');
+            });
+        }
+
+        function startNewBooking() {
+            // Reset state
+            currentStep = 1;
+            selectedService = '';
+            bookingData = {};
+            bookingReference = '';
+            whatsappMessage = '';
+            
+            // Show home screen
+            showScreen('homeScreen');
+        }
+
+        function showLoading() {
+            document.getElementById('loadingSpinner').classList.remove('hidden');
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingSpinner').classList.add('hidden');
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const icon = document.getElementById('notificationIcon');
+            const text = document.getElementById('notificationText');
+            
+            text.textContent = message;
+            
+            if (type === 'error') {
+                icon.textContent = '✗';
+                icon.className = 'text-red-500 text-xl';
+                notification.querySelector('div').className = 'bg-white border-l-4 border-red-500 rounded-lg shadow-lg p-4 max-w-sm';
+            } else {
+                icon.textContent = '✓';
+                icon.className = 'text-green-500 text-xl';
+                notification.querySelector('div').className = 'bg-white border-l-4 border-green-500 rounded-lg shadow-lg p-4 max-w-sm';
+            }
+            
+            notification.classList.remove('hidden');
+            
+            setTimeout(() => {
+                hideNotification();
+            }, 5000);
+        }
+
+        function hideNotification() {
+            document.getElementById('notification').classList.add('hidden');
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97f242fb46e81f33',t:'MTc1Nzg3NzgzNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
