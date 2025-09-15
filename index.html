@@ -246,6 +246,8 @@
         // Centralized Configuration: Update these values with your actual form URLs and entry IDs.
         // You can find the correct entry IDs by using the "Get pre-filled link" feature in Google Forms.
         const config = {
+            // Google Apps Script Web App URL to submit form data to
+            googleAppsScriptUrl: 'https://script.google.com/macros/s/AKfycbzsz3XLzGkkIrJyhBfACjyijzjID4jhnr9w3Fwy-P25_QamQ7Cwpamcx3gaIeGCrt0/exec',
             formUrls: {
                 trial: 'https://docs.google.com/forms/d/e/1FAIpQLSfyWZN_zSxbf9TufnJH9ykMAB_qy-7OGYxBoIi-sVw6BPxIeg/formResponse',
                 booking: 'https://docs.google.com/forms/d/e/1FAIpQLSdrf-K3RU-FNt4ewjVP_95T6mM6AYa875PolDixqJvoDfn_Fw/formResponse', 
@@ -1117,70 +1119,43 @@
             };
 
             // Prepare form data with correct field mapping
-            const formData = new FormData();
+            const formData = {
+                bookingId: bookingId,
+                name: bookingData.name,
+                phone: bookingData.phone,
+                address: fullAddress,
+                carBrandModel: `${bookingData.carBrand} ${bookingData.carModel}`,
+                serviceType: serviceText,
+                date: bookingData.date,
+                time: bookingData.time,
+                carType: bookingData.carType,
+                carPlateNumber: bookingData.carPlateNumber,
+                promoCode: bookingData.promoCode || 'None',
+                finalAmount: bookingData.finalAmount.toString(),
+                serviceDate: bookingData.date,
+                timestamp: timestamp,
+                confirmed: 'Yes',
+                paymentMethod: paymentMethodText[bookingData.paymentMethod],
+                utmSource: utmParams.utm_source || '',
+                utmCampaign: utmParams.utm_campaign || ''
+            };
             
-            // Append data using the correct entry IDs
-            formData.append(entryIds.bookingId, bookingId);
-            formData.append(entryIds.name, bookingData.name);
-            formData.append(entryIds.phone, bookingData.phone);
-            formData.append(entryIds.address, fullAddress);
-            formData.append(entryIds.carBrandModel, `${bookingData.carBrand} ${bookingData.carModel}`);
-            formData.append(entryIds.serviceType, serviceText);
-            formData.append(entryIds.date, bookingData.date);
-            formData.append(entryIds.time, bookingData.time);
-            formData.append(entryIds.carType, bookingData.carType);
-            formData.append(entryIds.carPlateNumber, bookingData.carPlateNumber);
-            formData.append(entryIds.promoCode, bookingData.promoCode || 'None');
-            formData.append(entryIds.finalAmount, bookingData.finalAmount.toString());
-            formData.append(entryIds.serviceDate, bookingData.date);
-            formData.append(entryIds.timestamp, timestamp);
-            formData.append(entryIds.confirmed, 'Yes');
-            formData.append(entryIds.paymentMethod, paymentMethodText[bookingData.paymentMethod]);
-            formData.append(entryIds.utmSource, utmParams.utm_source || '');
-            formData.append(entryIds.utmCampaign, utmParams.utm_campaign || '');
-            
-            // Submit to the appropriate Google Form
-            const formUrl = config.formUrls[selectedService];
+            const payload = {
+                entryIds: entryIds,
+                formData: JSON.stringify(formData),
+                formUrl: config.formUrls[selectedService]
+            };
             
             try {
-                // Submit via fetch for primary method
-                await fetch(formUrl, {
+                await fetch(config.googleAppsScriptUrl, {
                     method: 'POST',
-                    mode: 'no-cors',
-                    body: formData
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams(payload).toString()
                 });
-                
-                // Also try submitting via iframe for better success rate
-                const iframe = document.createElement('iframe');
-                iframe.style.display = 'none';
-                iframe.name = 'hidden_iframe';
-                document.body.appendChild(iframe);
-                
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = formUrl;
-                form.target = 'hidden_iframe';
-                
-                // Add all form data as hidden inputs
-                for (let [key, value] of formData.entries()) {
-                    const input = document.createElement('input');
-                    input.type = 'hidden';
-                    input.name = key;
-                    input.value = value;
-                    form.appendChild(input);
-                }
-                
-                document.body.appendChild(form);
-                form.submit();
-                
-                // Clean up
-                setTimeout(() => {
-                    document.body.removeChild(form);
-                    document.body.removeChild(iframe);
-                }, 2000);
-                
             } catch (error) {
-                console.error('Form submission error:', error);
+                console.error('Apps Script submission error:', error);
             }
         }
 
