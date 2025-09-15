@@ -686,12 +686,24 @@
                             if (value.length >= 3) {
                                 formattedValue += '-' + value.substring(2, 4);
                             }
-                            if (value.length >= 5) {
-                                formattedValue += '-' + value.substring(4, 6);
+                            // The third part can be one or two letters
+                            let thirdPart = value.substring(4);
+                            let thirdPartLetters = thirdPart.replace(/[^A-Z]/g, '');
+                            let thirdPartNumbers = thirdPart.replace(/[^0-9]/g, '');
+                            
+                            if (thirdPartLetters.length > 0) {
+                                formattedValue += '-' + thirdPartLetters.substring(0, 2);
                             }
-                            if (value.length >= 7) {
-                                formattedValue += '-' + value.substring(6, 10);
+                            if (thirdPartLetters.length >= 1 && thirdPartNumbers.length > 0) {
+                                formattedValue += '-' + thirdPartNumbers.substring(0, 4);
                             }
+
+                            // Correctly handle the two-letter, four-number pattern
+                            let parts = formattedValue.split('-');
+                            if (parts.length > 3 && parts[2].length <= 2 && parts[3] === '') {
+                                formattedValue = parts.slice(0, 3).join('-') + '-' + value.substring(6);
+                            }
+
                             e.target.value = formattedValue;
                             bookingData.carPlateNumber = formattedValue;
                         });
@@ -739,8 +751,13 @@
                         break;
                     case 8:
                         const today = new Date();
-                        const minDate = new Date(today.getFullYear(), today.getMonth(), today.getDate()); 
+                        const minServiceDate = new Date('2025-10-01'); // Service starts on Oct 1st
+                        const maxServiceDate = new Date(today);
+                        maxServiceDate.setDate(today.getDate() + 30); // 30-day window
+
+                        const minDate = today < minServiceDate ? minServiceDate : today;
                         const minDateStr = minDate.toISOString().split('T')[0];
+                        const maxDateStr = maxServiceDate.toISOString().split('T')[0];
                         
                         let timeSlots = '';
                         if (selectedService === 'booking') {
@@ -767,7 +784,7 @@
                         container.innerHTML = `
                             <h3 class="text-xl font-bold text-gray-800 mb-4">Select date & time</h3>
                             <div class="space-y-4">
-                                <input type="date" id="dateInput" class="w-full p-3 border border-gray-300 rounded-lg focus:border-teal focus:outline-none focus:ring-2 focus:ring-teal-100" min="${minDateStr}">
+                                <input type="date" id="dateInput" class="w-full p-3 border border-gray-300 rounded-lg focus:border-teal focus:outline-none focus:ring-2 focus:ring-teal-100" min="${minDateStr}" max="${maxDateStr}">
                                 <select id="timeSelect" class="w-full p-3 border border-gray-300 rounded-lg focus:border-teal focus:outline-none focus:ring-2 focus:ring-teal-100">
                                     <option value="">Select Time</option>
                                     ${timeSlots}
@@ -958,7 +975,7 @@
                         bookingData.carPlateNumber = carPlateNumber;
                         isValid = true;
                     } else {
-                        showToast('Please enter a valid car plate number (e.g., TN-XX-XX-XXXX)', 'error');
+                        showToast('Please enter a valid car plate number (e.g., TN-XX-X-XXXX or TN-XX-XX-XXXX)', 'error');
                     }
                     break;
                 case 'serviceConfirm':
@@ -969,12 +986,24 @@
                     }
                     break;
                 case 'dateTime':
-                    const date = document.getElementById('dateInput').value;
-                    const time = document.getElementById('timeSelect').value;
-                    if (date && time) {
-                        bookingData.date = date;
-                        bookingData.time = time;
-                        isValid = true;
+                    const selectedDate = new Date(document.getElementById('dateInput').value);
+                    const selectedTime = document.getElementById('timeSelect').value;
+
+                    const today = new Date();
+                    const minServiceDate = new Date('2025-10-01');
+                    const maxBookingDate = new Date(today);
+                    maxBookingDate.setDate(today.getDate() + 30);
+                    
+                    const minAllowedDate = today < minServiceDate ? minServiceDate : today;
+
+                    if (selectedDate && selectedTime) {
+                        if (selectedDate >= minAllowedDate && selectedDate <= maxBookingDate) {
+                            bookingData.date = document.getElementById('dateInput').value;
+                            bookingData.time = selectedTime;
+                            isValid = true;
+                        } else {
+                            showToast('Please select a date between October 1, 2025 and 30 days from today.', 'error');
+                        }
                     } else {
                         showToast('Please select both date and time', 'error');
                     }
