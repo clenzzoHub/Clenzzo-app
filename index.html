@@ -186,9 +186,9 @@
                 <div id="summaryDetails" class="space-y-4 mb-6">
                     <!-- Summary details will be inserted here -->
                 </div>
-                <div class="flex space-x-4">
-                    <button id="editBtn" class="flex-1 bg-gray-200 text-gray-800 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors">Edit</button>
-                    <button id="confirmBtn" class="flex-1 bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition-colors flex items-center justify-center space-x-2">
+                <div class="flex flex-col space-y-4">
+                    <button id="editBtn" class="w-full bg-gray-200 text-gray-800 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors">Edit</button>
+                    <button id="confirmBtn" class="w-full bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition-colors flex items-center justify-center space-x-2">
                         <span>📱</span>
                         <span>Confirm & Book via WhatsApp</span>
                     </button>
@@ -1196,8 +1196,8 @@
                 discountInfo = 'Original: ₹600 | Discounted: ₹450 (25% OFF)';
             } else {
                 const planNames = {
-                    monthly: 'Monthly Subscription Plan',
-                    quarterly: 'Quarterly Subscription Plan (3 months)',
+                    monthly: 'Monthly Plan',
+                    quarterly: 'Quarterly Plan',
                     yearly: 'Yearly Plan'
                 };
                 serviceDetails = planNames[bookingData.subscriptionPlan] || 'Subscription Plan';
