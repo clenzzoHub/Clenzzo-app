@@ -246,7 +246,7 @@
         // Centralized Configuration:
         const config = {
             // Your Google Apps Script Web App URL
-            googleAppsScriptUrl: 'https://script.google.com/macros/s/AKfycbyJDqG-ePJqyj2nP4zK5LvioG6-1Y_F0TP-MPjKGB9WPzxEWqZ2VyVbLzM2sQeb3uAh/exec',
+            googleAppsScriptUrl: 'https://script.google.com/macros/s/AKfycbxvVRpzfbR03kUoFGQ7xqodwln3obXvlOSYbU-vvLHVJ2RvTQyGvtjDkanKINn1TqRy/exec',
             
             // Your Google Sheet ID where data will be stored
             googleSheetId: '1uhfBTPrdgkIa7sh9Ptg_9cp6NeJC-oHaNJYenQiRH7E'
@@ -1008,7 +1008,7 @@
                     <div><strong>Payment:</strong> ${paymentMethodNames[bookingData.paymentMethod]}</div>
                     ${bookingData.promoCode ? `<div><strong>Promo Code:</strong> ${bookingData.promoCode}</div>` : ''}
                     <div class="bg-teal-50 p-3 rounded-lg">
-                        <strong class="text-teal">Total Amount: ₹${bookingData.finalAmount}</strong>
+                        <strong>Total Amount: ₹${bookingData.finalAmount}</strong>
                     </div>
                 </div>
             `;
@@ -1115,8 +1115,14 @@
                 });
                 const result = await response.text();
                 console.log(result);
+                if (response.ok) {
+                    showToast('Booking submitted successfully!');
+                } else {
+                    showToast('Booking failed: ' + result, 'error');
+                }
             } catch (error) {
                 console.error('Apps Script submission error:', error);
+                showToast('Booking failed: Network error. Please try again.', 'error');
             }
         }
 
