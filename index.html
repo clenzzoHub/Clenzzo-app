@@ -243,78 +243,13 @@
     </style>
 
     <script>
-        // Centralized Configuration: Update these values with your actual form URLs and entry IDs.
-        // You can find the correct entry IDs by using the "Get pre-filled link" feature in Google Forms.
+        // Centralized Configuration:
         const config = {
-            // Google Apps Script Web App URL to submit form data to
-            googleAppsScriptUrl: 'https://script.google.com/macros/s/AKfycbzsz3XLzGkkIrJyhBfACjyijzjID4jhnr9w3Fwy-P25_QamQ7Cwpamcx3gaIeGCrt0/exec',
-            formUrls: {
-                trial: 'https://docs.google.com/forms/d/e/1FAIpQLSfyWZN_zSxbf9TufnJH9ykMAB_qy-7OGYxBoIi-sVw6BPxIeg/formResponse',
-                booking: 'https://docs.google.com/forms/d/e/1FAIpQLSdrf-K3RU-FNt4ewjVP_95T6mM6AYa875PolDixqJvoDfn_Fw/formResponse', 
-                subscription: 'https://docs.google.com/forms/d/e/1FAIpQLSfEIHiuBx6pFAFALKJdVjCPDaUvQVPmAjupIgA1KHhsZtAgng/formResponse'
-            },
-            formEntryIds: {
-                trial: {
-                    bookingId: 'entry.1015123950',
-                    name: 'entry.1910210590',
-                    phone: 'entry.1122462657',
-                    address: 'entry.1085499938',
-                    carBrandModel: 'entry.2117516253',
-                    serviceType: 'entry.227225821',
-                    date: 'entry.757744008',
-                    time: 'entry.1208122204',
-                    carType: 'entry.475575542',
-                    carPlateNumber: 'entry.1231418289',
-                    promoCode: 'entry.36163512',
-                    finalAmount: 'entry.1625597973',
-                    serviceDate: 'entry.425157244',
-                    timestamp: 'entry.121314947',
-                    confirmed: 'entry.535336398',
-                    paymentMethod: 'entry.42965593',
-                    utmSource: 'entry.1915593687',
-                    utmCampaign: 'entry.1409810552'
-                },
-                booking: {
-                    bookingId: 'entry.1979661102',
-                    name: 'entry.497451560',
-                    phone: 'entry.1945807826',
-                    address: 'entry.1283063090',
-                    carBrandModel: 'entry.565199763',
-                    serviceType: 'entry.1792262760',
-                    date: 'entry.1946647746',
-                    time: 'entry.1006193222',
-                    carType: 'entry.1656418217',
-                    carPlateNumber: 'entry.1991484833',
-                    promoCode: 'entry.1339890886',
-                    finalAmount: 'entry.923300601',
-                    serviceDate: 'entry.702660515',
-                    timestamp: 'entry.311701619',
-                    confirmed: 'entry.314722732',
-                    paymentMethod: 'entry.1665763870',
-                    utmSource: 'entry.1421325742',
-                    utmCampaign: 'entry.1522169399'
-                },
-                subscription: {
-                    bookingId: 'entry.1728142861',
-                    name: 'entry.56046076',
-                    phone: 'entry.1790207206',
-                    address: 'entry.1839000315',
-                    carBrandModel: 'entry.672486994',
-                    serviceType: 'entry.34326800',
-                    date: 'entry.1675180547',
-                    time: 'entry.786386842',
-                    carType: 'entry.1452196448',
-                    carPlateNumber: 'entry.1016976362',
-                    promoCode: 'entry.308664369',
-                    finalAmount: 'entry.1638125616',
-                    serviceDate: 'entry.471182223',
-                    timestamp: 'entry.1009901881',
-                    confirmed: 'entry.1963481683',
-                    paymentMethod: 'entry.1109308570',
-                    utmSource: 'entry.1585577896',
-                    utmCampaign: 'entry.931361785'
-                }
-            }
+            // Your Google Apps Script Web App URL
+            googleAppsScriptUrl: 'https://script.google.com/macros/s/AKfycbyHEfqZacXEHdGwLV91Gr5n74xI1jVOp1W0eg1GiEUOJrLtWTJC0x3BFtg_vDH2VT1d/exec',
+            
+            // Your Google Sheet ID where data will be stored
+            googleSheetId: '1uhfBTPrdgkIa7sh9Ptg_9cp6NeJC-oHaNJYenQiRH7E'
         };
 
         // App State
@@ -752,12 +687,12 @@
                     case 8:
                         const today = new Date();
                         const minServiceDate = new Date('2025-10-01'); // Service starts on Oct 1st
-                        const maxServiceDate = new Date(today);
-                        maxServiceDate.setDate(today.getDate() + 30); // 30-day window
+                        const maxBookingDate = new Date(today);
+                        maxBookingDate.setDate(today.getDate() + 30); // 30-day window
 
                         const minDate = today < minServiceDate ? minServiceDate : today;
                         const minDateStr = minDate.toISOString().split('T')[0];
-                        const maxDateStr = maxServiceDate.toISOString().split('T')[0];
+                        const maxDateStr = maxBookingDate.toISOString().split('T')[0];
                         
                         let timeSlots = '';
                         if (selectedService === 'booking') {
@@ -1119,9 +1054,6 @@
         }
 
         async function submitToGoogleFormsSilently(timestamp) {
-            // Get the specific entry IDs for the selected service
-            const entryIds = config.formEntryIds[selectedService];
-
             // Create full address string
             const fullAddress = `${bookingData.address.plot}, ${bookingData.address.street}, ${bookingData.address.area}, ${bookingData.address.locality}${bookingData.address.landmark ? ', ' + bookingData.address.landmark : ''}, ${bookingData.address.city} - ${bookingData.address.pincode}`;
             
@@ -1147,42 +1079,40 @@
                 card: 'Credit/Debit Card'
             };
 
-            // Prepare form data with correct field mapping
-            const formData = {
-                bookingId: bookingId,
-                name: bookingData.name,
-                phone: bookingData.phone,
-                address: fullAddress,
-                carBrandModel: `${bookingData.carBrand} ${bookingData.carModel}`,
-                serviceType: serviceText,
-                date: bookingData.date,
-                time: bookingData.time,
-                carType: bookingData.carType,
-                carPlateNumber: bookingData.carPlateNumber,
-                promoCode: bookingData.promoCode || 'None',
-                finalAmount: bookingData.finalAmount.toString(),
-                serviceDate: bookingData.date,
-                timestamp: timestamp,
-                confirmed: 'Yes',
-                paymentMethod: paymentMethodText[bookingData.paymentMethod],
-                utmSource: utmParams.utm_source || '',
-                utmCampaign: utmParams.utm_campaign || ''
-            };
-            
+            // Prepare the payload for the Apps Script
             const payload = {
-                entryIds: entryIds,
-                formData: JSON.stringify(formData),
-                formUrl: config.formUrls[selectedService]
+                sheetId: config.googleSheetId,
+                service: selectedService,
+                bookingData: {
+                    timestamp: timestamp,
+                    bookingId: bookingId,
+                    name: bookingData.name,
+                    phone: bookingData.phone,
+                    address: fullAddress,
+                    carType: bookingData.carType,
+                    carBrandModel: `${bookingData.carBrand} ${bookingData.carModel}`,
+                    carPlateNumber: bookingData.carPlateNumber,
+                    serviceType: serviceText,
+                    date: bookingData.date,
+                    time: bookingData.time,
+                    paymentMethod: paymentMethodText[bookingData.paymentMethod],
+                    finalAmount: bookingData.finalAmount,
+                    promoCode: bookingData.promoCode || 'None',
+                    utmSource: utmParams.utm_source || '',
+                    utmCampaign: utmParams.utm_campaign || ''
+                }
             };
             
             try {
-                await fetch(config.googleAppsScriptUrl, {
+                const response = await fetch(config.googleAppsScriptUrl, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
+                        'Content-Type': 'application/json'
                     },
-                    body: new URLSearchParams(payload).toString()
+                    body: JSON.stringify(payload)
                 });
+                const result = await response.text();
+                console.log(result);
             } catch (error) {
                 console.error('Apps Script submission error:', error);
             }
@@ -1296,5 +1226,5 @@ Please confirm my booking. Thank you! 🙏`;
             }
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97f2c49a43757ecd',t:'MTc1Nzg4MzE0Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
