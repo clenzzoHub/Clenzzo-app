@@ -246,7 +246,7 @@
         // Centralized Configuration:
         const config = {
             // Your Google Apps Script Web App URL
-            googleAppsScriptUrl: 'https://script.google.com/macros/s/AKfycbyHEfqZacXEHdGwLV91Gr5n74xI1jVOp1W0eg1GiEUOJrLtWTJC0x3BFtg_vDH2VT1d/exec',
+            googleAppsScriptUrl: 'https://script.google.com/macros/s/AKfycbyJDqG-ePJqyj2nP4zK5LvioG6-1Y_F0TP-MPjKGB9WPzxEWqZ2VyVbLzM2sQeb3uAh/exec',
             
             // Your Google Sheet ID where data will be stored
             googleSheetId: '1uhfBTPrdgkIa7sh9Ptg_9cp6NeJC-oHaNJYenQiRH7E'
@@ -621,7 +621,7 @@
                             if (value.length >= 3) {
                                 formattedValue += '-' + value.substring(2, 4);
                             }
-                            // The third part can be one or two letters
+                            // Third part can have one or two letters.
                             let thirdPart = value.substring(4);
                             let thirdPartLetters = thirdPart.replace(/[^A-Z]/g, '');
                             let thirdPartNumbers = thirdPart.replace(/[^0-9]/g, '');
@@ -629,7 +629,9 @@
                             if (thirdPartLetters.length > 0) {
                                 formattedValue += '-' + thirdPartLetters.substring(0, 2);
                             }
-                            if (thirdPartLetters.length >= 1 && thirdPartNumbers.length > 0) {
+                            if (thirdPartLetters.length === 1 && thirdPartNumbers.length > 0) {
+                                formattedValue += '-' + thirdPartNumbers.substring(0, 4);
+                            } else if (thirdPartLetters.length === 2) {
                                 formattedValue += '-' + thirdPartNumbers.substring(0, 4);
                             }
 
