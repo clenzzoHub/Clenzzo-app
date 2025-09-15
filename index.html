@@ -243,6 +243,75 @@
     </style>
 
     <script>
+        // Centralized Configuration: Update these values with your actual form URLs and entry IDs.
+        // You can find the correct entry IDs by using the "Get pre-filled link" feature in Google Forms.
+        const config = {
+            formUrls: {
+                trial: 'https://docs.google.com/forms/d/e/1FAIpQLSfyWZN_zSxbf9TufnJH9ykMAB_qy-7OGYxBoIi-sVw6BPxIeg/formResponse',
+                booking: 'https://docs.google.com/forms/d/e/1FAIpQLSeEb1gWcNuYDaDaKOs_kMw5ZmOcVsLA0onaQAUkiCh3b7sNkw/formResponse', 
+                subscription: 'https://docs.google.com/forms/d/e/1FAIpQLSeT4VJKEkW6eTmM9sxuqHCHH1WprW753h7DugOCPRCHQNaOWg/formResponse'
+            },
+            formEntryIds: {
+                trial: {
+                    bookingId: 'entry.1015123950',
+                    name: 'entry.1910210590',
+                    phone: 'entry.1122462657',
+                    address: 'entry.1085499938',
+                    carBrandModel: 'entry.2117516253',
+                    serviceType: 'entry.227225821',
+                    date: 'entry.757744008',
+                    time: 'entry.1208122204',
+                    carType: 'entry.475575542',
+                    promoCode: 'entry.36163512',
+                    finalAmount: 'entry.1625597973',
+                    serviceDate: 'entry.425157244',
+                    timestamp: 'entry.121314947',
+                    confirmed: 'entry.535336398',
+                    paymentMethod: 'entry.42965593',
+                    utmSource: 'entry.1915593687',
+                    utmCampaign: 'entry.1409810552'
+                },
+                booking: {
+                    bookingId: 'entry.1015123950',
+                    name: 'entry.1910210590',
+                    phone: 'entry.1122462657',
+                    address: 'entry.1085499938',
+                    carBrandModel: 'entry.2117516253',
+                    serviceType: 'entry.227225821',
+                    date: 'entry.757744008',
+                    time: 'entry.1208122204',
+                    carType: 'entry.475575542',
+                    promoCode: 'entry.36163512',
+                    finalAmount: 'entry.1625597973',
+                    serviceDate: 'entry.425157244',
+                    timestamp: 'entry.121314947',
+                    confirmed: 'entry.535336398',
+                    paymentMethod: 'entry.42965593',
+                    utmSource: 'entry.1915593687',
+                    utmCampaign: 'entry.1409810552'
+                },
+                subscription: {
+                    bookingId: 'entry.1015123950',
+                    name: 'entry.1910210590',
+                    phone: 'entry.1122462657',
+                    address: 'entry.1085499938',
+                    carBrandModel: 'entry.2117516253',
+                    serviceType: 'entry.227225821',
+                    date: 'entry.757744008',
+                    time: 'entry.1208122204',
+                    carType: 'entry.475575542',
+                    promoCode: 'entry.36163512',
+                    finalAmount: 'entry.1625597973',
+                    serviceDate: 'entry.425157244',
+                    timestamp: 'entry.121314947',
+                    confirmed: 'entry.535336398',
+                    paymentMethod: 'entry.42965593',
+                    utmSource: 'entry.1915593687',
+                    utmCampaign: 'entry.1409810552'
+                }
+            }
+        };
+
         // App State
         let currentStep = 1;
         let selectedService = '';
@@ -251,77 +320,6 @@
         let bookingId = '';
         let whatsappMessage = '';
         
-        // Google Forms URLs
-        const formUrls = {
-            trial: 'https://docs.google.com/forms/d/e/1FAIpQLSeCJJUVxPr0_k1yqSp-26buK3c-iKJeX8ShBJR9oy0b3hhYZA/formResponse',
-            booking: 'https://docs.google.com/forms/d/e/1FAIpQLSc5XF4-jTwlm_UiOTlhcL9h5VohViARN1XCYdgHGMcxpEtCYA/formResponse', 
-            subscription: 'https://docs.google.com/forms/d/e/1FAIpQLSdTjPkov4BqDrW0FlFU5efd5nQo8OF5U6aBtWnawRG3yLlQUA/formResponse'
-        };
-        
-        // Entry IDs for each form
-        // NOTE: These IDs are based on the URLs you provided. It is HIGHLY recommended
-        // that you verify these using the 'Get pre-filled link' feature in Google Forms
-        // to ensure they are correct and have not changed.
-        const formEntryIds = {
-            trial: {
-                bookingId: 'entry.612482354',
-                name: 'entry.276267864',
-                phone: 'entry.1095791774',
-                address: 'entry.1192270348',
-                carBrandModel: 'entry.601209241',
-                serviceType: 'entry.1827189316',
-                date: 'entry.1533069335',
-                time: 'entry.1690949788',
-                carType: 'entry.2121440745',
-                promoCode: 'entry.2083364105',
-                finalAmount: 'entry.705004841',
-                serviceDate: 'entry.519313888',
-                timestamp: 'entry.2087895684',
-                confirmed: 'entry.1648812075',
-                paymentMethod: 'entry.634080382',
-                utmSource: 'entry.2008690016',
-                utmCampaign: 'entry.914857687'
-            },
-            booking: {
-                bookingId: 'entry.612482354',
-                name: 'entry.276267864',
-                phone: 'entry.1095791774',
-                address: 'entry.1192270348',
-                carBrandModel: 'entry.601209241',
-                serviceType: 'entry.1827189316',
-                date: 'entry.1533069335',
-                time: 'entry.1690949788',
-                carType: 'entry.2121440745',
-                promoCode: 'entry.2083364105',
-                finalAmount: 'entry.705004841',
-                serviceDate: 'entry.519313888',
-                timestamp: 'entry.2087895684',
-                confirmed: 'entry.1648812075',
-                paymentMethod: 'entry.634080382',
-                utmSource: 'entry.2008690016',
-                utmCampaign: 'entry.914857687'
-            },
-            subscription: {
-                bookingId: 'entry.612482354',
-                name: 'entry.276267864',
-                phone: 'entry.1095791774',
-                address: 'entry.1192270348',
-                carBrandModel: 'entry.601209241',
-                serviceType: 'entry.1827189316',
-                date: 'entry.1533069335',
-                time: 'entry.1690949788',
-                carType: 'entry.2121440745',
-                promoCode: 'entry.2083364105',
-                finalAmount: 'entry.705004841',
-                serviceDate: 'entry.519313888',
-                timestamp: 'entry.2087895684',
-                confirmed: 'entry.1648812075',
-                paymentMethod: 'entry.634080382',
-                utmSource: 'entry.2008690016',
-                utmCampaign: 'entry.914857687'
-            }
-        };
-
         // Serviceable pincodes (starting with 62 for Trichy)
         const serviceablePincodes = [
             '620001', '620002', '620003', '620004', '620005', '620006', '620007', '620008', '620009', '620010',
@@ -1019,7 +1017,7 @@
 
         async function submitToGoogleFormsSilently(timestamp) {
             // Get the specific entry IDs for the selected service
-            const entryIds = formEntryIds[selectedService];
+            const entryIds = config.formEntryIds[selectedService];
 
             // Create full address string
             const fullAddress = `${bookingData.address.plot}, ${bookingData.address.street}, ${bookingData.address.area}, ${bookingData.address.locality}${bookingData.address.landmark ? ', ' + bookingData.address.landmark : ''}, ${bookingData.address.city} - ${bookingData.address.pincode}`;
@@ -1069,7 +1067,7 @@
             formData.append(entryIds.utmCampaign, utmParams.utm_campaign || '');
             
             // Submit to the appropriate Google Form
-            const formUrl = formUrls[selectedService];
+            const formUrl = config.formUrls[selectedService];
             
             try {
                 // Submit via fetch for primary method
@@ -1168,7 +1166,7 @@ Service: ${serviceDetails}
 ${discountInfo}
 ${bookingData.promoCode ? `🎟️ Promo Code: ${bookingData.promoCode} (Additional 25% OFF)\n` : ''}💳 Payment Method: ${paymentMethodText[bookingData.paymentMethod]}
 
-*💵 FINAL AMOUNT: ₹${bookingData.finalAmount}*
+*💵 FINAL AMOUNT: ₹${bookingId}*
 
 Please confirm my booking. Thank you! 🙏`;
         }
@@ -1221,4 +1219,3 @@ Please confirm my booking. Thank you! 🙏`;
     </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97f2c49a43757ecd',t:'MTc1Nzg4MzE0Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
-
