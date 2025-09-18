@@ -1,0 +1,1930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clenzzo - Professional Waterless Car Cleaning Service</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'brand': '#00A89C', // Teal
+                        'accent': '#FF6B35', // Orange
+                        'dark-bg': '#121212',
+                        'dark-card': '#1E1E1E',
+                        'dark-text': '#E0E0E0',
+                        'dark-subtext': '#B0B0B0',
+                        'dark-border': '#333333',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes bg-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes pulse-btn {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .animated-bg {
+            background: linear-gradient(-45deg, #121212, #212121, #121212);
+            background-size: 400% 400%;
+            animation: bg-animation 15s ease infinite;
+        }
+
+        .btn-pulse {
+            animation: pulse-btn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .lottie-success {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body class="font-inter animated-bg min-h-screen relative overflow-x-hidden text-dark-text">
+
+    <div id="notification" class="fixed top-4 right-4 z-50 hidden transform transition-all duration-300">
+        <div class="bg-dark-card border border-dark-border border-l-4 rounded-lg shadow-lg p-4 max-w-sm">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <span id="notificationIcon" class="text-green-500 text-xl">✔</span>
+                </div>
+                <div class="ml-3">
+                    <p id="notificationText" class="text-sm font-medium">Success!</p>
+                </div>
+                <button onclick="hideNotification()" class="ml-auto text-dark-subtext hover:text-dark-text transition-colors duration-200">
+                    <span class="sr-only">Close</span>
+                    <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="loadingSpinner" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center">
+        <div class="bg-dark-card rounded-lg p-8 text-center shadow-xl">
+            <div class="animate-spin rounded-full h-16 w-16 border-4 border-gray-700 border-t-brand mx-auto mb-6"></div>
+            <p class="text-dark-text font-semibold text-lg mb-2">Processing your booking...</p>
+            <p class="text-dark-subtext text-sm">Please wait while we confirm your details</p>
+        </div>
+    </div>
+
+    <div id="servicePopup" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-dark-card rounded-xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto border border-dark-border">
+            <div id="popupContent" class="p-6">
+                </div>
+        </div>
+    </div>
+
+    <div class="min-h-screen">
+        
+        <div id="homeScreen" class="container mx-auto px-4 py-6 max-w-5xl relative z-10">
+            
+            <div class="text-center mb-8 relative">
+                <a href="https://www.clenzzo.com" target="_blank" class="absolute left-0 top-0 ml-4 mt-2 p-2 rounded-full bg-gray-800 text-dark-subtext hover:bg-gray-700 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                </a>
+                <div class="flex flex-col items-center justify-center mb-1">
+                    <img src="https://lh3.googleusercontent.com/d/1mAxNMp4-N-4FpIi_BPZZfCCaK5RCxVUH" alt="Clenzzo Logo" class="h-10 mb-2" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <h1 class="text-3xl font-bold text-brand hidden">Clenzzo</h1>
+                </div>
+                <p class="text-dark-subtext text-lg font-medium mb-4">Cleaning made simple</p>
+                
+                <h2 class="text-3xl font-bold text-dark-text mb-2">
+                    Vanakkam <span class="text-brand">Trichy</span>
+                </h2>
+                <p class="text-dark-subtext text-lg mb-8">
+                    Choose your option to get started
+                </p>
+            </div>
+
+            <div id="resumeBooking" class="hidden mb-8 text-center">
+                <button onclick="resumeBookingFlow()" class="bg-blue-600 text-white py-3 px-6 rounded-xl font-semibold hover:bg-blue-700 transition-colors">
+                    <span class="mr-2">🔄</span> Resume Your Booking
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <div class="bg-dark-card rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 p-8 border border-dark-border relative overflow-hidden flex flex-col">
+                    <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-orange-400 to-red-500"></div>
+                    
+                    <div class="text-center relative z-10 flex-1 flex flex-col">
+                        <div class="mb-6">
+                            <h3 class="text-2xl font-bold text-dark-text mb-2">One-Time Service</h3>
+                            <p class="text-dark-subtext">Deep clean interior & exterior</p>
+                        </div>
+                        
+                        <div class="mb-6 flex-1 flex flex-col justify-center">
+                            <div class="flex items-center justify-center space-x-3 mb-3">
+                                <span class="text-4xl font-bold text-orange-400">₹450</span>
+                                <span class="text-xl line-through text-dark-subtext">₹600</span>
+                            </div>
+                            <div class="mb-6"></div>
+                            <div class="bg-orange-900/40 text-orange-400 px-4 py-2 rounded-full text-sm font-semibold inline-block">
+                                Save ₹150 • 25% OFF
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-3 mb-6 text-center flex-1">
+                            <div class="flex items-start justify-center text-dark-subtext">
+                                <span class="text-green-500 mr-3">✔</span>
+                                <span class="text-sm">Interior deep cleaning</span>
+                            </div>
+                            <div class="flex items-start justify-center text-dark-subtext">
+                                <span class="text-green-500 mr-3">✔</span>
+                                <span class="text-sm">Exterior washing & polishing</span>
+                            </div>
+                            <div class="flex items-start justify-center text-dark-subtext">
+                                <span class="text-green-500 mr-3">✔</span>
+                                <span class="text-sm">30-minute quick service</span>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-3 mt-auto">
+                            <button class="service-card w-full bg-gradient-to-r from-orange-500 to-red-600 text-white py-4 rounded-xl font-bold text-lg hover:from-orange-600 hover:to-red-700 transition-all duration-300 shadow-lg" data-service="booking">
+                                Book Now
+                            </button>
+                            <button class="service-card w-full bg-gradient-to-r from-teal-500 to-cyan-600 text-white py-3 rounded-xl font-semibold hover:from-teal-600 hover:to-cyan-700 transition-all duration-300 border-2 border-brand" data-service="trial" data-trial-type="deep">
+                                🔥 Try First - ₹150 Deep Clean
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-dark-card rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 p-8 border border-dark-border relative overflow-hidden flex flex-col">
+                    <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-green-500 to-brand"></div>
+                    
+                    <div class="text-center relative z-10 flex-1 flex flex-col">
+                        <div class="mb-6">
+                            <h3 class="text-2xl font-bold text-dark-text mb-2">Subscription Plans</h3>
+                            <p class="text-dark-subtext">Daily cleaning with monthly deep service</p>
+                        </div>
+                        
+                        <div class="mb-6 flex-1 flex flex-col justify-center">
+                            <div class="text-sm text-dark-subtext mb-2">Starting from</div>
+                            <div class="flex items-center justify-center space-x-3 mb-3">
+                                <span class="text-4xl font-bold text-green-500">₹900</span>
+                                <span class="text-xl line-through text-dark-subtext">₹1200</span>
+                            </div>
+                            <div class="text-xs text-dark-subtext mb-3">per month</div>
+                            <div class="bg-green-900/40 text-green-400 px-4 py-2 rounded-full text-sm font-semibold inline-block">
+                                Save up to ₹3600 yearly
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-3 mb-6 text-center flex-1">
+                            <div class="flex items-start justify-center text-dark-subtext">
+                                <span class="text-green-500 mr-3">✔</span>
+                                <span class="text-sm">Daily exterior cleaning</span>
+                            </div>
+                            <div class="flex items-start justify-center text-dark-subtext">
+                                <span class="text-green-500 mr-3">✔</span>
+                                <span class="text-sm">Monthly interior deep clean</span>
+                            </div>
+                            <div class="flex items-start justify-center text-dark-subtext">
+                                <span class="text-green-500 mr-3">✔</span>
+                                <span class="text-sm">Flexible plans available</span>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-3 mt-auto">
+                            <button class="service-card w-full bg-gradient-to-r from-green-500 to-teal-500 text-white py-4 rounded-xl font-bold text-lg hover:from-green-600 hover:to-teal-600 transition-all duration-300 shadow-lg" data-service="subscription">
+                                Subscribe Now
+                            </button>
+                            <button class="service-card w-full bg-gradient-to-r from-teal-500 to-cyan-500 text-white py-3 rounded-xl font-semibold hover:from-teal-600 hover:to-cyan-600 transition-all duration-300 border-2 border-brand" data-service="trial" data-trial-type="daily">
+                                🔥 Try First - ₹100 (3-Day Daily)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-dark-card rounded-lg shadow-lg p-6 mb-8 border border-dark-border">
+                <div class="text-center mb-6">
+                    <h3 class="text-xl font-bold mb-2 text-dark-text">Why Choose Clenzzo?</h3>
+                    <div class="w-20 h-1 bg-brand rounded-full mx-auto"></div>
+                </div>
+                
+                <div class="space-y-4">
+                    <ul class="text-dark-subtext space-y-3">
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-3">✔</span>
+                            <span><strong class="text-dark-text">🏆 Professional Service:</strong> Trained professionals with years of experience and expert car care specialists</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-3">✔</span>
+                            <span><strong class="text-dark-text">♻️ Eco-Friendly Products:</strong> Waterless cleaning technology that's safe for the environment with no harmful chemicals</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-3">✔</span>
+                            <span><strong class="text-dark-text">🏡 Doorstep Service:</strong> Convenient service at your home or office - no need to travel anywhere</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-3">✔</span>
+                            <span><strong class="text-dark-text">🗓️ Flexible Scheduling:</strong> Book at your preferred time with easy rescheduling and same-day service options</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-3">✔</span>
+                            <span><strong class="text-dark-text">💰 Best Value:</strong> Quality service guaranteed with competitive pricing and attractive discounts</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-3">✔</span>
+                            <span><strong class="text-dark-text">⚡ Quick Service:</strong> Professional 30-minute service that fits your busy schedule</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="text-center bg-dark-card rounded-lg p-6 mb-6 shadow-lg border border-dark-border">
+                <p class="text-dark-subtext mb-3 text-sm font-medium">Need help? Call us anytime!</p>
+                <a href="tel:+918122213141" class="inline-flex items-center justify-center gap-3 bg-brand text-white px-6 py-3 rounded-lg font-bold text-lg hover:bg-teal-600 transition-colors duration-300 shadow-lg">
+                    <span class="text-xl">📞</span>
+                    +91 81222 13141
+                </a>
+                
+            </div>
+        </div>
+
+        <div id="bookingFlow" class="hidden">
+            
+            <div class="bg-dark-card shadow-lg border-b border-dark-border">
+                <div class="container mx-auto px-4 py-6 max-w-2xl">
+                    <div class="flex items-center justify-between mb-4">
+                        <button id="backButton" class="flex items-center text-brand hover:text-teal-600 font-semibold transition-colors duration-300 bg-gray-800 px-4 py-2 rounded-lg hover:bg-gray-700">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                            </svg>
+                            Back
+                        </button>
+                        <span id="stepIndicator" class="text-sm text-dark-subtext font-semibold bg-gray-800 px-4 py-2 rounded-full">Step 1 of 12</span>
+                    </div>
+                    <div class="w-full bg-gray-700 rounded-full h-3">
+                        <div id="progressBar" class="bg-brand h-3 rounded-full transition-all duration-700" style="width: 10%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container mx-auto px-4 py-8 max-w-lg">
+                <div id="stepContent" class="bg-dark-card rounded-lg shadow-lg p-8 border border-dark-border">
+                    </div>
+            </div>
+        </div>
+
+        <div id="summaryScreen" class="hidden container mx-auto px-4 py-8 max-w-lg">
+            <div class="bg-dark-card rounded-lg shadow-lg p-8 border border-dark-border">
+                <h2 class="text-3xl font-bold text-dark-text mb-8 text-center">📋 Booking Summary</h2>
+                <div id="summaryContent" class="space-y-4 mb-8">
+                    </div>
+                <div class="flex space-x-4">
+                    <button id="editBookingBtn" class="flex-1 bg-gray-700 text-dark-text py-4 px-4 rounded-lg font-semibold hover:bg-gray-600 transition-colors duration-300">
+                        ✍️ Edit Details
+                    </button>
+                    <button id="confirmBookingBtn" class="flex-1 bg-green-600 text-white py-4 px-4 rounded-lg font-semibold hover:bg-green-700 transition-colors duration-300 flex items-center justify-center shadow-lg">
+                        <span class="mr-2">📱</span>
+                        Confirm via WhatsApp
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="successScreen" class="hidden container mx-auto px-4 py-8 max-w-lg">
+            <div class="bg-dark-card rounded-lg shadow-lg p-8 text-center border border-dark-border">
+                <div class="lottie-success">
+                    <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_tmmg8cwx.json"  background="transparent"  speed="1" autoplay></lottie-player>
+                </div>
+                <h2 class="text-3xl font-bold text-green-500 mb-3">Booking Confirmed!</h2>
+                <p class="text-dark-subtext mb-8 text-lg">Thank you <span id="customerNameDisplay" class="font-bold text-brand"></span>! Your booking has been submitted successfully.</p>
+                
+                <div class="bg-brand/20 border-2 border-brand/30 rounded-lg p-6 mb-8">
+                    <p class="text-sm text-brand font-semibold mb-2">🔖 Booking Reference</p>
+                    <p id="bookingReference" class="text-2xl font-bold text-brand"></p>
+                </div>
+
+                <div class="bg-orange-900/40 border-2 border-orange-700/50 rounded-lg p-6 mb-8">
+                    <p class="text-sm text-orange-400 font-semibold mb-3">📞 Customer Support</p>
+                    <a href="tel:+918122213141" class="inline-flex items-center justify-center gap-2 bg-orange-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-orange-700 transition-colors duration-300">
+                        <span class="text-lg">📞</span>
+                        +91 81222 13141
+                    </a>
+                </div>
+
+                <div class="space-y-4">
+                    <button id="copyDetailsBtn" class="w-full bg-gray-700 text-dark-text py-4 rounded-lg font-semibold hover:bg-gray-600 transition-colors duration-300 flex items-center justify-center">
+                        <span class="mr-2">📋</span>
+                        Copy Booking Details
+                    </button>
+                    <button id="newBookingBtn" class="w-full bg-brand text-white py-4 rounded-lg font-semibold hover:bg-teal-600 transition-colors duration-300">
+                        🚗 Book Another Service
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="bg-dark-bg text-white p-8 text-center mt-auto">
+        <a id="installAppBtn" class="text-gray-500 hover:text-white transition-colors text-sm mb-4 inline-block cursor-pointer">Install App</a>
+        <div class="mb-4">
+            <img src="https://lh3.googleusercontent.com/d/1mAxNMp4-N-4FpIi_BPZZfCCaK5RCxVUH" alt="Clenzzo Logo" class="h-8 mx-auto mb-2 opacity-80" onerror="this.style.display='none';">
+        </div>
+        <p class="text-sm text-gray-500">Built with ❤️ by Clenzzo Team</p>
+        <p class="text-sm text-gray-500">&copy; 2024 Clenzzo. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Application State
+        let currentStep = 1;
+        let selectedService = '';
+        let bookingData = {};
+        let bookingReference = '';
+        let whatsappMessage = '';
+        
+        // Add to Home Screen prompt
+        let a2hsPrompt;
+
+        // Service Areas (Trichy pincodes) - Full List
+        const serviceablePincodes = [
+            '620001', '620002', '620003', '620004', '620005', '620006', '620007', '620008', '620009', '620010',
+            '620011', '620012', '620013', '620014', '620015', '620016', '620017', '620018', '620019', '620020',
+            '620021', '620022', '620023', '620024', '620025', '620026', '620027', '620028', '620029', '620030',
+            '620031', '620032', '620101', '620102', '620103', '621001', '621002', '621003', '621004', '621005',
+            '621006', '621007', '621008', '621009', '621010', '621011', '621012', '621013', '621014', '621101',
+            '621102', '621103', '621104', '621105', '621106', '621107', '621108', '621109', '621110', '621111',
+            '621112', '621113', '621114', '621115', '621116', '621201', '621202', '621203', '621204', '621205',
+            '621206', '621207', '621208', '621209', '621210', '621211', '621212', '621213', '621214', '621215',
+            '621216', '621217', '621218', '621219', '621220', '621221', '621222', '621223', '621301', '621302',
+            '621303', '621304', '621305', '621306', '621307', '621308', '621309', '621310', '621311', '621312',
+            '621313', '621314', '621315', '621601', '621602', '621603', '621604', '621605', '621606', '621607',
+            '621608', '621609', '621651', '621701', '621702', '621703', '621704', '621705', '621706', '621707',
+            '621708', '621709', '621710', '621711', '621712', '621713'
+        ];
+
+        // Car Database - Complete Indian Market
+        const carBrands = {
+            'Maruti Suzuki': ['Alto 800', 'Alto K10', 'Swift', 'Swift Dzire', 'Baleno', 'Vitara Brezza', 'Ertiga', 'Ciaz', 'XL6', 'S-Cross', 'Wagon R', 'Celerio', 'Ignis', 'Jimny', 'Grand Vitara', 'Fronx', 'Invicto'],
+            'Hyundai': ['i10 NIOS', 'i20', 'i20 N Line', 'Verna', 'Creta', 'Venue', 'Tucson', 'Elantra', 'Santro', 'Grand i10', 'Alcazar', 'Kona Electric', 'Ioniq 5'],
+            'Tata': ['Tiago', 'Tigor', 'Nexon', 'Harrier', 'Safari', 'Altroz', 'Punch', 'Hexa', 'Nexon EV', 'Tigor EV', 'Tiago EV', 'Punch EV', 'Harrier EV', 'Safari EV', 'Curvv', 'Curvv EV', 'Sierra EV'],
+            'Mahindra': ['Bolero', 'Scorpio', 'Scorpio N', 'Scorpio Classic', 'XUV300', 'XUV400', 'XUV500', 'XUV700', 'Thar', 'KUV100', 'Marazzo', 'XUV400 EV', 'XUV.e8', 'XUV.e9', 'BE.05', 'BE.07'],
+            'Honda': ['City', 'City Hybrid', 'Amaze', 'Jazz', 'WR-V', 'CR-V', 'Civic', 'Accord Hybrid', 'City e:HEV'],
+            'Toyota': ['Innova Crysta', 'Innova Hycross', 'Fortuner', 'Glanza', 'Urban Cruiser Hyryder', 'Camry', 'Yaris', 'Vellfire', 'Land Cruiser', 'Hilux', 'Rumion', 'Camry Hybrid', 'Vellfire Hybrid'],
+            'Kia': ['Seltos', 'Sonet', 'Carnival', 'Carens', 'EV6'],
+            'Renault': ['Kwid', 'Duster', 'Triber', 'Kiger'],
+            'Nissan': ['Magnite', 'Kicks', 'GT-R', 'X-Trail', 'Leaf'],
+            'Ford': ['EcoSport', 'Endeavour', 'Figo', 'Aspire', 'Mustang'],
+            'Skoda': ['Rapid', 'Octavia', 'Superb', 'Kushaq', 'Slavia', 'Kodiaq', 'Enyaq iV'],
+            'Volkswagen': ['Polo', 'Vento', 'Tiguan', 'Taigun', 'Virtus', 'T-Roc', 'ID.4'],
+            'MG Motor': ['Hector', 'Hector Plus', 'Astor', 'ZS EV', 'Comet EV', 'Air EV', 'Windsor EV'],
+            'Jeep': ['Compass', 'Meridian', 'Wrangler', 'Grand Cherokee'],
+            'BMW': ['1 Series', '2 Series Gran Coupe', '3 Series', '5 Series', '7 Series', 'X1', 'X3', 'X5', 'X7', 'Z4', 'i4', 'iX', 'i7', 'iX1'],
+            'Mercedes-Benz': ['A-Class Limousine', 'C-Class', 'E-Class', 'S-Class', 'GLA', 'GLB', 'GLC', 'GLE', 'GLS', 'AMG GT', 'EQB', 'EQC', 'EQS', 'EQE'],
+            'Audi': ['A3', 'A4', 'A6', 'A8', 'Q2', 'Q3', 'Q5', 'Q7', 'Q8', 'RS Q8', 'e-tron', 'e-tron GT', 'Q4 e-tron'],
+            'Volvo': ['XC40', 'XC60', 'XC90', 'S60', 'S90', 'XC40 Recharge', 'C40 Recharge'],
+            'Jaguar': ['XE', 'XF', 'XJ', 'F-Pace', 'E-Pace', 'I-Pace'],
+            'Land Rover': ['Discovery Sport', 'Discovery', 'Range Rover Evoque', 'Range Rover Velar', 'Range Rover Sport', 'Range Rover'],
+            'Porsche': ['Macan', 'Cayenne', '911', 'Panamera', 'Taycan'],
+            'Lexus': ['ES', 'LS', 'NX', 'LX'],
+            'Isuzu': ['D-Max V-Cross', 'MU-X'],
+            'Force Motors': ['Gurkha', 'Trax'],
+            'Bajaj': ['Qute'],
+            'Citroen': ['C3', 'C5 Aircross', 'eC3'],
+            'BYD': ['Atto 3', 'e6'],
+            'Tesla': ['Model 3', 'Model S', 'Model X', 'Model Y'],
+            'Lucid Motors': ['Air'],
+            'Rivian': ['R1T', 'R1S'],
+            'Polestar': ['Polestar 2', 'Polestar 3'],
+            'Ola Electric': ['S1', 'S1 Pro', 'S1 Air'],
+            'Ather Energy': ['450X', '450 Plus'],
+            'TVS': ['iQube Electric'],
+            'Bajaj Auto': ['Chetak Electric'],
+            'Hero Electric': ['Photon', 'Optima', 'NYX'],
+            'Revolt Motors': ['RV400', 'RV300']
+        };
+
+        // Service Pricing
+        const servicePricing = {
+            trial: { 
+                daily: { original: 1200, discounted: 100, discount: 92 },
+                deep: { original: 600, discounted: 150, discount: 75 }
+            },
+            booking: { original: 600, discounted: 450, discount: 25 },
+            subscription: { 
+                monthly: { original: 1200, discounted: 900, discount: 25 },
+                quarterly: { original: 3600, discounted: 2700, discount: 25 },
+                yearly: { original: 14400, discounted: 10800, discount: 25 }
+            }
+        };
+
+        // Initialize Application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+        });
+
+        function initializeApp() {
+            loadSavedData();
+            setupEventListeners();
+            captureUTMParameters();
+            setupInstallButton();
+        }
+
+        function loadSavedData() {
+            const saved = localStorage.getItem('clenzzo_booking_data');
+            if (saved) {
+                try {
+                    const savedData = JSON.parse(saved);
+                    // Check if the data is a complete booking object
+                    if (savedData.currentStep && savedData.currentStep > 1) {
+                         bookingData = savedData;
+                         currentStep = bookingData.currentStep;
+                         selectedService = bookingData.service;
+                         document.getElementById('resumeBooking').classList.remove('hidden');
+                    } else {
+                        // Old format, load only basic info
+                        bookingData = { ...savedData };
+                    }
+                } catch (e) {
+                    console.log('Error loading saved data:', e);
+                }
+            }
+        }
+
+        function saveDataToStorage() {
+            const dataToSave = { ...bookingData, currentStep: currentStep };
+            localStorage.setItem('clenzzo_booking_data', JSON.stringify(dataToSave));
+        }
+
+        function resumeBookingFlow() {
+            showScreen('bookingFlow');
+            renderCurrentStep();
+        }
+
+        function captureUTMParameters() {
+            const urlParams = new URLSearchParams(window.location.search);
+            bookingData.utm = {
+                source: urlParams.get('utm_source') || '',
+                medium: urlParams.get('utm_medium') || '',
+                campaign: urlParams.get('utm_campaign') || '',
+                term: urlParams.get('utm_term') || '',
+                content: urlParams.get('utm_content') || ''
+            };
+        }
+
+        function setupEventListeners() {
+            // Service card selection
+            document.querySelectorAll('.service-card').forEach(card => {
+                card.addEventListener('click', function(e) {
+                    e.target.classList.add('btn-pulse');
+                    e.target.addEventListener('animationend', () => {
+                        e.target.classList.remove('btn-pulse');
+                    }, { once: true });
+
+                    selectedService = this.dataset.service;
+                    
+                    // Handle trial service with pre-selected type
+                    if (selectedService === 'trial' && this.dataset.trialType) {
+                        bookingData.trialType = this.dataset.trialType;
+                        
+                        // Show popup for both trial types
+                        showServicePopup(selectedService);
+                    } else if (selectedService === 'trial') {
+                        showServicePopup(selectedService);
+                    } else {
+                        showServicePopup(selectedService);
+                    }
+                });
+            });
+
+            // Navigation buttons
+            document.getElementById('backButton').addEventListener('click', handleBackNavigation);
+            document.getElementById('editBookingBtn').addEventListener('click', editBooking);
+            document.getElementById('confirmBookingBtn').addEventListener('click', confirmBooking);
+            document.getElementById('copyDetailsBtn').addEventListener('click', copyBookingDetails);
+            document.getElementById('newBookingBtn').addEventListener('click', startNewBooking);
+            
+        }
+
+        function showServicePopup(service) {
+            const popup = document.getElementById('servicePopup');
+            const content = document.getElementById('popupContent');
+            
+            content.innerHTML = getServicePopupContent(service);
+            popup.classList.remove('hidden');
+            
+            // Setup popup event listeners
+            document.getElementById('closePopup').addEventListener('click', hideServicePopup);
+            document.getElementById('proceedBooking').addEventListener('click', function(e) {
+                e.target.classList.add('btn-pulse');
+                e.target.addEventListener('animationend', () => {
+                    e.target.classList.remove('btn-pulse');
+                }, { once: true });
+                hideServicePopup();
+                startBookingFlow();
+            });
+            
+            // Setup trial option selection for trial service
+            if (service === 'trial') {
+                document.querySelectorAll('.trial-option').forEach(option => {
+                    option.addEventListener('click', function() {
+                        document.querySelectorAll('.trial-option').forEach(opt => {
+                            opt.classList.remove('border-red-400', 'bg-red-50');
+                        });
+                        this.classList.add('border-red-400', 'bg-red-50');
+                        bookingData.trialType = this.dataset.trial;
+                        
+                        const btn = document.getElementById('proceedBooking');
+                        btn.classList.remove('bg-gray-700', 'text-gray-500', 'cursor-not-allowed');
+                        btn.classList.add('bg-red-600', 'text-white', 'hover:bg-red-700');
+                        btn.disabled = false;
+                        btn.textContent = 'Book Now';
+                    });
+                });
+            }
+            
+            // Close on backdrop click
+            popup.addEventListener('click', function(e) {
+                if (e.target === popup) {
+                    hideServicePopup();
+                }
+            });
+        }
+
+        function hideServicePopup() {
+            document.getElementById('servicePopup').classList.add('hidden');
+        }
+
+        function getServicePopupContent(service) {
+            if (service === 'trial' && bookingData.trialType === 'daily') {
+                return `
+                    <div class="text-center mb-6">
+                        <h3 class="text-2xl font-bold text-dark-text mb-2">3-Day Daily Cleaning Trial</h3>
+                        <div class="bg-red-900/40 text-red-400 text-sm px-3 py-1 rounded-full font-bold inline-block mb-4">
+                            🔥 HOT DEAL - One time per car only!
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4 mb-6">
+                        <div class="bg-dark-card rounded-lg p-4 border border-dark-border">
+                            <h4 class="font-semibold text-dark-text mb-2">What's Included:</h4>
+                            <ul class="space-y-2 text-sm text-dark-subtext">
+                                <li class="flex items-center"><span class="text-green-500 mr-2">✔</span>Daily exterior cleaning for 3 consecutive days</li>
+                                <li class="flex items-center"><span class="text-green-500 mr-2">✔</span>Scheduled at your preferred time</li>
+                                <li class="flex items-center"><span class="text-green-500 mr-2">✔</span>Eco-friendly waterless technology</li>
+                                <li class="flex items-center"><span class="text-green-500 mr-2">✔</span>Professional service team</li>
+                                <li class="flex items-center"><span class="text-green-500 mr-2">✔</span>Experience our subscription service quality</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-red-900/40 rounded-lg p-4 text-center border border-red-700/50">
+                            <div class="text-3xl font-bold text-red-400 mb-1">₹100</div>
+                            <div class="text-lg line-through text-dark-subtext mb-2">₹1200</div>
+                            <div class="text-sm text-red-400 font-semibold">Experience subscription quality at trial price!</div>
+                        </div>
+                        
+                        <div class="bg-orange-900/40 border border-orange-700/50 rounded-lg p-3 text-center">
+                            <p class="text-sm text-orange-400 font-semibold">⚠️ Important: Each car can avail trial service only once</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex space-x-3">
+                        <button id="closePopup" class="flex-1 bg-gray-700 text-dark-text py-3 rounded-lg font-semibold hover:bg-gray-600 transition-colors">
+                            Maybe Later
+                        </button>
+                        <button id="proceedBooking" class="flex-1 bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors">
+                            Book Now
+                        </button>
+                    </div>
+                `;
+            } else if (service === 'trial' && bookingData.trialType === 'deep') {
+                return `
+                    <div class="text-center mb-6">
+                        <h3 class="text-2xl font-bold text-dark-text mb-2">One-Time Deep Clean Trial</h3>
+                        <div class="bg-red-900/40 text-red-400 text-sm px-3 py-1 rounded-full font-bold inline-block mb-4">
+                            🔥 HOT DEAL - One time per car only!
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4 mb-6">
+                        <div class="bg-dark-card rounded-lg p-4 border border-dark-border">
+                            <h4 class="font-semibold text-dark-text mb-2">What's Included:</h4>
+                            <ul class="space-y-2 text-sm text-dark-subtext">
+                                <li class="flex items-center"><span class="text-green-500 mr-2">✔</span>Complete interior deep cleaning (seats, dashboard, mats)</li>
+                                <li class="flex items-center"><span class="text-green-500 mr-2">✔</span>Exterior washing & polishing</li>
+                                <li class="flex items-center"><span class="text-green-500 mr-2">✔</span>Tire cleaning & shine</li>
+                                <li class="flex items-center"><span class="text-green-500 mr-2">✔</span>Glass cleaning (inside & outside)</li>
+                                <li class="flex items-center"><span class="text-green-500 mr-2">✔</span>Quick 30-minute service</li>
+                                <li class="flex items-center"><span class="text-green-500 mr-2">✔</span>Experience our premium service quality</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-red-900/40 rounded-lg p-4 text-center border border-red-700/50">
+                            <div class="text-3xl font-bold text-red-400 mb-1">₹150</div>
+                            <div class="text-lg line-through text-dark-subtext mb-2">₹600</div>
+                            <div class="text-sm text-red-400 font-semibold">Experience premium quality at trial price!</div>
+                        </div>
+                        
+                        <div class="bg-orange-900/40 border border-orange-700/50 rounded-lg p-3 text-center">
+                            <p class="text-sm text-orange-400 font-semibold">⚠️ Important: Each car can avail trial service only once</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex space-x-3">
+                        <button id="closePopup" class="flex-1 bg-gray-700 text-dark-text py-3 rounded-lg font-semibold hover:bg-gray-600 transition-colors">
+                            Maybe Later
+                        </button>
+                        <button id="proceedBooking" class="flex-1 bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors">
+                            Book Now
+                        </button>
+                    </div>
+                `;
+            } else if (service === 'booking') {
+                return `
+                    <div class="text-center mb-6">
+                        <h3 class="text-2xl font-bold text-dark-text mb-2">One-Time Service</h3>
+                        <div class="bg-orange-900/40 text-orange-400 text-sm px-3 py-1 rounded-full font-bold inline-block mb-4">
+                            ⭐ POPULAR - Save ₹150
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4 mb-6">
+                        <div class="bg-dark-card rounded-lg p-4 border border-dark-border">
+                            <h4 class="font-semibold text-dark-text mb-2">Complete Deep Cleaning:</h4>
+                            <ul class="space-y-2 text-sm text-dark-subtext">
+                                <li class="flex items-center"><span class="text-green-500 mr-2">✔</span>Interior deep cleaning (seats, dashboard, mats)</li>
+                                <li class="flex items-center"><span class="text-green-500 mr-2">✔</span>Exterior washing & polishing</li>
+                                <li class="flex items-center"><span class="text-green-500 mr-2">✔</span>Tire cleaning & shine</li>
+                                <li class="flex items-center"><span class="text-green-500 mr-2">✔</span>Glass cleaning (inside & outside)</li>
+                                <li class="flex items-center"><span class="text-green-500 mr-2">✔</span>Quick 30-minute service</li>
+                                <li class="flex items-center"><span class="text-green-500 mr-2">✔</span>Same-day service available</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-orange-900/40 rounded-lg p-4 text-center border border-orange-700/50">
+                            <div class="text-3xl font-bold text-orange-400 mb-1">₹450</div>
+                            <div class="text-lg line-through text-dark-subtext mb-2">₹600</div>
+                            <div class="text-sm text-orange-400 font-semibold">Most popular choice!</div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex space-x-3">
+                        <button id="closePopup" class="flex-1 bg-gray-700 text-dark-text py-3 rounded-lg font-semibold hover:bg-gray-600 transition-colors">
+                            Maybe Later
+                        </button>
+                        <button id="proceedBooking" class="flex-1 bg-orange-600 text-white py-3 rounded-lg font-semibold hover:bg-orange-700 transition-colors">
+                            Book Now
+                        </button>
+                    </div>
+                `;
+            } else {
+                return `
+                    <div class="text-center mb-6">
+                        <h3 class="text-2xl font-bold text-dark-text mb-2">Subscription Plans</h3>
+                        <p class="text-dark-subtext">Select your preferred plan</p>
+                    </div>
+                    
+                    <div class="space-y-4 mb-6">
+                        <div class="bg-dark-card rounded-lg p-4 border border-dark-border">
+                            <h4 class="font-semibold text-dark-text mb-2">Subscription Benefits:</h4>
+                            <ul class="space-y-2 text-sm text-dark-subtext">
+                                <li class="flex items-center"><span class="text-green-500 mr-2">✔</span>Daily exterior cleaning</li>
+                                <li class="flex items-center"><span class="text-green-500 mr-2">✔</span>Monthly interior deep cleaning</li>
+                                <li class="flex items-center"><span class="text-green-500 mr-2">✔</span>Scheduled at your preferred time</li>
+                                <li class="flex items-center"><span class="text-green-500 mr-2">✔</span>Priority booking</li>
+                                <li class="flex items-center"><span class="text-green-500 mr-2">✔</span>Cancel anytime policy</li>
+                                <li class="flex items-center"><span class="text-green-500 mr-2">✔</span>Maximum savings</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="space-y-3">
+                            <div class="subscription-option border-2 border-dark-border rounded-xl p-4 cursor-pointer hover:border-brand transition-colors" data-plan="monthly">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <div class="font-semibold text-dark-text">Monthly Plan</div>
+                                        <div class="text-sm text-dark-subtext">Save ₹300/month</div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-xl font-bold text-brand">₹900</div>
+                                        <div class="text-dark-subtext line-through text-sm">₹1200</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="subscription-option border-2 border-dark-border rounded-xl p-4 cursor-pointer hover:border-brand transition-colors" data-plan="quarterly">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <div class="font-semibold text-dark-text">Quarterly Plan</div>
+                                        <div class="text-sm text-dark-subtext">Save ₹900 total</div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-xl font-bold text-brand">₹2700</div>
+                                        <div class="text-dark-subtext line-through text-sm">₹3600</div>
+                                        <div class="text-green-500 text-sm font-semibold">Save ₹900</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="subscription-option border-2 border-dark-border rounded-xl p-4 cursor-pointer hover:border-brand transition-colors" data-plan="yearly">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <div class="font-semibold text-dark-text">Yearly Plan</div>
+                                        <div class="text-sm text-green-500 font-semibold">Best Value!</div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-xl font-bold text-brand">₹10800</div>
+                                        <div class="text-dark-subtext line-through text-sm">₹14400</div>
+                                        <div class="text-green-500 text-sm font-semibold">Save ₹3600</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex space-x-3">
+                        <button id="closePopup" class="flex-1 bg-gray-700 text-dark-text py-3 rounded-lg font-semibold hover:bg-gray-600 transition-colors">
+                            Maybe Later
+                        </button>
+                        <button id="proceedBooking" class="flex-1 bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors">
+                            Subscribe Now
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        function startBookingFlow() {
+            currentStep = 1;
+            bookingData.service = selectedService;
+            showScreen('bookingFlow');
+            renderCurrentStep();
+        }
+
+        function showScreen(screenId) {
+            const screens = ['homeScreen', 'bookingFlow', 'summaryScreen', 'successScreen'];
+            screens.forEach(screen => {
+                document.getElementById(screen).classList.add('hidden');
+            });
+            document.getElementById(screenId).classList.remove('hidden');
+        }
+
+        function updateProgress() {
+            const totalSteps = 12;
+            const progress = (currentStep / totalSteps) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('stepIndicator').textContent = `Step ${currentStep} of ${totalSteps}`;
+        }
+
+        function renderCurrentStep() {
+            updateProgress();
+            const content = document.getElementById('stepContent');
+            
+            // Add fade effect
+            content.style.opacity = '0';
+            setTimeout(() => {
+                content.innerHTML = getStepContent(currentStep);
+                content.style.opacity = '1';
+                setupStepEventListeners(currentStep);
+            }, 150);
+        }
+
+        function getStepContent(step) {
+            switch(step) {
+                case 1:
+                    return `
+                        <div class="text-center mb-6">
+                            <h3 class="text-2xl font-bold text-dark-text mb-2">What's your name?</h3>
+                            <p class="text-dark-subtext">Let's start with your full name</p>
+                        </div>
+                        <div class="space-y-4">
+                            <input type="text" id="nameInput" class="w-full p-4 bg-dark-bg text-dark-text border-2 border-dark-border rounded-xl focus:border-brand focus:outline-none transition-colors" placeholder="Enter your full name" value="${bookingData.name || ''}">
+                            <button onclick="validateAndProceed('name', this)" class="w-full bg-brand text-white py-4 rounded-xl font-semibold hover:bg-teal-600 transition-colors">Continue</button>
+                        </div>
+                    `;
+                case 2:
+                    const phoneValue = bookingData.phone ? bookingData.phone.replace('+91', '') : '';
+                    return `
+                        <div class="text-center mb-6">
+                            <h3 class="text-2xl font-bold text-dark-text mb-2">Your phone number</h3>
+                            <p class="text-dark-subtext">We'll use this to confirm your booking</p>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex">
+                                <span class="bg-gray-800 px-4 py-4 border-2 border-r-0 border-dark-border rounded-l-xl text-dark-subtext font-semibold">+91</span>
+                                <input type="tel" id="phoneInput" class="flex-1 p-4 bg-dark-bg text-dark-text border-2 border-dark-border rounded-r-xl focus:border-brand focus:outline-none transition-colors" placeholder="Enter 10-digit mobile number" maxlength="10" value="${phoneValue}">
+                            </div>
+                            <button onclick="validateAndProceed('phone', this)" class="w-full bg-brand text-white py-4 rounded-xl font-semibold hover:bg-teal-600 transition-colors">Continue</button>
+                        </div>
+                    `;
+                case 3:
+                    const addressTypes = ['Independent House', 'Apartment', 'Office', 'Parking Space'];
+                    let addressTypeCardsHtml = addressTypes.map(type => `
+                        <div class="address-type-option p-4 border-2 rounded-xl text-center cursor-pointer hover:border-brand transition-colors ${bookingData.addressType === type ? 'border-brand bg-brand bg-opacity-10' : 'border-dark-border'}" data-type="${type}">
+                            <div class="font-semibold text-dark-text">${type}</div>
+                        </div>
+                    `).join('');
+
+                    return `
+                        <div class="text-center mb-6">
+                            <h3 class="text-2xl font-bold text-dark-text mb-2">What kind of address?</h3>
+                            <p class="text-dark-subtext">This helps us find you easily</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            ${addressTypeCardsHtml}
+                        </div>
+                        <button id="addressTypeBtn" onclick="validateAndProceed('addressType', this)" class="w-full bg-gray-700 text-gray-500 py-4 rounded-xl font-semibold cursor-not-allowed" disabled>Continue</button>
+                    `;
+                case 4:
+                    const addr = bookingData.address || {};
+                    return `
+                        <div class="text-center mb-6">
+                            <h3 class="text-2xl font-bold text-dark-text mb-2">Service address</h3>
+                            <p class="text-dark-subtext">Where should we come for the service?</p>
+                        </div>
+                        <div class="space-y-4">
+                            <input type="text" id="addressLine1Input" class="w-full p-4 bg-dark-bg text-dark-text border-2 border-dark-border rounded-xl focus:border-brand focus:outline-none transition-colors" placeholder="Address Line 1" value="${addr.addressLine1 || ''}">
+                            <input type="text" id="addressLine2Input" class="w-full p-4 bg-dark-bg text-dark-text border-2 border-dark-border rounded-xl focus:border-brand focus:outline-none transition-colors" placeholder="Address Line 2" value="${addr.addressLine2 || ''}">
+                            <input type="text" id="landmarkInput" class="w-full p-4 bg-dark-bg text-dark-text border-2 border-dark-border rounded-xl focus:border-brand focus:outline-none transition-colors" placeholder="Landmark (Required)" value="${addr.landmark || ''}">
+                            <input type="text" id="pincodeInput" class="w-full p-4 bg-dark-bg text-dark-text border-2 border-dark-border rounded-xl focus:border-brand focus:outline-none transition-colors" placeholder="Pincode (62xxxx)" maxlength="6" value="${addr.pincode || ''}">
+                            <input type="text" class="w-full p-4 bg-gray-800 text-dark-subtext border-2 border-gray-700 rounded-xl" value="Trichy, Tamil Nadu" readonly>
+                            <button onclick="validateAndProceed('address', this)" class="w-full bg-brand text-white py-4 rounded-xl font-semibold hover:bg-teal-600 transition-colors">Continue</button>
+                        </div>
+                    `;
+                case 5:
+                    return `
+                        <div class="text-center mb-6">
+                            <h3 class="text-2xl font-bold text-dark-text mb-2">Select car type</h3>
+                            <p class="text-dark-subtext">Choose your vehicle category</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            <div class="car-type-option border-2 border-dark-border rounded-xl p-6 text-center cursor-pointer hover:border-brand transition-colors" data-type="Hatchback">
+                                <span class="font-semibold text-dark-text">Hatchback</span>
+                            </div>
+                            <div class="car-type-option border-2 border-dark-border rounded-xl p-6 text-center cursor-pointer hover:border-brand transition-colors" data-type="Sedan">
+                                <span class="font-semibold text-dark-text">Sedan</span>
+                            </div>
+                            <div class="car-type-option border-2 border-dark-border rounded-xl p-6 text-center cursor-pointer hover:border-brand transition-colors" data-type="SUV">
+                                <span class="font-semibold text-dark-text">SUV</span>
+                            </div>
+                            <div class="car-type-option border-2 border-dark-border rounded-xl p-6 text-center cursor-pointer hover:border-brand transition-colors" data-type="MPV">
+                                <span class="font-semibold text-dark-text">MPV</span>
+                            </div>
+                            <div class="car-type-option col-span-2 border-2 border-dark-border rounded-xl p-6 text-center cursor-pointer hover:border-brand transition-colors" data-type="EV">
+                                <span class="font-semibold text-dark-text">Electric Vehicle</span>
+                            </div>
+                        </div>
+                        <button id="carTypeBtn" onclick="validateAndProceed('carType', this)" class="w-full bg-gray-700 text-gray-500 py-4 rounded-xl font-semibold cursor-not-allowed" disabled>Continue</button>
+                    `;
+                case 6:
+                    const brandOptions = Object.keys(carBrands).map(brand => `<option value="${brand}">${brand}</option>`).join('');
+                    return `
+                        <div class="text-center mb-6">
+                            <h3 class="text-2xl font-bold text-dark-text mb-2">Car brand & model</h3>
+                            <p class="text-dark-subtext">Help us prepare the right equipment</p>
+                        </div>
+                        <div class="space-y-4">
+                            <select id="brandSelect" class="w-full p-4 bg-dark-bg text-dark-text border-2 border-dark-border rounded-xl focus:border-brand focus:outline-none transition-colors">
+                                <option value="">Select Brand</option>
+                                ${brandOptions}
+                            </select>
+                            <select id="modelSelect" class="w-full p-4 bg-dark-bg text-dark-text border-2 border-dark-border rounded-xl focus:border-brand focus:outline-none transition-colors" disabled>
+                                <option value="">Select Model</option>
+                            </select>
+                            <button onclick="validateAndProceed('carBrandModel', this)" class="w-full bg-brand text-white py-4 rounded-xl font-semibold hover:bg-teal-600 transition-colors">Continue</button>
+                        </div>
+                    `;
+                case 7:
+                    return `
+                        <div class="text-center mb-6">
+                            <h3 class="text-2xl font-bold text-dark-text mb-2">Car plate number</h3>
+                            <p class="text-dark-subtext">Enter your vehicle registration number</p>
+                        </div>
+                        <div class="space-y-4">
+                            <input type="text" id="plateInput" class="w-full p-4 bg-dark-bg text-dark-text border-2 border-dark-border rounded-xl focus:border-brand focus:outline-none transition-colors text-center text-lg font-mono tracking-wider" placeholder="e.g. TN-01-AB-1234" style="text-transform: uppercase;">
+                            <div class="text-xs text-dark-subtext text-center">
+                                Format: TN-01-A-1234 or TN-01-AB-1234
+                            </div>
+                            <button onclick="validateAndProceed('plateNumber', this)" class="w-full bg-brand text-white py-4 rounded-xl font-semibold hover:bg-teal-600 transition-colors">Continue</button>
+                        </div>
+                    `;
+                case 8:
+                    return getServiceConfirmationContent();
+                case 9:
+                    return getDateTimeContent();
+                case 10:
+                    return getPromoCodeContent();
+                case 11:
+                    return getPricingContent();
+                case 12:
+                    return getPaymentMethodContent();
+                default:
+                    return '<div>Invalid step</div>';
+            }
+        }
+
+        function getServiceConfirmationContent() {
+            let carSummary = '';
+            if (bookingData.carType && bookingData.carBrand && bookingData.carModel) {
+                carSummary = `
+                    <div class="bg-brand/20 rounded-lg p-4 mb-4 text-center border border-brand/30">
+                        <p class="text-sm font-semibold text-dark-subtext">Your Vehicle:</p>
+                        <p class="text-md font-bold text-brand">${bookingData.carBrand} ${bookingData.carModel} (${bookingData.carType})</p>
+                    </div>
+                `;
+            }
+
+            if (selectedService === 'trial') {
+                const trialType = bookingData.trialType;
+                const pricing = servicePricing.trial[trialType];
+                const serviceText = trialType === 'daily' ? '3-Day Daily Cleaning' : 'One-Time Deep Clean';
+                const description = trialType === 'daily' ? 'Daily exterior cleaning for 3 consecutive days' : 'Complete interior + exterior deep cleaning in 30 mins';
+                
+                return `
+                    <div class="text-center mb-6">
+                        <h3 class="text-2xl font-bold text-dark-text mb-2">Confirm your service</h3>
+                        <p class="text-dark-subtext">Review your selected trial service</p>
+                    </div>
+                    ${carSummary}
+                    <div class="bg-red-900/40 border-2 border-red-700/50 rounded-xl p-6 mb-6">
+                        <div class="text-center">
+                            <h4 class="text-xl font-bold text-dark-text mb-2">${serviceText}</h4>
+                            <p class="text-dark-subtext mb-4">${description}</p>
+                            <div class="text-2xl font-bold text-red-400">₹${pricing.discounted}</div>
+                            <div class="text-lg line-through text-dark-subtext mb-2">₹${pricing.original}</div>
+                            <div class="bg-red-900/40 text-red-400 px-3 py-1 rounded-full text-sm font-semibold inline-block mt-2">
+                                ${pricing.discount}% OFF
+                            </div>
+                            <div class="bg-orange-900/40 text-orange-400 px-3 py-1 rounded-full text-xs font-semibold inline-block mt-2">
+                                One time per car only
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="validateAndProceed('serviceConfirm', this)" class="w-full bg-brand text-white py-4 rounded-xl font-semibold hover:bg-teal-600 transition-colors">Continue</button>
+                `;
+            } else if (selectedService === 'booking') {
+                return `
+                    <div class="text-center mb-6">
+                        <h3 class="text-2xl font-bold text-dark-text mb-2">Confirm your service</h3>
+                        <p class="text-dark-subtext">Review your selected service</p>
+                    </div>
+                    ${carSummary}
+                    <div class="bg-brand/20 border-2 border-brand/30 rounded-xl p-6 mb-6">
+                        <div class="text-center">
+                            <h4 class="text-xl font-bold text-dark-text mb-2">One-time Service</h4>
+                            <p class="text-dark-subtext mb-4">Complete deep cleaning (interior + exterior) in 30 mins</p>
+                            <div class="text-2xl font-bold text-brand">₹450</div>
+                            <div class="text-lg line-through text-dark-subtext mb-2">₹600</div>
+                            <div class="bg-brand/60 text-white px-3 py-1 rounded-full text-sm font-semibold inline-block mt-2">
+                                25% OFF
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="validateAndProceed('serviceConfirm', this)" class="w-full bg-brand text-white py-4 rounded-xl font-semibold hover:bg-teal-600 transition-colors">Continue</button>
+                `;
+            } else {
+                return `
+                    <div class="text-center mb-6">
+                        <h3 class="text-2xl font-bold text-dark-text mb-2">Choose subscription plan</h3>
+                        <p class="text-dark-subtext">Select your preferred plan</p>
+                    </div>
+                    ${carSummary}
+                    <div class="space-y-4 mb-6">
+                        <div class="subscription-option border-2 border-dark-border rounded-xl p-4 cursor-pointer hover:border-brand transition-colors" data-plan="monthly">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <div class="font-semibold text-dark-text">Monthly Plan</div>
+                                    <div class="text-sm text-dark-subtext">Save ₹300/month</div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-xl font-bold text-brand">₹900</div>
+                                    <div class="text-dark-subtext line-through text-sm">₹1200</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="subscription-option border-2 border-dark-border rounded-xl p-4 cursor-pointer hover:border-brand transition-colors" data-plan="quarterly">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <div class="font-semibold text-dark-text">Quarterly Plan</div>
+                                    <div class="text-sm text-dark-subtext">Save ₹900 total</div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-xl font-bold text-brand">₹2700</div>
+                                    <div class="text-dark-subtext line-through text-sm">₹3600</div>
+                                    <div class="text-green-500 text-sm font-semibold">Save ₹900</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="subscription-option border-2 border-dark-border rounded-xl p-4 cursor-pointer hover:border-brand transition-colors" data-plan="yearly">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <div class="font-semibold text-dark-text">Yearly Plan</div>
+                                    <div class="text-sm text-green-500 font-semibold">Best Value!</div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-xl font-bold text-brand">₹10800</div>
+                                    <div class="text-dark-subtext line-through text-sm">₹14400</div>
+                                    <div class="text-green-500 text-sm font-semibold">Save ₹3600</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="subscriptionBtn" onclick="validateAndProceed('serviceConfirm', this)" class="w-full bg-gray-700 text-gray-500 py-4 rounded-xl font-semibold cursor-not-allowed" disabled>Continue</button>
+                `;
+            }
+        }
+
+        function getDateTimeContent() {
+            const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            const today = new Date();
+            
+            let dateCardsHtml = '';
+            for (let i = 0; i < 10; i++) {
+                const date = new Date();
+                date.setDate(today.getDate() + i);
+                const day = daysOfWeek[date.getDay()];
+                const dateNum = date.getDate();
+                const month = monthNames[date.getMonth()];
+                const fullDate = date.toISOString().split('T')[0];
+                const isSelected = bookingData.date === fullDate;
+
+                dateCardsHtml += `
+                    <div class="date-card p-2 md:p-4 border-2 rounded-xl text-center transition-colors cursor-pointer ${isSelected ? 'border-brand bg-brand bg-opacity-10' : 'border-dark-border hover:border-brand'}" data-date="${fullDate}">
+                        <div class="text-xs md:text-sm font-semibold text-dark-subtext">${day}</div>
+                        <div class="text-lg md:text-xl font-bold text-dark-text">${dateNum}</div>
+                        <div class="text-xs md:text-sm text-dark-subtext">${month}</div>
+                    </div>
+                `;
+            }
+            
+            let timeSlots = '';
+            const startHour = 5;
+            const endHour = 19;
+            const currentHour = today.getHours();
+            
+            for (let i = startHour; i <= endHour; i++) {
+                let time = '';
+                if (i < 12) {
+                    time = `${i}:00 AM`;
+                } else if (i === 12) {
+                    time = '12:00 PM';
+                } else {
+                    time = `${i-12}:00 PM`;
+                }
+                
+                const isTodaySelected = bookingData.date === today.toISOString().split('T')[0];
+                const isDisabled = isTodaySelected && (i <= currentHour);
+                const disabledText = isDisabled ? 'disabled class="text-gray-500 bg-gray-800"' : '';
+                
+                timeSlots += `<option value="${time}" ${disabledText}>${time}${isDisabled ? ' (Unavailable)' : ''}</option>`;
+            }
+
+            return `
+                <div class="text-center mb-6">
+                    <h3 class="text-2xl font-bold text-dark-text mb-2">Select date & time</h3>
+                    <p class="text-dark-subtext">When would you like the service?</p>
+                </div>
+                <div class="space-y-4">
+                    <div id="dateCards" class="grid grid-cols-5 gap-2 md:gap-4 overflow-x-auto pb-4 mb-4">
+                        ${dateCardsHtml}
+                    </div>
+                    <select id="timeSelect" class="w-full p-4 bg-dark-bg text-dark-text border-2 border-dark-border rounded-xl focus:border-brand focus:outline-none transition-colors">
+                        <option value="">Select Time</option>
+                        ${timeSlots}
+                    </select>
+                    <button onclick="validateAndProceed('dateTime', this)" class="w-full bg-brand text-white py-4 rounded-xl font-semibold hover:bg-teal-600 transition-colors">Continue</button>
+                </div>
+            `;
+        }
+        
+        // This function recalculates the final amount based on promo code
+        function calculatePricing() {
+            let baseAmount = 0;
+            let originalAmount = 0;
+            let promoDiscount = 0;
+            
+            if (selectedService === 'trial') {
+                const trialType = bookingData.trialType;
+                originalAmount = servicePricing.trial[trialType].original;
+                promoDiscount = originalAmount - servicePricing.trial[trialType].discounted;
+            } else if (selectedService === 'booking') {
+                originalAmount = servicePricing.booking.original;
+                promoDiscount = originalAmount - servicePricing.booking.discounted;
+            } else if (selectedService === 'subscription') {
+                const plan = bookingData.subscriptionPlan;
+                originalAmount = servicePricing.subscription[plan].original;
+                promoDiscount = originalAmount - servicePricing.subscription[plan].discounted;
+            }
+            
+            // Check for other promo codes
+            if (bookingData.promoCode) {
+                const promoCode = bookingData.promoCode.toUpperCase();
+                if (promoCode === 'CLZLAUNCH25' || promoCode === 'LAUNCH25') {
+                    promoDiscount = Math.round(originalAmount * 0.25);
+                }
+            }
+
+            const finalAmount = originalAmount - promoDiscount;
+            return { originalAmount, finalAmount, promoDiscount };
+        }
+
+        function getPromoCodeContent() {
+            let promoMessage = 'Enter a promo code for discount';
+            let promoColor = 'text-dark-subtext';
+            
+            if (selectedService === 'trial') {
+                const trialType = bookingData.trialType;
+                const defaultCode = trialType === 'daily' ? 'CLZTRY100' : 'CLZTRY150';
+                bookingData.promoCode = defaultCode; // Set default code
+                
+                promoMessage = `✔ Trial offer applied! Final price ₹${servicePricing.trial[trialType].discounted}`;
+                promoColor = 'text-green-500';
+            } else {
+                 bookingData.promoCode = 'CLZLAUNCH25'; // Set default code
+                 promoMessage = '✔ Launch offer applied! 25% discount activated';
+                 promoColor = 'text-green-500';
+            }
+
+            // Get initial pricing
+            const { originalAmount, finalAmount, promoDiscount } = calculatePricing();
+
+            return `
+                <div class="text-center mb-6">
+                    <h3 class="text-2xl font-bold text-dark-text mb-2">Promo code</h3>
+                    <p class="text-dark-subtext">Apply discount code for extra savings</p>
+                </div>
+                <div class="space-y-4">
+                    <input type="text" id="promoInput" class="w-full p-4 bg-dark-bg text-dark-text border-2 border-dark-border rounded-xl focus:border-brand focus:outline-none transition-colors" placeholder="Enter promo code" value="${bookingData.promoCode || ''}" oninput="updatePricingDisplay()">
+                    <div id="promoMessage" class="text-sm font-semibold ${promoColor}">${promoMessage}</div>
+                    
+                    <div class="bg-dark-card rounded-xl p-6 space-y-3 border border-dark-border">
+                        <div class="flex justify-between">
+                            <span class="text-dark-subtext">Original price:</span>
+                            <span class="font-semibold text-dark-subtext line-through">₹<span id="originalPrice">${originalAmount}</span></span>
+                        </div>
+                        <div id="promoDiscountDisplay" class="flex justify-between text-green-500 ${promoDiscount > 0 ? '' : 'hidden'}">
+                            <span>Promo discount:</span>
+                            <span>-₹<span id="discountAmount">${promoDiscount}</span></span>
+                        </div>
+                        <hr class="border-gray-700">
+                        <div class="flex justify-between text-xl font-bold">
+                            <span>Amount to pay:</span>
+                            <span class="text-brand">₹<span id="finalAmount">${finalAmount}</span></span>
+                        </div>
+                    </div>
+                    
+                    <button onclick="validateAndProceed('promo', this)" class="w-full bg-brand text-white py-4 rounded-xl font-semibold hover:bg-teal-600 transition-colors">Continue</button>
+                </div>
+            `;
+        }
+
+        function updatePricingDisplay() {
+            const promoInput = document.getElementById('promoInput');
+            bookingData.promoCode = promoInput.value;
+
+            const { originalAmount, finalAmount, promoDiscount } = calculatePricing();
+            
+            document.getElementById('originalPrice').textContent = originalAmount;
+            document.getElementById('finalAmount').textContent = finalAmount;
+            
+            const promoDiscountDisplay = document.getElementById('promoDiscountDisplay');
+            if (promoDiscount > 0) {
+                document.getElementById('discountAmount').textContent = promoDiscount;
+                promoDiscountDisplay.classList.remove('hidden');
+            } else {
+                promoDiscountDisplay.classList.add('hidden');
+            }
+            
+            // Update promo message
+            const promoMessage = document.getElementById('promoMessage');
+            const code = promoInput.value.toUpperCase();
+            if (code === 'CLZLAUNCH25' || code === 'LAUNCH25') {
+                promoMessage.innerHTML = '<span class="text-green-500 font-semibold">✔ Launch offer applied! 25% discount activated</span>';
+            } else if (code === 'CLZTRY150') {
+                promoMessage.innerHTML = '<span class="text-green-500 font-semibold">✔ Trial offer applied! Final price ₹150</span>';
+            } else if (code === 'CLZTRY100') {
+                promoMessage.innerHTML = '<span class="text-green-500 font-semibold">✔ Trial offer applied! Final price ₹100</span>';
+            } else if (code === '') {
+                promoMessage.innerHTML = '<span class="text-dark-subtext">Enter a promo code for discount</span>';
+            } else {
+                promoMessage.innerHTML = '<span class="text-red-500 font-semibold">❌ Invalid promo code</span>';
+            }
+        }
+
+        function getPricingContent() {
+            const { originalAmount, finalAmount, promoDiscount } = calculatePricing();
+            bookingData.finalAmount = finalAmount;
+            bookingData.originalAmount = originalAmount;
+            
+            return `
+                <div class="text-center mb-6">
+                    <h3 class="text-2xl font-bold text-dark-text mb-2">Price breakdown</h3>
+                    <p class="text-dark-subtext">Review your total amount</p>
+                </div>
+                <div class="bg-dark-card rounded-xl p-6 space-y-3 mb-6 border border-dark-border">
+                    <div class="flex justify-between">
+                        <span class="text-dark-subtext">Original price:</span>
+                        <span class="font-semibold text-dark-subtext line-through">₹${originalAmount}</span>
+                    </div>
+                    ${promoDiscount > 0 ? `
+                    <div class="flex justify-between text-green-500">
+                        <span>Promo discount:</span>
+                        <span>-₹${promoDiscount}</span>
+                    </div>
+                    ` : ''}
+                    <hr class="border-gray-700">
+                    <div class="flex justify-between text-xl font-bold">
+                        <span>Amount to pay:</span>
+                        <span class="text-brand">₹${finalAmount}</span>
+                    </div>
+                    ${originalAmount > finalAmount ? `
+                    <div class="text-center text-sm text-green-500 font-semibold mt-2">
+                        🎉 You save ₹${originalAmount - finalAmount}!
+                    </div>
+                    ` : ''}
+                </div>
+                <button onclick="validateAndProceed('amount', this)" class="w-full bg-brand text-white py-4 rounded-xl font-semibold hover:bg-teal-600 transition-colors">Continue</button>
+            `;
+        }
+
+        function getPaymentMethodContent() {
+            return `
+                <div class="text-center mb-6">
+                    <h3 class="text-2xl font-bold text-dark-text mb-2">Payment method</h3>
+                    <p class="text-dark-subtext">How would you like to pay?</p>
+                </div>
+                <div class="space-y-4 mb-6">
+                    <div class="payment-option border-2 border-dark-border rounded-xl p-4 cursor-pointer hover:border-brand transition-colors" data-method="cash">
+                        <div>
+                            <h4 class="font-semibold text-dark-text">Cash on Service</h4>
+                            <p class="text-dark-subtext text-sm">Pay when we arrive</p>
+                        </div>
+                    </div>
+                    <div class="payment-option border-2 border-dark-border rounded-xl p-4 cursor-pointer hover:border-brand transition-colors" data-method="upi">
+                        <div>
+                            <h4 class="font-semibold text-dark-text">UPI/QR Code</h4>
+                            <p class="text-dark-subtext text-sm">Pay via UPI apps</p>
+                        </div>
+                    </div>
+                    <div class="payment-option border-2 border-dark-border rounded-xl p-4 cursor-pointer hover:border-brand transition-colors" data-method="card">
+                        <div>
+                            <h4 class="font-semibold text-dark-text">Credit/Debit Card</h4>
+                            <p class="text-dark-subtext text-sm">Secure card payment</p>
+                        </div>
+                    </div>
+                </div>
+                <button id="paymentBtn" onclick="proceedToSummary(this)" class="w-full bg-gray-700 text-gray-500 py-4 rounded-xl font-semibold cursor-not-allowed" disabled>Review Booking</button>
+            `;
+        }
+
+        function setupStepEventListeners(step) {
+            switch(step) {
+                case 1:
+                    document.getElementById('nameInput').focus();
+                    break;
+                case 2:
+                    document.getElementById('phoneInput').focus();
+                    break;
+                case 3:
+                    document.querySelectorAll('.address-type-option').forEach(option => {
+                        option.addEventListener('click', function() {
+                            document.querySelectorAll('.address-type-option').forEach(opt => {
+                                opt.classList.remove('border-brand', 'bg-brand', 'bg-opacity-10');
+                            });
+                            this.classList.add('border-brand', 'bg-brand', 'bg-opacity-10');
+                            bookingData.addressType = this.dataset.type;
+                            
+                            const btn = document.getElementById('addressTypeBtn');
+                            btn.classList.remove('bg-gray-700', 'text-gray-500', 'cursor-not-allowed');
+                            btn.classList.add('bg-brand', 'text-white', 'hover:bg-teal-600');
+                            btn.disabled = false;
+                        });
+                    });
+                    if (bookingData.addressType) {
+                         document.querySelector(`[data-type="${bookingData.addressType}"]`).classList.add('border-brand', 'bg-brand', 'bg-opacity-10');
+                         const btn = document.getElementById('addressTypeBtn');
+                         btn.classList.remove('bg-gray-700', 'text-gray-500', 'cursor-not-allowed');
+                         btn.classList.add('bg-brand', 'text-white', 'hover:bg-teal-600');
+                         btn.disabled = false;
+                    }
+                    break;
+                case 4:
+                    document.getElementById('addressLine1Input').focus();
+                    break;
+                case 5:
+                    document.querySelectorAll('.car-type-option').forEach(option => {
+                        option.addEventListener('click', function() {
+                            document.querySelectorAll('.car-type-option').forEach(opt => {
+                                opt.classList.remove('border-brand', 'bg-brand', 'bg-opacity-10');
+                            });
+                            this.classList.add('border-brand', 'bg-brand', 'bg-opacity-10');
+                            bookingData.carType = this.dataset.type;
+                            
+                            const btn = document.getElementById('carTypeBtn');
+                            btn.classList.remove('bg-gray-700', 'text-gray-500', 'cursor-not-allowed');
+                            btn.classList.add('bg-brand', 'text-white', 'hover:bg-teal-600');
+                            btn.disabled = false;
+                        });
+                    });
+                    if (bookingData.carType) {
+                        document.querySelector(`[data-type="${bookingData.carType}"]`).classList.add('border-brand', 'bg-brand', 'bg-opacity-10');
+                        document.getElementById('carTypeBtn').classList.remove('bg-gray-700', 'text-gray-500', 'cursor-not-allowed');
+                        document.getElementById('carTypeBtn').classList.add('bg-brand', 'text-white', 'hover:bg-teal-600');
+                        document.getElementById('carTypeBtn').disabled = false;
+                    }
+                    break;
+                case 6:
+                    const brandSelect = document.getElementById('brandSelect');
+                    const modelSelect = document.getElementById('modelSelect');
+                    
+                    brandSelect.addEventListener('change', function() {
+                        const selectedBrand = this.value;
+                        if (selectedBrand && carBrands[selectedBrand]) {
+                            const models = carBrands[selectedBrand].map(model => 
+                                `<option value="${model}">${model}</option>`
+                            ).join('');
+                            modelSelect.innerHTML = `<option value="">Select Model</option>${models}`;
+                            modelSelect.disabled = false;
+                        } else {
+                            modelSelect.innerHTML = '<option value="">Select Model</option>';
+                            modelSelect.disabled = true;
+                        }
+                    });
+                    if (bookingData.carBrand) {
+                        brandSelect.value = bookingData.carBrand;
+                        brandSelect.dispatchEvent(new Event('change'));
+                        modelSelect.value = bookingData.carModel;
+                    }
+                    break;
+                case 7:
+                    const plateInput = document.getElementById('plateInput');
+                    plateInput.focus();
+                    if(bookingData.plateNumber) {
+                        plateInput.value = bookingData.plateNumber;
+                    }
+                    
+                    plateInput.addEventListener('input', function() {
+                        let value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+                        let formattedValue = '';
+                        
+                        if (value.length > 0) formattedValue += value.substring(0, 2);
+                        if (value.length > 2) formattedValue += '-' + value.substring(2, 4);
+                        if (value.length > 4) {
+                            // Check for one-alphabet series
+                            if (value.length === 5 && isNaN(parseInt(value.charAt(4)))) {
+                                formattedValue += '-' + value.charAt(4);
+                                this.value = formattedValue;
+                                return;
+                            }
+                            // Check for two-alphabet series
+                            if (value.length > 5 && isNaN(parseInt(value.charAt(4))) && isNaN(parseInt(value.charAt(5)))) {
+                                formattedValue += '-' + value.substring(4, 6);
+                                if (value.length > 6) {
+                                    formattedValue += '-' + value.substring(6, 10);
+                                }
+                            } else if (value.length > 4 && isNaN(parseInt(value.charAt(4)))) {
+                                // One alphabet for series
+                                formattedValue += '-' + value.substring(4, 5);
+                                if (value.length > 5) {
+                                    formattedValue += '-' + value.substring(5, 9);
+                                }
+                            } else {
+                                // Default for invalid format
+                                formattedValue += '-' + value.substring(4);
+                            }
+                        }
+                        this.value = formattedValue;
+                    });
+                    break;
+                case 8:
+                    if (selectedService === 'subscription') {
+                        document.querySelectorAll('.subscription-option').forEach(option => {
+                            option.addEventListener('click', function() {
+                                document.querySelectorAll('.subscription-option').forEach(opt => {
+                                    opt.classList.remove('border-brand', 'bg-brand', 'bg-opacity-10');
+                                });
+                                this.classList.add('border-brand', 'bg-brand', 'bg-opacity-10');
+                                bookingData.subscriptionPlan = this.dataset.plan;
+                                
+                                const btn = document.getElementById('subscriptionBtn');
+                                btn.classList.remove('bg-gray-700', 'text-gray-500', 'cursor-not-allowed');
+                                btn.classList.add('bg-brand', 'text-white', 'hover:bg-teal-600');
+                                btn.disabled = false;
+                            });
+                        });
+                        if (bookingData.subscriptionPlan) {
+                            document.querySelector(`[data-plan="${bookingData.subscriptionPlan}"]`).classList.add('border-brand', 'bg-brand', 'bg-opacity-10');
+                            const btn = document.getElementById('subscriptionBtn');
+                            btn.classList.remove('bg-gray-700', 'text-gray-500', 'cursor-not-allowed');
+                            btn.classList.add('bg-brand', 'text-white', 'hover:bg-teal-600');
+                            btn.disabled = false;
+                        }
+                    }
+                    break;
+                case 9:
+                    const dateCards = document.getElementById('dateCards');
+                    dateCards.addEventListener('click', (e) => {
+                        const card = e.target.closest('.date-card');
+                        if (card) {
+                            document.querySelectorAll('.date-card').forEach(c => c.classList.remove('border-brand', 'bg-brand', 'bg-opacity-10'));
+                            card.classList.add('border-brand', 'bg-brand', 'bg-opacity-10');
+                            bookingData.date = card.dataset.date;
+                            renderCurrentStep();
+                        }
+                    });
+
+                    if (bookingData.date) {
+                        const selectedCard = document.querySelector(`[data-date="${bookingData.date}"]`);
+                        if(selectedCard) {
+                            selectedCard.classList.add('border-brand', 'bg-brand', 'bg-opacity-10');
+                        }
+                        
+                    }
+                    break;
+                case 10:
+                    const promoInput = document.getElementById('promoInput');
+                    if (bookingData.promoCode) {
+                        promoInput.value = bookingData.promoCode;
+                        updatePricingDisplay();
+                    }
+                    break;
+                case 12:
+                    document.querySelectorAll('.payment-option').forEach(option => {
+                        option.addEventListener('click', function() {
+                            document.querySelectorAll('.payment-option').forEach(opt => {
+                                opt.classList.remove('border-brand', 'bg-brand', 'bg-opacity-10');
+                            });
+                            this.classList.add('border-brand', 'bg-brand', 'bg-opacity-10');
+                            bookingData.paymentMethod = this.dataset.method;
+                            
+                            const btn = document.getElementById('paymentBtn');
+                            btn.classList.remove('bg-gray-700', 'text-gray-500', 'cursor-not-allowed');
+                            btn.classList.add('bg-brand', 'text-white', 'hover:bg-teal-600');
+                            btn.disabled = false;
+                        });
+                    });
+                    if (bookingData.paymentMethod) {
+                        document.querySelector(`[data-method="${bookingData.paymentMethod}"]`).classList.add('border-brand', 'bg-brand', 'bg-opacity-10');
+                        const btn = document.getElementById('paymentBtn');
+                        btn.classList.remove('bg-gray-700', 'text-gray-500', 'cursor-not-allowed');
+                        btn.classList.add('bg-brand', 'text-white', 'hover:bg-teal-600');
+                        btn.disabled = false;
+                    }
+                    break;
+            }
+        }
+
+        function validateAndProceed(field, button) {
+            button.classList.add('btn-pulse');
+            button.addEventListener('animationend', () => {
+                button.classList.remove('btn-pulse');
+            }, { once: true });
+            let isValid = false;
+            
+            switch(field) {
+                case 'name':
+                    const name = document.getElementById('nameInput').value.trim();
+                    if (name && /^[a-zA-Z\s]+$/.test(name) && name.length >= 2) {
+                        bookingData.name = name;
+                        isValid = true;
+                    } else {
+                        showNotification('Please enter a valid name (letters only, minimum 2 characters)', 'error');
+                    }
+                    break;
+                case 'phone':
+                    const phone = document.getElementById('phoneInput').value.trim();
+                    if (phone && /^[6-9]\d{9}$/.test(phone)) {
+                        bookingData.phone = '+91' + phone;
+                        isValid = true;
+                    } else {
+                        showNotification('Please enter a valid 10-digit mobile number starting with 6, 7, 8, or 9', 'error');
+                    }
+                    break;
+                case 'addressType':
+                    if (bookingData.addressType) {
+                        isValid = true;
+                    } else {
+                        showNotification('Please select an address type', 'error');
+                    }
+                    break;
+                case 'address':
+                    const addressLine1 = document.getElementById('addressLine1Input').value.trim();
+                    const addressLine2 = document.getElementById('addressLine2Input').value.trim();
+                    const landmark = document.getElementById('landmarkInput').value.trim();
+                    const pincode = document.getElementById('pincodeInput').value.trim();
+                    
+                    if (addressLine1 && addressLine2 && landmark && pincode) {
+                        if (/^\d{6}$/.test(pincode) && serviceablePincodes.includes(pincode)) {
+                            bookingData.address = {
+                                addressLine1, addressLine2, landmark, pincode, city: 'Trichy'
+                            };
+                            isValid = true;
+                        } else {
+                            showNotification('Please enter a valid Trichy pincode. We currently service limited areas in Trichy.', 'error');
+                        }
+                    } else {
+                        showNotification('Please fill all required address fields (Address Line 1, Address Line 2, Landmark, Pincode)', 'error');
+                    }
+                    break;
+                case 'carType':
+                    if (bookingData.carType) {
+                        isValid = true;
+                    } else {
+                        showNotification('Please select your car type', 'error');
+                    }
+                    break;
+                case 'carBrandModel':
+                    const brand = document.getElementById('brandSelect').value;
+                    const model = document.getElementById('modelSelect').value;
+                    if (brand && model) {
+                        bookingData.carBrand = brand;
+                        bookingData.carModel = model;
+                        isValid = true;
+                    } else {
+                        showNotification('Please select both car brand and model', 'error');
+                    }
+                    break;
+                case 'plateNumber':
+                    const plate = document.getElementById('plateInput').value.trim().toUpperCase();
+                    const plateRegex = /^[A-Z]{2}-\d{2}-([A-Z]{1,2})-\d{4}$/;
+                    if (plate && plateRegex.test(plate)) {
+                        bookingData.plateNumber = plate;
+                        isValid = true;
+                    } else {
+                        showNotification('Please enter a valid Indian car plate number (e.g., TN-01-A-1234 or TN-01-AB-1234)', 'error');
+                    }
+                    break;
+                case 'serviceConfirm':
+                    if (selectedService === 'subscription' && !bookingData.subscriptionPlan) {
+                        showNotification('Please select a subscription plan', 'error');
+                    } else {
+                        isValid = true;
+                    }
+                    break;
+                case 'dateTime':
+                    const date = bookingData.date;
+                    const time = document.getElementById('timeSelect').value;
+                    if (date && time) {
+                        bookingData.date = date;
+                        bookingData.time = time;
+                        isValid = true;
+                    } else {
+                        showNotification('Please select both date and time', 'error');
+                    }
+                    break;
+                case 'promo':
+                case 'amount':
+                    isValid = true;
+                    break;
+            }
+            
+            if (isValid) {
+                currentStep++;
+                saveDataToStorage();
+                renderCurrentStep();
+            }
+        }
+
+        function handleBackNavigation() {
+            if (currentStep > 1) {
+                currentStep--;
+                renderCurrentStep();
+            } else {
+                showScreen('homeScreen');
+            }
+        }
+
+        function proceedToSummary(button) {
+            button.classList.add('btn-pulse');
+            button.addEventListener('animationend', () => {
+                button.classList.remove('btn-pulse');
+            }, { once: true });
+            
+            saveDataToStorage();
+            showScreen('summaryScreen');
+            renderSummary();
+        }
+
+        function renderSummary() {
+            const summaryContent = document.getElementById('summaryContent');
+            
+            let serviceText = '';
+            if (selectedService === 'trial') {
+                const trialType = bookingData.trialType;
+                if (trialType === 'daily') {
+                    serviceText = 'Trial Service - 3-Day Daily Cleaning (Daily exterior cleaning for 3 consecutive days)';
+                } else {
+                    serviceText = 'Trial Service - One-Time Deep Clean (Complete interior + exterior deep cleaning)';
+                }
+            } else if (selectedService === 'booking') {
+                serviceText = 'One-time Complete Deep Cleaning (Interior + Exterior) - 30 mins';
+            } else {
+                const planNames = {
+                    monthly: 'Monthly Subscription - Daily exterior + 1 interior cleaning',
+                    quarterly: 'Quarterly Subscription - Daily exterior + 3 interior cleanings',
+                    yearly: 'Yearly Subscription - Daily exterior + 12 interior cleanings'
+                };
+                serviceText = planNames[bookingData.subscriptionPlan];
+            }
+            
+            const paymentMethodNames = {
+                cash: 'Cash on Service 💸',
+                upi: 'UPI/QR Code 📱',
+                card: 'Credit/Debit Card 💳'
+            };
+            
+            const fullAddress = `${bookingData.address.addressLine1}, ${bookingData.address.addressLine2}, Landmark: ${bookingData.address.landmark}, Pincode: ${bookingData.address.pincode}, ${bookingData.address.city}, Tamil Nadu`;
+
+            summaryContent.innerHTML = `
+                <div id="summary-section-1" class="summary-section bg-gray-800 rounded-xl p-4 cursor-pointer hover:bg-gray-700 transition-colors" data-step="1">
+                    <h4 class="font-semibold text-dark-text mb-2">Customer Details</h4>
+                    <p class="text-dark-subtext"><strong>Name:</strong> ${bookingData.name}</p>
+                    <p class="text-dark-subtext"><strong>Phone:</strong> ${bookingData.phone}</p>
+                    <p class="text-dark-subtext"><strong>Address Type:</strong> ${bookingData.addressType}</p>
+                    <p class="text-dark-subtext"><strong>Address:</strong> ${fullAddress}</p>
+                </div>
+                
+                <div id="summary-section-2" class="summary-section bg-gray-800 rounded-xl p-4 cursor-pointer hover:bg-gray-700 transition-colors" data-step="5">
+                    <h4 class="font-semibold text-dark-text mb-2">Vehicle Details</h4>
+                    <p class="text-dark-subtext"><strong>Type:</strong> ${bookingData.carType}</p>
+                    <p class="text-dark-subtext"><strong>Car:</strong> ${bookingData.carBrand} ${bookingData.carModel}</p>
+                    <p class="text-dark-subtext"><strong>Plate Number:</strong> ${bookingData.plateNumber}</p>
+                </div>
+                
+                <div id="summary-section-3" class="summary-section bg-gray-800 rounded-xl p-4 cursor-pointer hover:bg-gray-700 transition-colors" data-step="8">
+                    <h4 class="font-semibold text-dark-text mb-2">Service Details</h4>
+                    <p class="text-dark-subtext"><strong>Service:</strong> ${serviceText}</p>
+                    <p class="text-dark-subtext"><strong>Date:</strong> ${new Date(bookingData.date).toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                    <p class="text-dark-subtext"><strong>Time:</strong> ${bookingData.time}</p>
+                    <p class="text-dark-subtext"><strong>Payment:</strong> ${paymentMethodNames[bookingData.paymentMethod]}</p>
+                    ${bookingData.promoCode ? `<p class="text-dark-subtext"><strong>Promo Code:</strong> ${bookingData.promoCode}</p>` : ''}
+                </div>
+                
+                <div class="bg-brand/20 border-2 border-brand/30 rounded-xl p-4">
+                    <div class="flex justify-between items-center">
+                        <span class="text-lg font-semibold text-dark-text">Total Amount:</span>
+                        <span class="text-2xl font-bold text-brand">₹${bookingData.finalAmount}</span>
+                    </div>
+                    ${bookingData.originalAmount > bookingData.finalAmount ? `
+                    <div class="text-center text-sm text-green-500 font-semibold mt-2">
+                        You save ₹${bookingData.originalAmount - bookingData.finalAmount}!
+                    </div>
+                    ` : ''}
+                </div>
+                
+                ${selectedService === 'trial' ? `
+                <div class="bg-red-900/40 border-2 border-red-700/50 rounded-xl p-4">
+                    <h4 class="font-semibold text-red-400 mb-2 flex items-center">
+                        <span class="mr-2">⚠️</span>
+                        Important Trial Service Disclaimer
+                    </h4>
+                    <ul class="space-y-1 text-sm text-red-400">
+                        <li class="flex items-start">
+                            <span class="mr-2 mt-1">•</span>
+                            <span>This trial service can be availed <strong>only once per car</strong></span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-2 mt-1">•</span>
+                            <span>Cars that have previously availed trial service are <strong>not eligible</strong></span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-2 mt-1">•</span>
+                            <span>Our team will <strong>verify your eligibility</strong> and confirm your booking via WhatsApp</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-2 mt-1">•</span>
+                            <span>If ineligible, we'll help you choose from our regular service options</span>
+                        </li>
+                    </ul>
+                </div>
+                ` : ''}
+            `;
+            
+            // Make summary sections clickable
+            document.querySelectorAll('.summary-section').forEach(section => {
+                section.addEventListener('click', function() {
+                    editStep(parseInt(this.dataset.step));
+                });
+            });
+        }
+        
+        function editStep(stepNumber) {
+            currentStep = stepNumber;
+            showScreen('bookingFlow');
+            renderCurrentStep();
+        }
+
+        function editBooking() {
+            currentStep = 1; // Go to first step for editing
+            showScreen('bookingFlow');
+            renderCurrentStep();
+        }
+
+        function confirmBooking() {
+            showLoading();
+            
+            // Generate booking reference
+            bookingReference = generateBookingReference();
+            
+            // Prepare WhatsApp message
+            prepareWhatsAppMessage();
+            
+            setTimeout(() => {
+                hideLoading();
+                
+                // Open WhatsApp
+                const encodedMessage = encodeURIComponent(whatsappMessage);
+                const whatsappUrl = `https://wa.me/918122213141?text=${encodedMessage}`;
+                window.open(whatsappUrl, '_blank');
+                
+                // Clear saved data
+                localStorage.removeItem('clenzzo_booking_data');
+                
+                // Show success screen
+                showScreen('successScreen');
+                document.getElementById('customerNameDisplay').textContent = bookingData.name;
+                document.getElementById('bookingReference').textContent = bookingReference;
+                
+                showNotification('Booking confirmed successfully!');
+            }, 1000);
+        }
+
+        function generateBookingReference() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const random = Math.floor(Math.random() * 9999).toString().padStart(4, '0');
+            return `CLZ-${year}${month}${day}-${random}`;
+        }
+
+        function prepareWhatsAppMessage() {
+            let serviceDetails = '';
+            if (selectedService === 'trial') {
+                const trialType = bookingData.trialType;
+                if (trialType === 'daily') {
+                    serviceDetails = 'Trial Service - 3-Day Daily Cleaning (Daily exterior cleaning for 3 consecutive days)';
+                } else {
+                    serviceDetails = 'Trial Service - One-Time Deep Clean (Complete interior + exterior deep cleaning)';
+                }
+            } else if (selectedService === 'booking') {
+                serviceDetails = 'One-time Complete Deep Cleaning (Interior + Exterior) - 30 mins';
+            } else {
+                const planNames = {
+                    monthly: 'Monthly Subscription - Daily exterior cleaning + 1 interior cleaning',
+                    quarterly: 'Quarterly Subscription - Daily exterior cleaning + 3 interior cleanings (3 months)',
+                    yearly: 'Yearly Subscription - Daily exterior cleaning + 12 interior cleanings (12 months)'
+                };
+                serviceDetails = planNames[bookingData.subscriptionPlan];
+            }
+
+            const paymentMethodText = {
+                cash: 'Cash on Service 💸',
+                upi: 'UPI/QR Code 📱',
+                card: 'Credit/Debit Card 💳'
+            };
+
+            const fullAddress = `${bookingData.address.addressLine1}, ${bookingData.address.addressLine2}, Landmark: ${bookingData.address.landmark}, Pincode: ${bookingData.address.pincode}, ${bookingData.address.city}, Tamil Nadu`;
+
+            whatsappMessage = `🚗 *CLENZZO CAR CLEANING BOOKING* 🚗
+
+Hi! I want to book a car cleaning service.
+
+*📋 BOOKING DETAILS:*
+🔖 Booking ID: *${bookingReference}*
+👤 Name: ${bookingData.name}
+📞 Phone: ${bookingData.phone}
+📍 Address: ${fullAddress}
+Address Type: ${bookingData.addressType}
+
+*🚗 VEHICLE DETAILS:*
+Type: ${bookingData.carType}
+Car: ${bookingData.carBrand} ${bookingData.carModel}
+Plate Number: ${bookingData.plateNumber}
+
+*🧼 SERVICE DETAILS:*
+Service: ${serviceDetails}
+🗓️ Date: ${new Date(bookingData.date).toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+⏰ Time: ${bookingData.time}
+
+*💰 PAYMENT DETAILS:*
+${bookingData.promoCode ? `🎉 Promo Code: ${bookingData.promoCode}\n` : ''}💳 Payment Method: ${paymentMethodText[bookingData.paymentMethod]}
+💸 Total Amount: *₹${bookingData.finalAmount}*
+
+Please confirm my booking. Thank you! 🙏`;
+        }
+
+        function copyBookingDetails() {
+            navigator.clipboard.writeText(whatsappMessage).then(() => {
+                showNotification('Booking details copied to clipboard!');
+            }).catch(() => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = whatsappMessage;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showNotification('Booking details copied to clipboard!');
+            });
+        }
+
+        function startNewBooking() {
+            // Reset state
+            currentStep = 1;
+            selectedService = '';
+            bookingData = {};
+            bookingReference = '';
+            whatsappMessage = '';
+            
+            // Clear localStorage
+            localStorage.removeItem('clenzzo_booking_data');
+
+            // Show home screen
+            showScreen('homeScreen');
+            document.getElementById('resumeBooking').classList.add('hidden');
+        }
+
+        function showLoading() {
+            document.getElementById('loadingSpinner').classList.remove('hidden');
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingSpinner').classList.add('hidden');
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const icon = document.getElementById('notificationIcon');
+            const text = document.getElementById('notificationText');
+            
+            text.textContent = message;
+            
+            if (type === 'error') {
+                icon.textContent = '❌';
+                icon.className = 'text-red-500 text-xl';
+                notification.querySelector('div').className = 'bg-dark-card border-l-4 border-red-500 rounded-lg shadow-lg p-4 max-w-sm';
+            } else {
+                icon.textContent = '✔';
+                icon.className = 'text-green-500 text-xl';
+                notification.querySelector('div').className = 'bg-dark-card border-l-4 border-green-500 rounded-lg shadow-lg p-4 max-w-sm';
+            }
+            
+            notification.classList.remove('hidden');
+            
+            setTimeout(() => {
+                hideNotification();
+            }, 5000);
+        }
+
+        function hideNotification() {
+            document.getElementById('notification').classList.add('hidden');
+        }
+        
+        // Add to Home Screen Prompt
+        function setupInstallButton() {
+            const installBtn = document.getElementById('installAppBtn');
+            let deferredPrompt;
+
+            // Show install button on supported browsers
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                installBtn.style.display = 'block';
+            });
+
+            // Handle install button click
+            installBtn.addEventListener('click', (e) => {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.then((choiceResult) => {
+                        if (choiceResult.outcome === 'accepted') {
+                            console.log('User accepted the install prompt');
+                        } else {
+                            console.log('User dismissed the install prompt');
+                        }
+                        deferredPrompt = null;
+                    });
+                } else {
+                    showNotification('To install, open your browser settings and look for "Add to Home Screen" or "Install App".', 'info');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+
