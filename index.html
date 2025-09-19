@@ -41,6 +41,11 @@
             100% { transform: scale(1); }
         }
 
+        @keyframes fade-out {
+            from { opacity: 1; visibility: visible; }
+            to { opacity: 0; visibility: hidden; }
+        }
+
         .animated-bg {
             background: linear-gradient(-45deg, #121212, #212121, #121212);
             background-size: 400% 400%;
@@ -56,10 +61,22 @@
             height: 150px;
             margin: 0 auto;
         }
+
+        #splashScreen {
+            animation: fade-out 0.5s ease-in-out 2.5s forwards;
+            z-index: 1000;
+        }
     </style>
 </head>
 <body class="font-inter animated-bg min-h-screen relative overflow-x-hidden text-dark-text">
 
+    <!-- Splash Screen -->
+    <div id="splashScreen" class="fixed inset-0 bg-dark-bg flex items-center justify-center">
+        <img src="https://lh3.googleusercontent.com/d/1mAxNMp4-N-4FpIi_BPZZfCCaK5RCxVUH" alt="Clenzzo Logo" class="h-20" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+        <h1 class="text-3xl font-bold text-brand hidden">Clenzzo</h1>
+    </div>
+
+    <!-- Notification & Popups -->
     <div id="notification" class="fixed top-4 right-4 z-50 hidden transform transition-all duration-300">
         <div class="bg-dark-card border border-dark-border border-l-4 rounded-lg shadow-lg p-4 max-w-sm">
             <div class="flex items-center">
@@ -94,15 +111,19 @@
         </div>
     </div>
 
+    <!-- Main Content -->
     <div class="min-h-screen">
         
-        <div id="homeScreen" class="container mx-auto px-4 py-6 max-w-5xl relative z-10">
+        <div id="homeScreen" class="container mx-auto px-4 py-6 max-w-5xl relative z-10 hidden">
             
             <div class="text-center mb-8 relative">
                 <a href="https://www.clenzzo.com" target="_blank" class="absolute left-0 top-0 ml-4 mt-2 p-2 rounded-full bg-gray-800 text-dark-subtext hover:bg-gray-700 transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
+                </a>
+                <a href="https://wa.me/918122213141?text=Hi%2C%20I%20have%20a%20question%20about%20your%20services.%20This%20message%20was%20sent%20from%20the%20Clenzzo%20web%20app." target="_blank" class="absolute right-0 top-0 mr-4 mt-2 p-2 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-700 transition-colors">
+                    <span class="mr-2">💬</span> WhatsApp
                 </a>
                 <div class="flex flex-col items-center justify-center mb-1">
                     <img src="https://lh3.googleusercontent.com/d/1mAxNMp4-N-4FpIi_BPZZfCCaK5RCxVUH" alt="Clenzzo Logo" class="h-10 mb-2" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
@@ -145,19 +166,16 @@
                             </div>
                         </div>
                         
-                        <div class="space-y-3 mb-6 text-center flex-1">
-                            <div class="flex items-start justify-center text-dark-subtext">
-                                <span class="text-green-500 mr-3">✔</span>
-                                <span class="text-sm">Interior deep cleaning</span>
-                            </div>
-                            <div class="flex items-start justify-center text-dark-subtext">
-                                <span class="text-green-500 mr-3">✔</span>
-                                <span class="text-sm">Exterior washing & polishing</span>
-                            </div>
-                            <div class="flex items-start justify-center text-dark-subtext">
-                                <span class="text-green-500 mr-3">✔</span>
-                                <span class="text-sm">30-minute quick service</span>
-                            </div>
+                        <div class="text-left bg-dark-bg rounded-lg p-4 mb-6 border border-dark-border space-y-2">
+                            <h4 class="font-semibold text-dark-text mb-2">What's Included:</h4>
+                            <ul class="space-y-2 text-sm text-dark-subtext">
+                                <li class="flex items-start"><span class="text-green-500 mr-2">✔</span>Complete interior deep cleaning (seats, dashboard, mats)</li>
+                                <li class="flex items-start"><span class="text-green-500 mr-2">✔</span>Exterior washing & polishing</li>
+                                <li class="flex items-start"><span class="text-green-500 mr-2">✔</span>Tire cleaning & shine</li>
+                                <li class="flex items-start"><span class="text-green-500 mr-2">✔</span>Glass cleaning (inside & outside)</li>
+                                <li class="flex items-start"><span class="text-green-500 mr-2">✔</span>Quick 30-minute service</li>
+                                <li class="flex items-start"><span class="text-green-500 mr-2">✔</span>Same-day service available</li>
+                            </ul>
                         </div>
                         
                         <div class="space-y-3 mt-auto">
@@ -192,19 +210,16 @@
                             </div>
                         </div>
                         
-                        <div class="space-y-3 mb-6 text-center flex-1">
-                            <div class="flex items-start justify-center text-dark-subtext">
-                                <span class="text-green-500 mr-3">✔</span>
-                                <span class="text-sm">Daily exterior cleaning</span>
-                            </div>
-                            <div class="flex items-start justify-center text-dark-subtext">
-                                <span class="text-green-500 mr-3">✔</span>
-                                <span class="text-sm">Monthly interior deep clean</span>
-                            </div>
-                            <div class="flex items-start justify-center text-dark-subtext">
-                                <span class="text-green-500 mr-3">✔</span>
-                                <span class="text-sm">Flexible plans available</span>
-                            </div>
+                        <div class="text-left bg-dark-bg rounded-lg p-4 mb-6 border border-dark-border space-y-2">
+                            <h4 class="font-semibold text-dark-text mb-2">Subscription Benefits:</h4>
+                            <ul class="space-y-2 text-sm text-dark-subtext">
+                                <li class="flex items-start"><span class="text-green-500 mr-2">✔</span>Daily exterior cleaning</li>
+                                <li class="flex items-start"><span class="text-green-500 mr-2">✔</span>Monthly interior deep cleaning</li>
+                                <li class="flex items-start"><span class="text-green-500 mr-2">✔</span>Scheduled at your preferred time</li>
+                                <li class="flex items-start"><span class="text-green-500 mr-2">✔</span>Priority booking</li>
+                                <li class="flex items-start"><span class="text-green-500 mr-2">✔</span>Cancel anytime policy</li>
+                                <li class="flex items-start"><span class="text-green-500 mr-2">✔</span>Maximum savings</li>
+                            </ul>
                         </div>
                         
                         <div class="space-y-3 mt-auto">
@@ -308,19 +323,19 @@
         </div>
 
         <div id="successScreen" class="hidden container mx-auto px-4 py-8 max-w-lg">
-            <div class="bg-dark-card rounded-lg shadow-lg p-8 text-center border border-dark-border">
+            <div class="bg-dark-card rounded-2xl shadow-xl p-8 text-center border border-dark-border">
                 <div class="lottie-success">
-                    <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_tmmg8cwx.json"  background="transparent"  speed="1" autoplay></lottie-player>
+                    <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_tmmg8cwx.json" background="transparent" speed="1" autoplay></lottie-player>
                 </div>
                 <h2 class="text-3xl font-bold text-green-500 mb-3">Booking Confirmed!</h2>
                 <p class="text-dark-subtext mb-8 text-lg">Thank you <span id="customerNameDisplay" class="font-bold text-brand"></span>! Your booking has been submitted successfully.</p>
                 
-                <div class="bg-brand/20 border-2 border-brand/30 rounded-lg p-6 mb-8">
-                    <p class="text-sm text-brand font-semibold mb-2">🔖 Booking Reference</p>
-                    <p id="bookingReference" class="text-2xl font-bold text-brand"></p>
+                <div class="bg-brand/20 border-2 border-brand/30 rounded-xl p-6 mb-8">
+                    <p class="text-sm text-brand font-semibold mb-2">🔖 Your Booking Reference</p>
+                    <p id="bookingReference" class="text-3xl font-extrabold text-brand tracking-wide"></p>
                 </div>
 
-                <div class="bg-orange-900/40 border-2 border-orange-700/50 rounded-lg p-6 mb-8">
+                <div class="bg-orange-900/40 border-2 border-orange-700/50 rounded-xl p-6 mb-8">
                     <p class="text-sm text-orange-400 font-semibold mb-3">📞 Customer Support</p>
                     <a href="tel:+918122213141" class="inline-flex items-center justify-center gap-2 bg-orange-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-orange-700 transition-colors duration-300">
                         <span class="text-lg">📞</span>
@@ -442,6 +457,12 @@
             setupEventListeners();
             captureUTMParameters();
             setupInstallButton();
+
+            // Show splash screen for 3 seconds, then show the home screen
+            setTimeout(() => {
+                document.getElementById('splashScreen').classList.add('hidden');
+                document.getElementById('homeScreen').classList.remove('hidden');
+            }, 3000);
         }
 
         function loadSavedData() {
@@ -451,10 +472,10 @@
                     const savedData = JSON.parse(saved);
                     // Check if the data is a complete booking object
                     if (savedData.currentStep && savedData.currentStep > 1) {
-                         bookingData = savedData;
-                         currentStep = bookingData.currentStep;
-                         selectedService = bookingData.service;
-                         document.getElementById('resumeBooking').classList.remove('hidden');
+                        bookingData = savedData;
+                        currentStep = bookingData.currentStep;
+                        selectedService = bookingData.service;
+                        document.getElementById('resumeBooking').classList.remove('hidden');
                     } else {
                         // Old format, load only basic info
                         bookingData = { ...savedData };
@@ -1015,6 +1036,7 @@
                                 </div>
                             </div>
                         </div>
+                        
                         <div class="subscription-option border-2 border-dark-border rounded-xl p-4 cursor-pointer hover:border-brand transition-colors" data-plan="quarterly">
                             <div class="flex justify-between items-center">
                                 <div>
@@ -1028,6 +1050,7 @@
                                 </div>
                             </div>
                         </div>
+                        
                         <div class="subscription-option border-2 border-dark-border rounded-xl p-4 cursor-pointer hover:border-brand transition-colors" data-plan="yearly">
                             <div class="flex justify-between items-center">
                                 <div>
@@ -1042,7 +1065,15 @@
                             </div>
                         </div>
                     </div>
-                    <button id="subscriptionBtn" onclick="validateAndProceed('serviceConfirm', this)" class="w-full bg-gray-700 text-gray-500 py-4 rounded-xl font-semibold cursor-not-allowed" disabled>Continue</button>
+                    
+                    <div class="flex space-x-3">
+                        <button id="closePopup" class="flex-1 bg-gray-700 text-dark-text py-3 rounded-lg font-semibold hover:bg-gray-600 transition-colors">
+                            Maybe Later
+                        </button>
+                        <button id="proceedBooking" class="flex-1 bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors">
+                            Subscribe Now
+                        </button>
+                    </div>
                 `;
             }
         }
@@ -1801,8 +1832,7 @@
             const fullAddress = `${bookingData.address.addressLine1}, ${bookingData.address.addressLine2}, Landmark: ${bookingData.address.landmark}, Pincode: ${bookingData.address.pincode}, ${bookingData.address.city}, Tamil Nadu`;
 
             whatsappMessage = `🚗 *CLENZZO CAR CLEANING BOOKING* 🚗
-
-Hi! I want to book a car cleaning service.
+This booking was made via the Clenzzo web app.
 
 *📋 BOOKING DETAILS:*
 🔖 Booking ID: *${bookingReference}*
@@ -1927,4 +1957,3 @@ Please confirm my booking. Thank you! 🙏`;
     </script>
 </body>
 </html>
-
