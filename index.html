@@ -126,7 +126,7 @@
                     Website
                 </a>
                 <a href="https://wa.me/918122213141?text=Hi%20Clenzzo!%20I%20have%20a%20question%20from%20your%20web%20app." target="_blank" class="text-sm font-semibold text-dark-text bg-dark-card border border-dark-border px-4 py-2 rounded-lg hover:bg-gray-700 hover:text-brand transition-all duration-300" aria-label="Contact on WhatsApp">
-                   Contact Us
+                    Contact Us
                 </a>
            </div>
 
@@ -1543,7 +1543,12 @@
                     break;
                 case 'addressType':
                     if (bookingData.addressType) {
-                        isValid = true;
+                        if (selectedService === 'subscription' && bookingData.addressType !== 'Apartment') {
+                            showSubscriptionRestrictionPopup();
+                            isValid = false; // Stop progression
+                        } else {
+                            isValid = true;
+                        }
                     } else {
                         showNotification('Please select an address type', 'error');
                     }
@@ -1951,20 +1956,65 @@ Please confirm my booking. Thank you! 🙏`;
                 }
             });
         }
+
+        function showSubscriptionRestrictionPopup() {
+            const popup = document.getElementById('servicePopup');
+            const content = document.getElementById('popupContent');
+            
+            content.innerHTML = `
+                <div class="text-center p-4">
+                    <h3 class="text-2xl font-bold text-dark-text mb-4">Subscription Service Notice</h3>
+                    <div class="text-yellow-400 text-5xl mb-4">⚠️</div>
+                    <p class="text-dark-subtext mb-6">
+                        We're sorry, but our subscription plans are currently available exclusively for residents of <strong>Apartments</strong>. This helps us maintain a consistent and timely daily service route.
+                    </p>
+                    <p class="text-dark-subtext mb-6">
+                        We invite you to try our highly-rated <strong>One-Time Deep Cleaning Service</strong>!
+                    </p>
+                    <div class="space-y-3">
+                        <button id="switchToBookingBtn" class="w-full bg-gradient-to-r from-orange-500 to-red-600 text-white py-3 rounded-xl font-bold hover:from-orange-600 hover:to-red-700 transition-all duration-300">
+                            Switch to One-Time Service
+                        </button>
+                        <button id="goBackToHomeBtn" class="w-full bg-gray-700 text-dark-text py-3 rounded-lg font-semibold hover:bg-gray-600 transition-colors">
+                            Go Back Home
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            popup.classList.remove('hidden');
+
+            // Event Listeners for the new popup buttons
+            document.getElementById('switchToBookingBtn').addEventListener('click', () => {
+                hideServicePopup();
+                
+                // Preserve name, phone, and UTM data
+                const preservedData = {
+                    name: bookingData.name,
+                    phone: bookingData.phone,
+                    utm: bookingData.utm
+                };
+                
+                // Reset booking data but keep preserved info
+                bookingData = { ...preservedData };
+                
+                // Switch service type and restart the flow
+                selectedService = 'booking';
+                startBookingFlow();
+            });
+
+            document.getElementById('goBackToHomeBtn').addEventListener('click', () => {
+                hideServicePopup();
+                startNewBooking(); // Full reset and go home
+            });
+
+            // Close on backdrop click
+            popup.addEventListener('click', function(e) {
+                if (e.target === popup) {
+                    hideServicePopup();
+                }
+            });
+        }
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
