@@ -82,6 +82,7 @@
         <img src="https://lh3.googleusercontent.com/d/1mAxNMp4-N-4FpIi_BPZZfCCaK5RCxVUH" alt="Clenzzo Logo" id="splashLogo" class="w-48 h-auto">
     </div>
 
+    <!-- Notification Panel -->
     <div id="notification" class="fixed top-4 right-4 z-50 hidden transform transition-all duration-300">
         <div class="bg-dark-card border border-dark-border border-l-4 rounded-lg shadow-lg p-4 max-w-sm">
             <div class="flex items-center">
@@ -101,6 +102,7 @@
         </div>
     </div>
 
+    <!-- Loading Spinner -->
     <div id="loadingSpinner" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center">
         <div class="bg-dark-card rounded-lg p-8 text-center shadow-xl">
             <div class="animate-spin rounded-full h-16 w-16 border-4 border-gray-700 border-t-brand mx-auto mb-6"></div>
@@ -109,15 +111,19 @@
         </div>
     </div>
 
+    <!-- Service Popup -->
     <div id="servicePopup" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4">
         <div class="bg-dark-card rounded-xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto border border-dark-border">
             <div id="popupContent" class="p-6">
+                <!-- Content will be injected here -->
             </div>
         </div>
     </div>
 
+    <!-- Main Content Area -->
     <div class="min-h-screen">
         
+        <!-- Home Screen -->
         <div id="homeScreen" class="container mx-auto px-4 py-6 max-w-5xl relative z-10">
             
             <!-- Header Links -->
@@ -130,6 +136,7 @@
                 </a>
            </div>
 
+            <!-- Logo & Title -->
             <div class="text-center mb-8">
                 <div class="flex flex-col items-center justify-center mb-1">
                     <img src="https://lh3.googleusercontent.com/d/1mAxNMp4-N-4FpIi_BPZZfCCaK5RCxVUH" alt="Clenzzo Logo" class="h-10 mb-2" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
@@ -145,13 +152,16 @@
                 </p>
             </div>
 
+            <!-- Resume Booking Button -->
             <div id="resumeBooking" class="hidden mb-8 text-center">
                 <button onclick="resumeBookingFlow()" class="bg-blue-600 text-white py-3 px-6 rounded-xl font-semibold hover:bg-blue-700 transition-colors">
                     <span class="mr-2">🔄</span> Resume Your Booking
                 </button>
             </div>
 
+            <!-- Service Cards -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <!-- One-Time Service -->
                 <div class="bg-dark-card rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 p-8 border border-dark-border relative overflow-hidden flex flex-col">
                     <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-orange-400 to-red-500"></div>
                     
@@ -198,6 +208,7 @@
                     </div>
                 </div>
                 
+                <!-- Subscription Plans -->
                 <div class="bg-dark-card rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 p-8 border border-dark-border relative overflow-hidden flex flex-col">
                     <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-green-500 to-brand"></div>
                     
@@ -246,6 +257,7 @@
                 </div>
             </div>
             
+            <!-- Why Choose Clenzzo -->
             <div class="bg-dark-card rounded-lg shadow-lg p-6 mb-8 border border-dark-border">
                 <div class="text-center mb-6">
                     <h3 class="text-xl font-bold mb-2 text-dark-text">Why Choose Clenzzo?</h3>
@@ -282,6 +294,7 @@
                 </div>
             </div>
 
+            <!-- Call to Action -->
             <div class="text-center bg-dark-card rounded-lg p-6 mb-6 shadow-lg border border-dark-border">
                 <p class="text-dark-subtext mb-3 text-sm font-medium">Need help? Call us anytime!</p>
                 <a href="tel:+918122213141" class="inline-flex items-center justify-center gap-3 bg-brand text-white px-6 py-3 rounded-lg font-bold text-lg hover:bg-teal-600 transition-colors duration-300 shadow-lg">
@@ -292,8 +305,10 @@
             </div>
         </div>
 
+        <!-- Booking Flow -->
         <div id="bookingFlow" class="hidden">
             
+            <!-- Booking Header & Progress -->
             <div class="bg-dark-card shadow-lg border-b border-dark-border">
                 <div class="container mx-auto px-4 py-6 max-w-2xl">
                     <div class="flex items-center justify-between mb-4">
@@ -303,24 +318,28 @@
                             </svg>
                             Back
                         </button>
-                        <span id="stepIndicator" class="text-sm text-dark-subtext font-semibold bg-gray-800 px-4 py-2 rounded-full">Step 1 of 12</span>
+                        <span id="stepIndicator" class="text-sm text-dark-subtext font-semibold bg-gray-800 px-4 py-2 rounded-full">Step 1 of 14</span>
                     </div>
                     <div class="w-full bg-gray-700 rounded-full h-3">
-                        <div id="progressBar" class="bg-brand h-3 rounded-full transition-all duration-700" style="width: 10%"></div>
+                        <div id="progressBar" class="bg-brand h-3 rounded-full transition-all duration-700" style="width: 7%"></div>
                     </div>
                 </div>
             </div>
 
+            <!-- Step Content -->
             <div class="container mx-auto px-4 py-8 max-w-lg">
                 <div id="stepContent" class="bg-dark-card rounded-lg shadow-lg p-8 border border-dark-border">
+                    <!-- Step content will be injected here -->
                 </div>
             </div>
         </div>
 
+        <!-- Summary Screen -->
         <div id="summaryScreen" class="hidden container mx-auto px-4 py-8 max-w-lg">
             <div class="bg-dark-card rounded-lg shadow-lg p-8 border border-dark-border">
                 <h2 class="text-3xl font-bold text-dark-text mb-8 text-center">📋 Booking Summary</h2>
                 <div id="summaryContent" class="space-y-4 mb-8">
+                    <!-- Summary content will be injected here -->
                 </div>
                 <div class="flex space-x-4">
                     <button id="editBookingBtn" class="flex-1 bg-gray-700 text-dark-text py-4 px-4 rounded-lg font-semibold hover:bg-gray-600 transition-colors duration-300">
@@ -334,6 +353,7 @@
             </div>
         </div>
 
+        <!-- Success Screen -->
         <div id="successScreen" class="hidden container mx-auto px-4 py-8 max-w-lg">
             <div class="bg-dark-card rounded-xl shadow-2xl p-8 text-center border border-dark-border overflow-hidden relative">
                 <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-green-500 to-brand"></div>
@@ -810,7 +830,8 @@
         }
 
         function updateProgress() {
-            const totalSteps = 12;
+            // UPDATED: Total steps is now 14
+            const totalSteps = 14; 
             const progress = (currentStep / totalSteps) * 100;
             document.getElementById('progressBar').style.width = progress + '%';
             document.getElementById('stepIndicator').textContent = `Step ${currentStep} of ${totalSteps}`;
@@ -948,15 +969,56 @@
                             <button onclick="validateAndProceed('plateNumber', this)" class="w-full bg-brand text-white py-4 rounded-xl font-semibold hover:bg-teal-600 transition-colors">Continue</button>
                         </div>
                     `;
+                // NEW STEP 8: Coating Status
                 case 8:
-                    return getServiceConfirmationContent();
+                    return `
+                        <div class="text-center mb-6">
+                            <h3 class="text-2xl font-bold text-dark-text mb-2">Is your car coated?</h3>
+                            <p class="text-dark-subtext">This helps us use the correct cleaning products.</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            <div class="coating-status-option p-6 border-2 rounded-xl text-center cursor-pointer hover:border-brand transition-colors ${bookingData.coatingStatus === 'Coated' ? 'border-brand bg-brand bg-opacity-10' : 'border-dark-border'}" data-status="Coated">
+                                <div class="font-semibold text-dark-text">Yes, it's Coated</div>
+                            </div>
+                            <div class="coating-status-option p-6 border-2 rounded-xl text-center cursor-pointer hover:border-brand transition-colors ${bookingData.coatingStatus === 'Non-coated' ? 'border-brand bg-brand bg-opacity-10' : 'border-dark-border'}" data-status="Non-coated">
+                                <div class="font-semibold text-dark-text">No, it's Non-coated</div>
+                            </div>
+                        </div>
+                        <button id="coatingStatusBtn" onclick="validateAndProceed('coatingStatus', this)" class="w-full bg-gray-700 text-gray-500 py-4 rounded-xl font-semibold cursor-not-allowed" disabled>Continue</button>
+                    `;
+                // NEW (CONDITIONAL) STEP 9: Coating Type
                 case 9:
-                    return getDateTimeContent();
+                    const coatingTypes = ['Ceramic Coating', 'Graphene Coating', 'PPF (Paint Protection Film)', 'Not Sure'];
+                    let coatingTypeCardsHtml = coatingTypes.map(type => `
+                        <div class="coating-type-option p-4 border-2 rounded-xl text-center cursor-pointer hover:border-brand transition-colors ${bookingData.coatingType === type ? 'border-brand bg-brand bg-opacity-10' : 'border-dark-border'}" data-type="${type}">
+                            <div class="font-semibold text-dark-text">${type}</div>
+                        </div>
+                    `).join('');
+
+                    return `
+                        <div class="text-center mb-6">
+                            <h3 class="text-2xl font-bold text-dark-text mb-2">What type of coating?</h3>
+                            <p class="text-dark-subtext">Select the coating applied to your car.</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            ${coatingTypeCardsHtml}
+                        </div>
+                        <button id="coatingTypeBtn" onclick="validateAndProceed('coatingType', this)" class="w-full bg-gray-700 text-gray-500 py-4 rounded-xl font-semibold cursor-not-allowed" disabled>Continue</button>
+                    `;
+                // OLD Step 8 is now 10
                 case 10:
-                    return getPromoCodeContent();
+                    return getServiceConfirmationContent();
+                // OLD Step 9 is now 11
                 case 11:
-                    return getPricingContent();
+                    return getDateTimeContent();
+                // OLD Step 10 is now 12
                 case 12:
+                    return getPromoCodeContent();
+                // OLD Step 11 is now 13
+                case 13:
+                    return getPricingContent();
+                // OLD Step 12 is now 14
+                case 14:
                     return getPaymentMethodContent();
                 default:
                     return '<div>Invalid step</div>';
@@ -1099,8 +1161,13 @@
             }
             
             let timeSlots = '';
-            const startHour = 5;
-            const endHour = 19;
+            let startHour = 5;
+            let endHour = 17; // Default to 5 PM (17:00) for one-time/trial
+
+            if (selectedService === 'subscription') {
+                endHour = 11; // 11 AM (11:00) for subscription
+            }
+            
             const currentHour = today.getHours();
             
             for (let i = startHour; i <= endHour; i++) {
@@ -1437,7 +1504,56 @@
                         this.value = formattedValue;
                     });
                     break;
+                // NEW STEP 8 Event Listener
                 case 8:
+                    document.querySelectorAll('.coating-status-option').forEach(option => {
+                        option.addEventListener('click', function() {
+                            document.querySelectorAll('.coating-status-option').forEach(opt => {
+                                opt.classList.remove('border-brand', 'bg-brand', 'bg-opacity-10');
+                            });
+                            this.classList.add('border-brand', 'bg-brand', 'bg-opacity-10');
+                            bookingData.coatingStatus = this.dataset.status;
+                            
+                            const btn = document.getElementById('coatingStatusBtn');
+                            btn.classList.remove('bg-gray-700', 'text-gray-500', 'cursor-not-allowed');
+                            btn.classList.add('bg-brand', 'text-white', 'hover:bg-teal-600');
+                            btn.disabled = false;
+                        });
+                    });
+                    if (bookingData.coatingStatus) {
+                        document.querySelector(`[data-status="${bookingData.coatingStatus}"]`).classList.add('border-brand', 'bg-brand', 'bg-opacity-10');
+                        const btn = document.getElementById('coatingStatusBtn');
+                        btn.classList.remove('bg-gray-700', 'text-gray-500', 'cursor-not-allowed');
+                        btn.classList.add('bg-brand', 'text-white', 'hover:bg-teal-600');
+                        btn.disabled = false;
+                    }
+                    break;
+                // NEW STEP 9 Event Listener
+                case 9:
+                    document.querySelectorAll('.coating-type-option').forEach(option => {
+                        option.addEventListener('click', function() {
+                            document.querySelectorAll('.coating-type-option').forEach(opt => {
+                                opt.classList.remove('border-brand', 'bg-brand', 'bg-opacity-10');
+                            });
+                            this.classList.add('border-brand', 'bg-brand', 'bg-opacity-10');
+                            bookingData.coatingType = this.dataset.type;
+                            
+                            const btn = document.getElementById('coatingTypeBtn');
+                            btn.classList.remove('bg-gray-700', 'text-gray-500', 'cursor-not-allowed');
+                            btn.classList.add('bg-brand', 'text-white', 'hover:bg-teal-600');
+                            btn.disabled = false;
+                        });
+                    });
+                    if (bookingData.coatingType) {
+                        document.querySelector(`[data-type="${bookingData.coatingType}"]`).classList.add('border-brand', 'bg-brand', 'bg-opacity-10');
+                        const btn = document.getElementById('coatingTypeBtn');
+                        btn.classList.remove('bg-gray-700', 'text-gray-500', 'cursor-not-allowed');
+                        btn.classList.add('bg-brand', 'text-white', 'hover:bg-teal-600');
+                        btn.disabled = false;
+                    }
+                    break;
+                // OLD Step 8 is now 10
+                case 10:
                     if (selectedService === 'subscription') {
                         document.querySelectorAll('.subscription-option').forEach(option => {
                             option.addEventListener('click', function() {
@@ -1462,7 +1578,8 @@
                         }
                     }
                     break;
-                case 9:
+                // OLD Step 9 is now 11
+                case 11:
                     const dateCards = document.getElementById('dateCards');
                     dateCards.addEventListener('click', (e) => {
                         const card = e.target.closest('.date-card');
@@ -1482,14 +1599,16 @@
                         
                     }
                     break;
-                case 10:
+                // OLD Step 10 is now 12
+                case 12:
                     const promoInput = document.getElementById('promoInput');
                     if (bookingData.promoCode) {
                         promoInput.value = bookingData.promoCode;
                         updatePricingDisplay();
                     }
                     break;
-                case 12:
+                // OLD Step 12 is now 14
+                case 14:
                     document.querySelectorAll('.payment-option').forEach(option => {
                         option.addEventListener('click', function() {
                             document.querySelectorAll('.payment-option').forEach(opt => {
@@ -1521,6 +1640,7 @@
                 button.classList.remove('btn-pulse');
             }, { once: true });
             let isValid = false;
+            let skipStep = false; // Used for conditional logic
             
             switch(field) {
                 case 'name':
@@ -1600,6 +1720,25 @@
                         showNotification('Please enter a valid Indian car plate number (e.g., TN-01-A-1234 or TN-01-AB-1234)', 'error');
                     }
                     break;
+                // NEW CASE: coatingStatus
+                case 'coatingStatus':
+                    if (bookingData.coatingStatus) {
+                        isValid = true;
+                        if (bookingData.coatingStatus === 'Non-coated') {
+                            skipStep = true; // Skip the next step (Coating Type)
+                        }
+                    } else {
+                        showNotification('Please select a coating status', 'error');
+                    }
+                    break;
+                // NEW CASE: coatingType
+                case 'coatingType':
+                    if (bookingData.coatingType) {
+                        isValid = true;
+                    } else {
+                        showNotification('Please select a coating type', 'error');
+                    }
+                    break;
                 case 'serviceConfirm':
                     if (selectedService === 'subscription' && !bookingData.subscriptionPlan) {
                         showNotification('Please select a subscription plan', 'error');
@@ -1625,7 +1764,11 @@
             }
             
             if (isValid) {
-                currentStep++;
+                if (skipStep) {
+                    currentStep += 2; // Skip next step
+                } else {
+                    currentStep++;
+                }
                 saveDataToStorage();
                 renderCurrentStep();
             }
@@ -1633,7 +1776,12 @@
 
         function handleBackNavigation() {
             if (currentStep > 1) {
-                currentStep--;
+                // UPDATED: Smart back navigation
+                if (currentStep === 10 && bookingData.coatingStatus === 'Non-coated') {
+                    currentStep -= 2; // Skip coating type step
+                } else {
+                    currentStep--;
+                }
                 renderCurrentStep();
             } else {
                 showScreen('homeScreen');
@@ -1681,6 +1829,7 @@
             
             const fullAddress = `${bookingData.address.addressLine1}, ${bookingData.address.addressLine2}, Landmark: ${bookingData.address.landmark}, Pincode: ${bookingData.address.pincode}, ${bookingData.address.city}, Tamil Nadu`;
 
+            // UPDATED: Added Coating Status and Type to summary
             summaryContent.innerHTML = `
                 <div id="summary-section-1" class="summary-section bg-gray-800 rounded-xl p-4 cursor-pointer hover:bg-gray-700 transition-colors" data-step="1">
                     <h4 class="font-semibold text-dark-text mb-2">Customer Details</h4>
@@ -1695,9 +1844,11 @@
                     <p class="text-dark-subtext"><strong>Type:</strong> ${bookingData.carType}</p>
                     <p class="text-dark-subtext"><strong>Car:</strong> ${bookingData.carBrand} ${bookingData.carModel}</p>
                     <p class="text-dark-subtext"><strong>Plate Number:</strong> ${bookingData.plateNumber}</p>
+                    <p class="text-dark-subtext"><strong>Coating:</strong> ${bookingData.coatingStatus}</p>
+                    ${bookingData.coatingStatus === 'Coated' ? `<p class="text-dark-subtext"><strong>Coating Type:</strong> ${bookingData.coatingType || 'Not Specified'}</p>` : ''}
                 </div>
                 
-                <div id="summary-section-3" class="summary-section bg-gray-800 rounded-xl p-4 cursor-pointer hover:bg-gray-700 transition-colors" data-step="8">
+                <div id="summary-section-3" class="summary-section bg-gray-800 rounded-xl p-4 cursor-pointer hover:bg-gray-700 transition-colors" data-step="10">
                     <h4 class="font-semibold text-dark-text mb-2">Service Details</h4>
                     <p class="text-dark-subtext"><strong>Service:</strong> ${serviceText}</p>
                     <p class="text-dark-subtext"><strong>Date:</strong> ${new Date(bookingData.date).toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
@@ -1832,6 +1983,7 @@
 
             const fullAddress = `${bookingData.address.addressLine1}, ${bookingData.address.addressLine2}, Landmark: ${bookingData.address.landmark}, Pincode: ${bookingData.address.pincode}, ${bookingData.address.city}, Tamil Nadu`;
 
+            // UPDATED: Added Coating status to WhatsApp message
             whatsappMessage = `🚗 *CLENZZO CAR CLEANING BOOKING* 🚗
 
 Hi! I want to book a car cleaning service.
@@ -1847,7 +1999,8 @@ Address Type: ${bookingData.addressType}
 Type: ${bookingData.carType}
 Car: ${bookingData.carBrand} ${bookingData.carModel}
 Plate Number: ${bookingData.plateNumber}
-
+Coating: ${bookingData.coatingStatus}
+${bookingData.coatingStatus === 'Coated' ? `Coating Type: ${bookingData.coatingType || 'Not Specified'}\n` : ''}
 *🧼 SERVICE DETAILS:*
 Service: ${serviceDetails}
 🗓️ Date: ${new Date(bookingData.date).toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
@@ -1861,19 +2014,25 @@ Please confirm my booking. Thank you! 🙏`;
         }
 
         function copyBookingDetails() {
-            navigator.clipboard.writeText(whatsappMessage).then(() => {
-                showNotification('Booking details copied to clipboard!');
-            }).catch(() => {
-                // Fallback for older browsers
+            // Use fallback for clipboard API as it might not work in all sandboxed environments
+            try {
                 const textArea = document.createElement('textarea');
                 textArea.value = whatsappMessage;
+                textArea.style.position = 'fixed'; // Prevent scrolling to bottom
+                textArea.style.top = '0';
+                textArea.style.left = '0';
                 document.body.appendChild(textArea);
+                textArea.focus();
                 textArea.select();
+                
                 document.execCommand('copy');
                 document.body.removeChild(textArea);
                 showNotification('Booking details copied to clipboard!');
-            });
+            } catch (err) {
+                 showNotification('Failed to copy details.', 'error');
+            }
         }
+
 
         function startNewBooking() {
             // Reset state
@@ -2018,3 +2177,4 @@ Please confirm my booking. Thank you! 🙏`;
     </script>
 </body>
 </html>
+
